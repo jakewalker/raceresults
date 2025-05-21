@@ -156,11 +156,16 @@
     "personalBest": false
   },
     {
-        "name": "Portland Half Marathon",
-        "date": "2025-06-07",
-        "distanceKm": 21.1,
-        "distanceMi": 13.1,
-        "raceWebsite": "https://www.yahoo.com"
-    }
-    }
+    "name": "Portland Old Port Half Marathon",
+    "date": "2025-06-07",
+    "distanceKm": 21.1,
+    "distanceMi": 13.1,
+    "time": "",
+    "paceKm": "",
+    "paceMi": "",
+    "raceWebsite": "https://greatbearrun.godaddysites.com",
+    "resultsWebsite": "",
+    "stravaActivity": "",
+    "personalBest": false
+  }
 ]
