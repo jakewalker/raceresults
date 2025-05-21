@@ -471,18 +471,6 @@
             <p>A record of all my races, achievements, and goals</p>
         </header>
 
-        <div id="goals-section-container">
-            <h2 class="section-title">My Running Goals</h2>
-            <div id="goals-list-container" class="goals-section">
-                </div>
-        </div>
-
-        <div id="upcoming-races-main-container">
-             <h2 class="section-title">Upcoming Races</h2>
-            <div id="upcoming-races-container" class="upcoming-races-container">
-                </div>
-        </div>
-
         <h2 class="section-title">Completed Races</h2>
         <div class="controls-container">
             <div class="unit-toggle">
@@ -495,6 +483,19 @@
 
         <div id="race-container" class="race-cards">
             </div>
+        
+        <div id="upcoming-races-main-container">
+             <h2 class="section-title">Upcoming Races</h2>
+            <div id="upcoming-races-container" class="upcoming-races-container">
+                </div>
+        </div>
+
+        <div id="goals-section-container">
+            <h2 class="section-title">My Running Goals</h2>
+            <div id="goals-list-container" class="goals-section">
+                </div>
+        </div>
+
     </div>
 
     <script>
@@ -706,7 +707,7 @@
             }
             allRacesButton.addEventListener('click', () => {
                 setActiveFilter('all');
-                filterAndRenderCompletedRaces(races);
+                filterAndRenderCompletedRaces(allRaceData); // Pass allRaceData here
             });
             filterContainer.appendChild(allRacesButton);
 
@@ -721,7 +722,7 @@
                 }
                 button.addEventListener('click', () => {
                     setActiveFilter(distance);
-                    filterAndRenderCompletedRaces(races);
+                    filterAndRenderCompletedRaces(allRaceData); // Pass allRaceData here
                 });
                 filterContainer.appendChild(button);
             });
@@ -740,12 +741,12 @@
         }
 
         // Filter completed races by distance and render them
-        function filterAndRenderCompletedRaces(allRaces) {
+        function filterAndRenderCompletedRaces(allRacesInput) { // Renamed parameter to avoid conflict
             if (!completedRaceContainer) return;
 
             const today = new Date();
             today.setHours(0, 0, 0, 0);
-            const completed = allRaces.filter(race => new Date(race.date + 'T00:00:00') < today);
+            const completed = allRacesInput.filter(race => new Date(race.date + 'T00:00:00') < today);
 
             let filteredRaces;
             if (currentFilter === 'all') {
@@ -753,7 +754,7 @@
             } else {
                 filteredRaces = completed.filter(race => formatDistanceForDisplay(race) === currentFilter);
             }
-            renderRaceCards(filteredRaces); // This is your existing function for completed races
+            renderRaceCards(filteredRaces); 
         }
 
         // Render COMPLETED race cards
@@ -830,10 +831,13 @@
                     button.classList.add('active');
                     currentUnit = unit;
                     
-                    // Re-render everything that depends on units
-                    createFilterButtons(allRaceData.filter(race => new Date(race.date + 'T00:00:00') < new Date().setHours(0,0,0,0) )); // Recreate filters for completed races
-                    filterAndRenderCompletedRaces(allRaceData); // Re-filter and render completed races
-                    renderUpcomingRaces(allRaceData); // Re-render upcoming races as distance format might change
+                    const today = new Date(); // Define today for filtering completed races
+                    today.setHours(0,0,0,0);
+                    const completedRacesForFilter = allRaceData.filter(race => new Date(race.date + 'T00:00:00') < today);
+
+                    createFilterButtons(completedRacesForFilter); 
+                    filterAndRenderCompletedRaces(allRaceData); 
+                    renderUpcomingRaces(allRaceData); 
                 }
             });
         });
@@ -842,7 +846,7 @@
         async function init() {
             await loadRaceData(); 
             
-            renderGoals(); // Render goals (doesn't depend on raceData)
+            renderGoals(); 
 
             if (allRaceData && allRaceData.length > 0) {
                 const today = new Date();
@@ -851,8 +855,9 @@
 
                 renderUpcomingRaces(allRaceData);
                 createFilterButtons(completedRacesData);
-                filterAndRenderCompletedRaces(allRaceData); // Initial render of completed races
-            } else if (!completedRaceContainer.querySelector('.empty-state') && !upcomingRacesContainer.querySelector('.empty-state')) { 
+                filterAndRenderCompletedRaces(allRaceData); 
+            } else if (completedRaceContainer && upcomingRacesContainer && !completedRaceContainer.querySelector('.empty-state') && !upcomingRacesContainer.querySelector('.empty-state')) { 
+                // Check if containers exist before trying to modify them
                 if(completedRaceContainer) completedRaceContainer.innerHTML = `<div class="empty-state"><p>No race data. Add races to 'races.json'.</p></div>`;
                 if(upcomingRacesContainer) upcomingRacesContainer.innerHTML = `<div class="empty-state"><p>No upcoming race data.</p></div>`;
             }
