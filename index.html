@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Race Tracker</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #4361ee;
+            --primary-hover: #3a56d4;
+            --pb-color: #f59e0b;
+            --pb-hover: #d97706;
+            --secondary-color: #7209b7;
+            --background-color: #f8f9fa;
+            --card-color: #ffffff;
+            --text-color: #1e293b;
+            --text-light: #64748b;
+            --border-color: #e2e8f0;
+            --filter-color: #f1f5f9;
+            --tag-color: #e9effd;
+            --pb-tag-color: #fef3c7;
+            --unit-toggle-bg: #e2e8f0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--background-color);
+            margin: 0;
+            padding: 20px;
+            font-weight: 400;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        h1 {
+            color: var(--text-color);
+            margin-bottom: 8px;
+            font-weight: 700;
+            font-size: 2.5rem;
+            letter-spacing: -0.5px;
+        }
+
+        header p {
+            color: var(--text-light);
+            font-size: 1.1rem;
+        }
+
+        .controls-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 30px;
+            gap: 15px;
+        }
+
+        .unit-toggle {
+            display: flex;
+            background-color: var(--unit-toggle-bg);
+            border-radius: 30px;
+            padding: 4px;
+            margin-bottom: 10px;
+            width: fit-content;
+        }
+
+        .unit-btn {
+            background: none;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--text-color);
+            transition: all 0.2s ease;
+        }
+
+        .unit-btn.active {
+            background-color: white;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
+        }
+
+        .filter-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            width: 100%;
+        }
+
+        .filter-btn {
+            background-color: var(--filter-color);
+            border: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--text-color);
+            transition: all 0.2s ease;
+        }
+
+        .filter-btn:hover {
+            background-color: #e6eaf3;
+        }
+
+        .filter-btn.active {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .race-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 24px;
+        }
+
+        .race-card {
+            background-color: var(--card-color);
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid var(--border-color);
+        }
+        
+        .race-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+        }
+        
+        .race-card.pb .race-header {
+            background-color: var(--pb-color);
+        }
+        
+        .race-card.pb .race-link {
+            background-color: var(--pb-color);
+        }
+        
+        .race-card.pb .race-link:hover {
+            background-color: var(--pb-hover);
+        }
+        
+        .pb-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background-color: var(--pb-tag-color);
+            color: var(--pb-color);
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            display: inline-block;
+        }
+
+        .race-header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 20px;
+            position: relative;
+        }
+
+        .race-date {
+            background-color: rgba(255, 255, 255, 0.15);
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            display: inline-block;
+            margin-bottom: 12px;
+            backdrop-filter: blur(4px);
+        }
+
+        .race-name {
+            margin: 0 0 4px 0;
+            font-size: 1.5rem;
+            font-weight: 700;
+            line-height: 1.3;
+            letter-spacing: -0.3px;
+            padding-right: 0;
+        }
+        
+        .race-name a {
+            color: white;
+            text-decoration: none;
+        }
+        
+        .race-name a:hover {
+            text-decoration: underline;
+        }
+
+        .race-distance-tag {
+            display: inline-block;
+            background-color: var(--tag-color);
+            color: var(--primary-color);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-top: 10px;
+        }
+
+        .race-body {
+            padding: 24px;
+        }
+
+        .race-stat {
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+        }
+
+        .race-stat-label {
+            font-weight: 600;
+            color: var(--text-light);
+            width: 80px;
+        }
+
+        .race-stat-value {
+            font-weight: 500;
+        }
+
+        .race-links {
+            margin-top: 20px;
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .race-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 16px;
+            background-color: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: background-color 0.2s ease;
+        }
+
+        .race-link:hover {
+            background-color: var(--primary-hover);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px;
+            color: var(--text-light);
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .race-cards {
+                grid-template-columns: 1fr;
+            }
+            
+            .race-links {
+                flex-direction: column;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>My Race Tracker</h1>
+            <p>A record of all my races and achievements</p>
+        </header>
+
+        <div class="controls-container">
+            <div class="unit-toggle">
+                <button class="unit-btn active" data-unit="km">Kilometers</button>
+                <button class="unit-btn" data-unit="mi">Miles</button>
+            </div>
+
+            <div id="filter-container" class="filter-container">
+                <button class="filter-btn active" data-distance="all">All Races</button>
+                <!-- Filter buttons will be added dynamically based on available race distances -->
+            </div>
+        </div>
+
+        <div id="race-container" class="race-cards"></div>
+    </div>
+
+    <script>
+        // This is your race data in JSON format
+        // To update it, simply edit this array directly in the HTML file
+        const raceData = [
+           {
+    "name": "Maine Half Marathon",
+    "date": "2011-10-02",
+    "distanceKm": 21.1,
+    "distanceMi": 13.1,
+    "time": "2:49:47",
+    "paceKm": "0:08:03",
+    "paceMi": "0:12:58",
+    "raceWebsite": "https://mainemarathon.com",
+    "resultsWebsite": "",
+    "stravaActivity": "",
+    "personalBest": false
+  },
+  {
+    "name": "Maine Half Marathon",
+    "date": "2015-10-04",
+    "distanceKm": 21.1,
+    "distanceMi": 13.1,
+    "time": "2:47:45",
+    "paceKm": "0:07:57",
+    "paceMi": "0:12:48",
+    "raceWebsite": "https://mainemarathon.com",
+    "resultsWebsite": "",
+    "stravaActivity": "",
+    "personalBest": false
+  },
+  {
+    "name": "Disney Wine & Dine 10K",
+    "date": "2024-11-02",
+    "distanceKm": 10,
+    "distanceMi": 6.2,
+    "time": "1:24:35",
+    "paceKm": "0:08:28",
+    "paceMi": "0:13:39",
+    "raceWebsite": "https://www.rundisney.com/events/disneyworld/wine-and-dine-half-marathon-weekend/",
+    "resultsWebsite": "https://www.trackshackresults.com/disneysports/results/wd/wd24/10k_results.php?Link=144&Type=3&LName=walker&FName=jacob&City=&State=&Country=",
+    "stravaActivity": "https://www.strava.com/activities/12803629366/overview",
+    "personalBest": true
+  },
+  {
+    "name": "Disney Wine & Dine Half",
+    "date": "2024-11-03",
+    "distanceKm": 21.1,
+    "distanceMi": 13.1,
+    "time": "3:24:29",
+    "paceKm": "0:09:41",
+    "paceMi": "0:15:37",
+    "raceWebsite": "https://www.rundisney.com/events/disneyworld/wine-and-dine-half-marathon-weekend/",
+    "resultsWebsite": "https://www.trackshackresults.com/disneysports/results/wd/wd24/hm_results.php?Link=145&Type=3&LName=walker&FName=jacob&City=&State=&Country=",
+    "stravaActivity": "https://www.strava.com/activities/12814578129/overview",
+    "personalBest": false
+  },
+  {
+    "name": "Dedham Ripples of Hope Turkey Trot",
+    "date": "2024-11-28",
+    "distanceKm": 5,
+    "distanceMi": 3.1,
+    "time": "0:32:21",
+    "paceKm": "0:06:28",
+    "paceMi": "0:10:26",
+    "raceWebsite": "https://www.ripplesofhope.org/turkey-trot",
+    "resultsWebsite": "http://spitlerracesystems.com/raceresults/RipplesofHope.php",
+    "stravaActivity": "https://www.strava.com/activities/13002175352/overview",
+    "personalBest": false
+  },
+  {
+    "name": "Disney World Marathon",
+    "date": "2025-01-08",
+    "distanceKm": 42.2,
+    "distanceMi": 26.2,
+    "time": "5:36:05",
+    "paceKm": "0:07:58",
+    "paceMi": "0:12:50",
+    "raceWebsite": "https://www.rundisney.com/events/disneyworld/disneyworld-marathon-weekend/",
+    "resultsWebsite": "https://www.trackshackresults.com/disneysports/results/wdw/wdw25/mar_results.php?Link=148&Type=3&LName=walker&FName=jacob&City=&State=&Country=",
+    "stravaActivity": "https://www.strava.com/activities/13336173872/overview",
+    "personalBest": true
+  },
+  {
+    "name": "Disneyland Half Marathon",
+    "date": "2025-01-31",
+    "distanceKm": 21.1,
+    "distanceMi": 13.1,
+    "time": "2:29:05",
+    "paceKm": "0:07:04",
+    "paceMi": "0:11:23",
+    "raceWebsite": "https://www.rundisney.com/events/disneyland/disneyland-half-marathon-weekend/",
+    "resultsWebsite": "https://www.trackshackresults.com/disneysports/results/dl/dl25/hm_results.php?Link=150&Type=3&LName=walker&FName=jacob&City=&State=&Country=",
+    "stravaActivity": "https://www.strava.com/activities/13520879905/overview",
+    "personalBest": false
+  },
+  {
+    "name": "Cambridge Spring Classic",
+    "date": "2025-03-30",
+    "distanceKm": 5,
+    "distanceMi": 3.1,
+    "time": "0:26:56",
+    "paceKm": "0:05:23",
+    "paceMi": "0:08:41",
+    "raceWebsite": "https://runsignup.com/Race/MA/Cambridge/SpringClassic5K",
+    "resultsWebsite": "https://rtrt.me/ulink/TLMRA/TLMR-SPRING-CLASSIC-2025/tracker/RTR8NFUL/focus",
+    "stravaActivity": "https://www.strava.com/activities/14030317400/overview",
+    "personalBest": true
+  },
+  {
+    "name": "Newport Rhode Race Half",
+    "date": "2025-04-19",
+    "distanceKm": 21.1,
+    "distanceMi": 13.1,
+    "time": "2:23:06",
+    "paceKm": "0:06:47",
+    "paceMi": "0:10:55",
+    "raceWebsite": "https://rhoderaces.com/events/newport/",
+    "resultsWebsite": "https://runsignup.com/Race/Results/34170/IndividualResult/BfYk?resultSetId=541744#U69234122",
+    "stravaActivity": "https://www.strava.com/activities/14223352816/overview",
+    "personalBest": false
+  },
+  {
+    "name": "Enjoy Your Life Happy Half",
+    "date": "2025-05-10",
+    "distanceKm": 21.1,
+    "distanceMi": 13.1,
+    "time": "2:20:47",
+    "paceKm": "0:06:40",
+    "paceMi": "0:10:45",
+    "raceWebsite": "https://runsignup.com/Race/MA/Amesbury/EnjoyYourLifeHappyHalfMarathon",
+    "resultsWebsite": "https://runsignup.com/Race/Results/156515/IndividualResult/2025#U69234122",
+    "stravaActivity": "https://www.strava.com/activities/14437102010/overview",
+    "personalBest": true
+  },
+  {
+    "name": "Great Bear Run 5K",
+    "date": "2025-05-18",
+    "distanceKm": 5.0,
+    "distanceMi": 3.1,
+    "time": "0:28:20",
+    "paceKm": "0:05:40",
+    "paceMi": "0:09:08",
+    "raceWebsite": "https://greatbearrun.godaddysites.com",
+    "resultsWebsite": "https://runsignup.com/Race/Results/139740/IndividualResult/cdXq#U69234122",
+    "stravaActivity": "https://www.strava.com/activities/14519985205/overview",
+    "personalBest": false
+  },
+  {
+    "name": "Great Bear Run Mile",
+    "date": "2025-05-18",
+    "distanceKm": 1.6,
+    "distanceMi": 1.0,
+    "time": "0:08:03",
+    "paceKm": "0:06:40",
+    "paceMi": "0:05:02",
+    "raceWebsite": "https://greatbearrun.godaddysites.com",
+    "resultsWebsite": "https://runsignup.com/Race/Results/139740/IndividualResult/cdXg#U69234122",
+    "stravaActivity": "https://www.strava.com/activities/14520991299/overview",
+    "personalBest": false
+  }
+  
+        ];
+
+        // DOM elements
+        const raceContainer = document.getElementById('race-container');
+        const filterContainer = document.getElementById('filter-container');
+        const unitButtons = document.querySelectorAll('.unit-btn');
+
+        // Current state
+        let currentUnit = 'km'; // Default unit is kilometers
+        let currentFilter = 'all'; // Default filter is all races
+
+        // Format date to be more readable
+        function formatDate(dateString) {
+            const options = { year: 'numeric', month: 'long', day: 'numeric' };
+            return new Date(dateString).toLocaleDateString(undefined, options);
+        }
+
+        // Determine if a race is a marathon
+        function isMarathon(race) {
+            return race.distanceKm === 42.2 || race.distanceMi === 26.2;
+        }
+
+        // Determine if a race is a half marathon
+        function isHalfMarathon(race) {
+            return race.distanceKm === 21.1 || race.distanceMi === 13.1;
+        }
+
+        // Format distance based on current unit
+        function formatDistance(race) {
+            // Special handling for marathon and half marathon
+            if (isMarathon(race)) {
+                return "Marathon";
+            } else if (isHalfMarathon(race)) {
+                return "Half Marathon";
+            } else if (currentUnit === 'km') {
+                return race.distanceKm === 5 || race.distanceKm === 10 ? 
+                       `${race.distanceKm}K` : 
+                       `${race.distanceKm} km`;
+            } else {
+                return `${race.distanceMi} mi`;
+            }
+        }
+
+        // Helper to get all unique distances in current unit
+        function getUniqueDistances() {
+            const distances = raceData.map(race => formatDistance(race));
+            return [...new Set(distances)].sort((a, b) => {
+                // Special sorting for Marathon and Half Marathon
+                if (a === "Marathon") return 1; // Marathon should be last
+                if (b === "Marathon") return -1;
+                if (a === "Half Marathon") return 1; // Half Marathon before Marathon
+                if (b === "Half Marathon") return -1;
+                
+                // For numeric distances, extract the number for sorting
+                const numA = parseFloat(a);
+                const numB = parseFloat(b);
+                return numA - numB;
+            });
+        }
+
+        // Create filter buttons based on unique distances
+        function createFilterButtons() {
+            // Clear existing filter buttons except "All Races"
+            filterContainer.innerHTML = '';
+            
+            // Create the "All Races" button
+            const allRacesButton = document.createElement('button');
+            allRacesButton.className = 'filter-btn';
+            allRacesButton.classList.add('active');
+            allRacesButton.setAttribute('data-distance', 'all');
+            allRacesButton.textContent = 'All Races';
+            
+            allRacesButton.addEventListener('click', () => {
+                setActiveFilter('all');
+                filterAndRenderRaces();
+            });
+            
+            filterContainer.appendChild(allRacesButton);
+            
+            // Extract unique distances based on current unit
+            const uniqueDistances = getUniqueDistances();
+            
+            // Add filter buttons for each unique distance
+            uniqueDistances.forEach(distance => {
+                const button = document.createElement('button');
+                button.className = 'filter-btn';
+                button.setAttribute('data-distance', distance);
+                button.textContent = distance;
+                
+                button.addEventListener('click', () => {
+                    setActiveFilter(distance);
+                    filterAndRenderRaces();
+                });
+                
+                filterContainer.appendChild(button);
+            });
+        }
+
+        // Set active filter and update UI
+        function setActiveFilter(distance) {
+            currentFilter = distance;
+            
+            // Update active class on filter buttons
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                if (btn.getAttribute('data-distance') === distance) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+        }
+
+        // Filter races by distance and render them
+        function filterAndRenderRaces() {
+            let filteredRaces;
+            
+            if (currentFilter === 'all') {
+                filteredRaces = [...raceData];
+            } else {
+                // Filter races by the formatted distance label
+                filteredRaces = raceData.filter(race => formatDistance(race) === currentFilter);
+            }
+            
+            renderRaceCards(filteredRaces);
+        }
+
+        // Render race cards based on provided races array
+        function renderRaceCards(races) {
+            raceContainer.innerHTML = '';
+            
+            if (races.length === 0) {
+                raceContainer.innerHTML = `
+                    <div class="empty-state">
+                        <p>No races found for the selected filter.</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            // Sort races by date (newest first)
+            const sortedRaces = [...races].sort((a, b) => 
+                new Date(b.date) - new Date(a.date)
+            );
+            
+            sortedRaces.forEach(race => {
+                const card = document.createElement('div');
+                card.className = 'race-card';
+                
+                // Add personal best class if it's a PB
+                if (race.personalBest) {
+                    card.classList.add('pb');
+                }
+                
+                // Create race name HTML (with link if race website exists)
+                const raceNameHTML = race.raceWebsite ? 
+                    `<h2 class="race-name"><a href="${race.raceWebsite}" target="_blank">${race.name}</a></h2>` : 
+                    `<h2 class="race-name">${race.name}</h2>`;
+                
+                // Create HTML for race links (exclude race website since it's on the title now)
+                let linksHTML = '';
+                if (race.resultsWebsite) {
+                    linksHTML += `<a href="${race.resultsWebsite}" class="race-link" target="_blank">Results</a>`;
+                }
+                if (race.stravaActivity) {
+                    linksHTML += `<a href="${race.stravaActivity}" class="race-link" target="_blank">Strava</a>`;
+                }
+                
+                // PB badge HTML
+                const pbBadgeHTML = race.personalBest ? `<div class="pb-badge">Personal Best</div>` : '';
+                
+                // Format the distance with special labels
+                const displayDistance = formatDistance(race);
+                
+                card.innerHTML = `
+                    <div class="race-header">
+                        <div class="race-date">${formatDate(race.date)}</div>
+                        ${raceNameHTML}
+                        <div class="race-distance-tag">${displayDistance}</div>
+                        ${pbBadgeHTML}
+                    </div>
+                    <div class="race-body">
+                        <div class="race-stat">
+                            <span class="race-stat-label">Time:</span>
+                            <span class="race-stat-value">${race.time}</span>
+                        </div>
+                        <div class="race-stat">
+                            <span class="race-stat-label">Pace:</span>
+                            <span class="race-stat-value">${getPace(race)}</span>
+                        </div>
+                        <div class="race-links">
+                            ${linksHTML}
+                        </div>
+                    </div>
+                `;
+                
+                raceContainer.appendChild(card);
+            });
+        }
+        
+        // Get pace based on current unit
+        function getPace(race) {
+            return currentUnit === 'km' ? race.paceKm : race.paceMi;
+        }
+
+        // Set up event listeners for unit toggle
+        unitButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const unit = button.getAttribute('data-unit');
+                
+                // Only process if unit is actually changing
+                if (unit !== currentUnit) {
+                    // Update active class
+                    unitButtons.forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+                    
+                    // Update current unit
+                    currentUnit = unit;
+                    
+                    // Recreate filter buttons with new unit
+                    createFilterButtons();
+                    
+                    // Reset to show all races when changing units
+                    setActiveFilter('all');
+                    
+                    // Rerender races
+                    filterAndRenderRaces();
+                }
+            });
+        });
+
+        // Initialize the page
+        function init() {
+            // Create filter buttons
+            createFilterButtons();
+            
+            // Initial render with all races
+            filterAndRenderRaces();
+        }
+
+        // Run initialization
+        init();
+    </script>
+</body>
+</html>
