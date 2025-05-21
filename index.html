@@ -11,17 +11,21 @@
         :root {
             --primary-color: #4361ee;
             --primary-hover: #3a56d4;
-            --pb-color: #f59e0b;
+            --pb-color: #f59e0b; /* Personal Best color */
             --pb-hover: #d97706;
-            --secondary-color: #7209b7;
+            --secondary-color: #7209b7; /* Can be used for upcoming or goals */
+            --goal-color: #10b981; /* Specific color for goals */
+            --upcoming-color: #6366f1; /* Specific color for upcoming races */
             --background-color: #f8f9fa;
             --card-color: #ffffff;
             --text-color: #1e293b;
             --text-light: #64748b;
             --border-color: #e2e8f0;
             --filter-color: #f1f5f9;
-            --tag-color: #e9effd;
-            --pb-tag-color: #fef3c7;
+            --tag-color: #e9effd; /* For distance tags on completed races */
+            --pb-tag-color: #fef3c7; /* For PB badge */
+            --goal-tag-color: #d1fae5; /* For goal status tags */
+            --upcoming-tag-color: #e0e7ff; /* For upcoming race distance tags */
             --unit-toggle-bg: #e2e8f0;
         }
 
@@ -58,12 +62,163 @@
             font-size: 2.5rem;
             letter-spacing: -0.5px;
         }
+        
+        h2.section-title {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: var(--text-color);
+            margin-top: 40px;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--border-color);
+        }
 
         header p {
             color: var(--text-light);
             font-size: 1.1rem;
         }
 
+        /* Goals Section */
+        .goals-section {
+            margin-bottom: 40px;
+            background-color: var(--card-color);
+            padding: 24px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        .goals-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .goal-item {
+            display: flex;
+            flex-direction: column; /* Stack items vertically on small screens */
+            justify-content: space-between;
+            align-items: flex-start; /* Align items to start */
+            padding: 15px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .goal-item:last-child {
+            border-bottom: none;
+        }
+        
+        .goal-item-main {
+            flex-grow: 1;
+        }
+
+        .goal-text {
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+        }
+
+        .goal-target-date {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            margin-bottom: 5px;
+        }
+        
+        .goal-status {
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--goal-color);
+            background-color: var(--goal-tag-color);
+            margin-top: 8px; /* Add some space on small screens */
+        }
+        
+        /* Upcoming Races Section */
+        .upcoming-races-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 24px;
+            margin-bottom: 40px;
+        }
+
+        .upcoming-race-card {
+            background-color: var(--card-color);
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .upcoming-race-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+        }
+
+        .upcoming-race-header {
+            background-color: var(--upcoming-color);
+            color: white;
+            padding: 20px;
+        }
+        
+        .upcoming-race-date {
+            background-color: rgba(255, 255, 255, 0.15);
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            display: inline-block;
+            margin-bottom: 12px;
+        }
+
+        .upcoming-race-name {
+            margin: 0 0 4px 0;
+            font-size: 1.3rem; /* Slightly smaller than completed races */
+            font-weight: 700;
+            line-height: 1.3;
+        }
+        .upcoming-race-name a {
+            color: white;
+            text-decoration: none;
+        }
+        .upcoming-race-name a:hover {
+            text-decoration: underline;
+        }
+        
+        .upcoming-race-distance-tag {
+            display: inline-block;
+            background-color: var(--upcoming-tag-color);
+            color: var(--upcoming-color);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-top: 10px;
+        }
+
+        .upcoming-race-body {
+            padding: 20px;
+        }
+        .upcoming-race-body p {
+            font-size: 0.95rem;
+            color: var(--text-light);
+            margin-bottom: 10px;
+        }
+        .upcoming-race-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 16px;
+            background-color: var(--upcoming-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: background-color 0.2s ease;
+        }
+        .upcoming-race-link:hover {
+            background-color: var(--primary-hover); /* Using primary hover for consistency */
+        }
+
+
+        /* Controls Container (Filters, Unit Toggle) */
         .controls-container {
             display: flex;
             flex-direction: column;
@@ -129,6 +284,7 @@
             color: white;
         }
 
+        /* Completed Race Cards */
         .race-cards {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
@@ -153,7 +309,7 @@
             background-color: var(--pb-color);
         }
         
-        .race-card.pb .race-link {
+        .race-card.pb .race-link { /* Style links in PB cards */
             background-color: var(--pb-color);
         }
         
@@ -166,7 +322,7 @@
             top: 15px;
             right: 15px;
             background-color: var(--pb-tag-color);
-            color: var(--pb-color);
+            color: var(--pb-color); /* Text color for PB badge */
             padding: 4px 10px;
             border-radius: 20px;
             font-size: 0.85rem;
@@ -189,7 +345,6 @@
             font-weight: 500;
             display: inline-block;
             margin-bottom: 12px;
-            backdrop-filter: blur(4px);
         }
 
         .race-name {
@@ -198,7 +353,6 @@
             font-weight: 700;
             line-height: 1.3;
             letter-spacing: -0.3px;
-            padding-right: 0;
         }
         
         .race-name a {
@@ -234,7 +388,7 @@
         .race-stat-label {
             font-weight: 600;
             color: var(--text-light);
-            width: 80px;
+            width: 80px; /* Fixed width for alignment */
         }
 
         .race-stat-value {
@@ -273,20 +427,39 @@
             background-color: white;
             border-radius: 12px;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            grid-column: 1 / -1; /* Make it span all columns in a grid */
         }
 
         /* Responsive adjustments */
         @media (max-width: 768px) {
-            .race-cards {
-                grid-template-columns: 1fr;
-            }
-            
-            .race-links {
-                flex-direction: column;
-            }
-
             h1 {
                 font-size: 2rem;
+            }
+            h2.section-title {
+                font-size: 1.5rem;
+            }
+            .race-cards, .upcoming-races-container {
+                grid-template-columns: 1fr; /* Single column for cards on smaller screens */
+            }
+            .race-links {
+                flex-direction: column; /* Stack links vertically */
+            }
+            .goal-item {
+                align-items: flex-start; /* Ensure alignment on small screens */
+            }
+            .goal-status {
+                align-self: flex-start; /* Keep status tag aligned left */
+                margin-top: 8px;
+            }
+        }
+         @media (min-width: 769px) { /* Styles for larger screens */
+            .goal-item {
+                flex-direction: row; /* Align items in a row */
+                align-items: center; /* Center items vertically */
+            }
+            .goal-status {
+                margin-top: 0; /* Remove top margin */
+                margin-left: auto; /* Push status to the right */
             }
         }
     </style>
@@ -295,72 +468,180 @@
     <div class="container">
         <header>
             <h1>My Race Tracker</h1>
-            <p>A record of all my races and achievements</p>
+            <p>A record of all my races, achievements, and goals</p>
         </header>
 
+        <div id="goals-section-container">
+            <h2 class="section-title">My Running Goals</h2>
+            <div id="goals-list-container" class="goals-section">
+                </div>
+        </div>
+
+        <div id="upcoming-races-main-container">
+             <h2 class="section-title">Upcoming Races</h2>
+            <div id="upcoming-races-container" class="upcoming-races-container">
+                </div>
+        </div>
+
+        <h2 class="section-title">Completed Races</h2>
         <div class="controls-container">
             <div class="unit-toggle">
                 <button class="unit-btn active" data-unit="km">Kilometers</button>
                 <button class="unit-btn" data-unit="mi">Miles</button>
             </div>
-
             <div id="filter-container" class="filter-container">
-                <button class="filter-btn active" data-distance="all">All Races</button>
-                <!-- Filter buttons will be added dynamically based on available race distances -->
-            </div>
+                </div>
         </div>
 
-        <div id="race-container" class="race-cards"></div>
+        <div id="race-container" class="race-cards">
+            </div>
     </div>
 
     <script>
-
-        <script>
         // Global variable to store the race data once loaded
-        let raceData = [];
+        let allRaceData = []; // Renamed to avoid confusion, stores all races from JSON
+
+        // Sample Goals Data (can be moved to JSON later)
+        const goalsData = [
+            {
+                "id": "goal1",
+                "text": "Complete the Dopey Challenge at Disney World",
+                "targetDate": "2026-01-11",
+                "status": "Planning",
+                "notes": "Focus on consistent long runs and back-to-back training."
+            },
+            {
+                "id": "goal2",
+                "text": "Run a sub-2:15 Half Marathon",
+                "targetDate": "2025-12-31",
+                "status": "In Progress",
+                "notes": "Incorporate speed work and tempo runs."
+            },
+            {
+                "id": "goal3",
+                "text": "Run a 5K without walking",
+                "targetDate": "2025-08-30",
+                "status": "Achieved",
+                "notes": "Consistent C25K program paid off!"
+            }
+        ];
 
         // DOM elements
-        const raceContainer = document.getElementById('race-container');
+        const completedRaceContainer = document.getElementById('race-container');
+        const upcomingRacesContainer = document.getElementById('upcoming-races-container');
+        const goalsListContainer = document.getElementById('goals-list-container');
         const filterContainer = document.getElementById('filter-container');
         const unitButtons = document.querySelectorAll('.unit-btn');
 
         // Current state
-        let currentUnit = 'km'; // Default unit is kilometers
-        let currentFilter = 'all'; // Default filter is all races
-
-        // --- START: REMOVE THE OLD 'const raceData = [ ... ];' ARRAY FROM HERE ---
-        // --- END: REMOVE THE OLD 'const raceData = [ ... ];' ARRAY UP TO HERE ---
+        let currentUnit = 'km'; 
+        let currentFilter = 'all'; 
 
         // Async function to load race data from races.json
         async function loadRaceData() {
             try {
-                const response = await fetch('races.json'); // Assumes races.json is in the same directory
+                const response = await fetch('races.json');
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
-                raceData = await response.json(); // Assign fetched data to the global raceData
+                allRaceData = await response.json();
             } catch (error) {
                 console.error("Could not load race data:", error);
-                raceContainer.innerHTML = `
-                    <div class="empty-state">
-                        <p>Error loading race data. Please check if 'races.json' exists and is correctly formatted.</p>
-                    </div>`;
-                raceData = []; // Ensure raceData is an empty array on error
+                if(completedRaceContainer) completedRaceContainer.innerHTML = `<div class="empty-state"><p>Error loading race data. Please check 'races.json'.</p></div>`;
+                if(upcomingRacesContainer) upcomingRacesContainer.innerHTML = `<div class="empty-state"><p>Could not load upcoming race data.</p></div>`;
+                allRaceData = [];
             }
         }
 
         // Format date to be more readable
         function formatDate(dateString) {
+            if (!dateString) return 'Date TBD';
             const options = { year: 'numeric', month: 'long', day: 'numeric' };
-            // Add a timeZone option to ensure consistency if dates are timezone-sensitive
-            // For YYYY-MM-DD, it's usually treated as UTC, so this helps interpret it correctly for toLocaleDateString
-            const date = new Date(dateString + 'T00:00:00'); // Treat as local time if no timezone specified, or specify UTC
+            const date = new Date(dateString + 'T00:00:00'); // Treat as local date
             return date.toLocaleDateString(undefined, options);
         }
+        
+        // --- GOALS RENDERING ---
+        function renderGoals() {
+            if (!goalsListContainer) return;
+            goalsListContainer.innerHTML = ''; // Clear previous goals
 
+            if (goalsData.length === 0) {
+                goalsListContainer.innerHTML = "<p>No goals set yet. Time to dream big!</p>";
+                return;
+            }
+            
+            const ul = document.createElement('ul');
+            ul.className = 'goals-list';
+
+            goalsData.forEach(goal => {
+                const li = document.createElement('li');
+                li.className = 'goal-item';
+                
+                let statusClass = '';
+                if (goal.status.toLowerCase() === 'achieved') statusClass = 'status-achieved';
+                else if (goal.status.toLowerCase() === 'in progress') statusClass = 'status-in-progress';
+                else if (goal.status.toLowerCase() === 'planning') statusClass = 'status-planning';
+
+                li.innerHTML = `
+                    <div class="goal-item-main">
+                        <div class="goal-text">${goal.text}</div>
+                        ${goal.targetDate ? `<div class="goal-target-date">Target: ${formatDate(goal.targetDate)}</div>` : ''}
+                        ${goal.notes ? `<p style="font-size:0.9em; color: var(--text-light);">${goal.notes}</p>` : ''}
+                    </div>
+                    <span class="goal-status ${statusClass}">${goal.status}</span>
+                `;
+                ul.appendChild(li);
+            });
+            goalsListContainer.appendChild(ul);
+        }
+
+
+        // --- UPCOMING RACES RENDERING ---
+        function renderUpcomingRaces(races) {
+            if (!upcomingRacesContainer) return;
+            upcomingRacesContainer.innerHTML = ''; // Clear previous upcoming races
+
+            const today = new Date();
+            today.setHours(0, 0, 0, 0); // Compare date part only
+
+            const upcoming = races
+                .filter(race => new Date(race.date + 'T00:00:00') >= today)
+                .sort((a, b) => new Date(a.date + 'T00:00:00') - new Date(b.date + 'T00:00:00')); // Sort soonest first
+
+            if (upcoming.length === 0) {
+                upcomingRacesContainer.innerHTML = `<div class="empty-state"><p>No upcoming races scheduled. Time to find a new challenge!</p></div>`;
+                return;
+            }
+
+            upcoming.forEach(race => {
+                const card = document.createElement('div');
+                card.className = 'upcoming-race-card';
+                
+                const raceNameHTML = race.raceWebsite ?
+                    `<h3 class="upcoming-race-name"><a href="${race.raceWebsite}" target="_blank" rel="noopener noreferrer">${race.name}</a></h3>` :
+                    `<h3 class="upcoming-race-name">${race.name}</h3>`;
+                
+                const displayDistance = formatDistanceForDisplay(race); // Use a common distance formatter
+
+                card.innerHTML = `
+                    <div class="upcoming-race-header">
+                        <div class="upcoming-race-date">${formatDate(race.date)}</div>
+                        ${raceNameHTML}
+                        <div class="upcoming-race-distance-tag">${displayDistance}</div>
+                    </div>
+                    <div class="upcoming-race-body">
+                        ${race.notes ? `<p>${race.notes}</p>` : '<p>Get ready for this one!</p>'}
+                        ${race.raceWebsite ? `<a href="${race.raceWebsite}" class="upcoming-race-link" target="_blank" rel="noopener noreferrer">Race Info</a>` : ''}
+                    </div>
+                `;
+                upcomingRacesContainer.appendChild(card);
+            });
+        }
+        
+        // --- COMPLETED RACES LOGIC (Filters, Cards, etc.) ---
         // Determine if a race is a marathon
         function isMarathon(race) {
-            // Using a small tolerance for floating point comparisons is safer
             return Math.abs(race.distanceKm - 42.2) < 0.01 || Math.abs(race.distanceMi - 26.2) < 0.01;
         }
 
@@ -368,75 +649,79 @@
         function isHalfMarathon(race) {
             return Math.abs(race.distanceKm - 21.1) < 0.01 || Math.abs(race.distanceMi - 13.1) < 0.01;
         }
-
-        // Format distance based on current unit
-        function formatDistance(race) {
-            if (isMarathon(race)) {
-                return "Marathon";
-            } else if (isHalfMarathon(race)) {
-                return "Half Marathon";
-            } else if (currentUnit === 'km') {
-                return race.distanceKm === 5 || race.distanceKm === 10 ?
-                       `${race.distanceKm}K` :
-                       `${race.distanceKm} km`;
+        
+        // Shared function to format distance for display (used by upcoming and completed)
+        function formatDistanceForDisplay(race) {
+            if (isMarathon(race)) return "Marathon";
+            if (isHalfMarathon(race)) return "Half Marathon";
+            
+            // For specific K distances, show as 5K, 10K
+            if (currentUnit === 'km') {
+                 if (race.distanceKm === 10) return "10K";
+                 if (race.distanceKm === 5) return "5K";
+                 return `${race.distanceKm} km`;
             } else {
-                return `${race.distanceMi} mi`;
+                 // You might want similar specific labels for miles if common (e.g., 1 Mile)
+                 if (race.distanceMi === 1) return "1 Mile";
+                 return `${race.distanceMi} mi`;
             }
         }
 
-        // Helper to get all unique distances in current unit
-        function getUniqueDistances() {
-            // Ensure raceData is loaded and not empty
-            if (!raceData || raceData.length === 0) return [];
+
+        // Helper to get all unique distances for completed races filter
+        function getUniqueDistancesForFilter(races) {
+            if (!races || races.length === 0) return [];
+            const distances = races.map(race => formatDistanceForDisplay(race)); // Use the display formatter
             
-            const distances = raceData.map(race => formatDistance(race));
+            // Custom sort: numbers first, then specific strings
             return [...new Set(distances)].sort((a, b) => {
-                if (a === "Marathon") return 1;
-                if (b === "Marathon") return -1;
-                if (a === "Half Marathon") return 1; // If you want Half after numbers but before Marathon
-                if (b === "Half Marathon") return -1; // Or adjust to sort numerically then by these strings
+                const isANum = !isNaN(parseFloat(a));
+                const isBNum = !isNaN(parseFloat(b));
 
-                const numA = parseFloat(a);
-                const numB = parseFloat(b);
-
-                // Handle cases where parsing might result in NaN (e.g. "Marathon" if not caught above)
-                if (isNaN(numA) && isNaN(numB)) return a.localeCompare(b); // Sort strings alphabetically
-                if (isNaN(numA)) return 1; // Non-numeric goes after numeric
-                if (isNaN(numB)) return -1; // Numeric goes before non-numeric
+                if (isANum && !isBNum) return -1; // Numbers first
+                if (!isANum && isBNum) return 1;  // Strings after numbers
+                if (isANum && isBNum) return parseFloat(a) - parseFloat(b); // Sort numbers numerically
                 
-                return numA - numB;
+                // Sort strings: Half Marathon, Marathon, then others alphabetically
+                if (a === "Half Marathon" && b !== "Half Marathon") return -1;
+                if (b === "Half Marathon" && a !== "Half Marathon") return 1;
+                if (a === "Marathon" && b !== "Marathon") return 1; // Marathon after Half
+                if (b === "Marathon" && a !== "Marathon") return -1;
+                
+                return a.localeCompare(b); // Alphabetical for other strings (e.g. 5K, 10K)
             });
         }
 
-        // Create filter buttons based on unique distances
-        function createFilterButtons() {
-            filterContainer.innerHTML = ''; // Clear existing filter buttons
+        // Create filter buttons for completed races
+        function createFilterButtons(races) {
+            if (!filterContainer) return;
+            filterContainer.innerHTML = ''; 
 
             const allRacesButton = document.createElement('button');
             allRacesButton.className = 'filter-btn';
             allRacesButton.setAttribute('data-distance', 'all');
             allRacesButton.textContent = 'All Races';
-            if (currentFilter === 'all') { // Set active based on currentFilter
+            if (currentFilter === 'all') {
                 allRacesButton.classList.add('active');
             }
             allRacesButton.addEventListener('click', () => {
                 setActiveFilter('all');
-                filterAndRenderRaces();
+                filterAndRenderCompletedRaces(races);
             });
             filterContainer.appendChild(allRacesButton);
 
-            const uniqueDistances = getUniqueDistances();
+            const uniqueDistances = getUniqueDistancesForFilter(races);
             uniqueDistances.forEach(distance => {
                 const button = document.createElement('button');
                 button.className = 'filter-btn';
                 button.setAttribute('data-distance', distance);
                 button.textContent = distance;
-                if (currentFilter === distance) { // Set active based on currentFilter
+                if (currentFilter === distance) {
                     button.classList.add('active');
                 }
                 button.addEventListener('click', () => {
                     setActiveFilter(distance);
-                    filterAndRenderRaces();
+                    filterAndRenderCompletedRaces(races);
                 });
                 filterContainer.appendChild(button);
             });
@@ -445,7 +730,7 @@
         // Set active filter and update UI
         function setActiveFilter(distance) {
             currentFilter = distance;
-            document.querySelectorAll('.filter-btn').forEach(btn => {
+            document.querySelectorAll('.filter-container .filter-btn').forEach(btn => {
                 if (btn.getAttribute('data-distance') === distance) {
                     btn.classList.add('active');
                 } else {
@@ -454,41 +739,36 @@
             });
         }
 
-        // Filter races by distance and render them
-        function filterAndRenderRaces() {
-            // Ensure raceData is loaded and not empty
-            if (!raceData || raceData.length === 0 && !raceContainer.querySelector('.empty-state p').textContent.includes("Error loading race data")) {
-                // If no data and no load error message shown yet, show a generic no data message or wait.
-                // This might be redundant if loadRaceData already handles UI for empty data.
-                // For now, let's assume it proceeds and renderRaceCards handles an empty array.
-            }
+        // Filter completed races by distance and render them
+        function filterAndRenderCompletedRaces(allRaces) {
+            if (!completedRaceContainer) return;
+
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+            const completed = allRaces.filter(race => new Date(race.date + 'T00:00:00') < today);
 
             let filteredRaces;
             if (currentFilter === 'all') {
-                filteredRaces = [...raceData];
+                filteredRaces = [...completed];
             } else {
-                filteredRaces = raceData.filter(race => formatDistance(race) === currentFilter);
+                filteredRaces = completed.filter(race => formatDistanceForDisplay(race) === currentFilter);
             }
-            renderRaceCards(filteredRaces);
+            renderRaceCards(filteredRaces); // This is your existing function for completed races
         }
 
-        // Render race cards based on provided races array
+        // Render COMPLETED race cards
         function renderRaceCards(races) {
-            raceContainer.innerHTML = '';
+            if (!completedRaceContainer) return;
+            completedRaceContainer.innerHTML = '';
             if (races.length === 0) {
-                 // Don't overwrite if it's an error message from loading
-                if (!raceContainer.querySelector('.empty-state p') || !raceContainer.querySelector('.empty-state p').textContent.includes("Error loading race data")) {
-                    raceContainer.innerHTML = `
-                        <div class="empty-state">
-                            <p>No races found for the selected filter.</p>
-                        </div>
-                    `;
+                if (!completedRaceContainer.querySelector('.empty-state p') || !completedRaceContainer.querySelector('.empty-state p').textContent.includes("Error loading race data")) {
+                    completedRaceContainer.innerHTML = `<div class="empty-state"><p>No completed races found for this filter.</p></div>`;
                 }
                 return;
             }
 
             const sortedRaces = [...races].sort((a, b) =>
-                new Date(b.date + 'T00:00:00') - new Date(a.date + 'T00:00:00') // Ensure dates are parsed consistently
+                new Date(b.date + 'T00:00:00') - new Date(a.date + 'T00:00:00') // Newest first
             );
 
             sortedRaces.forEach(race => {
@@ -508,7 +788,7 @@
                     linksHTML += `<a href="${race.stravaActivity}" class="race-link" target="_blank" rel="noopener noreferrer">Strava</a>`;
                 }
                 const pbBadgeHTML = race.personalBest ? `<div class="pb-badge">Personal Best</div>` : '';
-                const displayDistance = formatDistance(race);
+                const displayDistance = formatDistanceForDisplay(race);
 
                 card.innerHTML = `
                     <div class="race-header">
@@ -520,24 +800,25 @@
                     <div class="race-body">
                         <div class="race-stat">
                             <span class="race-stat-label">Time:</span>
-                            <span class="race-stat-value">${race.time}</span>
+                            <span class="race-stat-value">${race.time || 'N/A'}</span>
                         </div>
                         <div class="race-stat">
                             <span class="race-stat-label">Pace:</span>
-                            <span class="race-stat-value">${getPace(race)}</span>
+                            <span class="race-stat-value">${getPace(race) || 'N/A'}</span>
                         </div>
                         <div class="race-links">
                             ${linksHTML}
                         </div>
                     </div>
                 `;
-                raceContainer.appendChild(card);
+                completedRaceContainer.appendChild(card);
             });
         }
-
-        // Get pace based on current unit
+        
+        // Get pace based on current unit for completed races
         function getPace(race) {
-            return currentUnit === 'km' ? race.paceKm : race.paceMi;
+            if (currentUnit === 'km') return race.paceKm;
+            return race.paceMi;
         }
 
         // Set up event listeners for unit toggle
@@ -548,272 +829,33 @@
                     unitButtons.forEach(btn => btn.classList.remove('active'));
                     button.classList.add('active');
                     currentUnit = unit;
-                    createFilterButtons(); // Recreate filters for new unit
-                    // No need to explicitly set currentFilter to 'all' here unless desired
-                    // The active state of filter buttons will be preserved by createFilterButtons if currentFilter is not 'all'
-                    // If you want to reset to 'all' on unit change, uncomment next line:
-                    // setActiveFilter('all'); 
-                    filterAndRenderRaces();
+                    
+                    // Re-render everything that depends on units
+                    createFilterButtons(allRaceData.filter(race => new Date(race.date + 'T00:00:00') < new Date().setHours(0,0,0,0) )); // Recreate filters for completed races
+                    filterAndRenderCompletedRaces(allRaceData); // Re-filter and render completed races
+                    renderUpcomingRaces(allRaceData); // Re-render upcoming races as distance format might change
                 }
             });
         });
 
         // Initialize the page
         async function init() {
-            await loadRaceData(); // Wait for data to be loaded
+            await loadRaceData(); 
             
-            // Only proceed if data was loaded successfully
-            if (raceData && raceData.length > 0) {
-                createFilterButtons();
-                filterAndRenderRaces(); // Initial render
-            } else if (!raceContainer.querySelector('.empty-state')) { 
-                // If raceData is empty and no error message shown by loadRaceData
-                raceContainer.innerHTML = `
-                    <div class="empty-state">
-                        <p>No race data available. Try adding some races to 'races.json'.</p>
-                    </div>`;
+            renderGoals(); // Render goals (doesn't depend on raceData)
+
+            if (allRaceData && allRaceData.length > 0) {
+                const today = new Date();
+                today.setHours(0,0,0,0);
+                const completedRacesData = allRaceData.filter(race => new Date(race.date + 'T00:00:00') < today);
+
+                renderUpcomingRaces(allRaceData);
+                createFilterButtons(completedRacesData);
+                filterAndRenderCompletedRaces(allRaceData); // Initial render of completed races
+            } else if (!completedRaceContainer.querySelector('.empty-state') && !upcomingRacesContainer.querySelector('.empty-state')) { 
+                if(completedRaceContainer) completedRaceContainer.innerHTML = `<div class="empty-state"><p>No race data. Add races to 'races.json'.</p></div>`;
+                if(upcomingRacesContainer) upcomingRacesContainer.innerHTML = `<div class="empty-state"><p>No upcoming race data.</p></div>`;
             }
-        }
-
-        // Run initialization
-        init();
-    </script>
-
-        // DOM elements
-        const raceContainer = document.getElementById('race-container');
-        const filterContainer = document.getElementById('filter-container');
-        const unitButtons = document.querySelectorAll('.unit-btn');
-
-        // Current state
-        let currentUnit = 'km'; // Default unit is kilometers
-        let currentFilter = 'all'; // Default filter is all races
-
-        // Format date to be more readable
-        function formatDate(dateString) {
-            const options = { year: 'numeric', month: 'long', day: 'numeric' };
-            return new Date(dateString).toLocaleDateString(undefined, options);
-        }
-
-        // Determine if a race is a marathon
-        function isMarathon(race) {
-            return race.distanceKm === 42.2 || race.distanceMi === 26.2;
-        }
-
-        // Determine if a race is a half marathon
-        function isHalfMarathon(race) {
-            return race.distanceKm === 21.1 || race.distanceMi === 13.1;
-        }
-
-        // Format distance based on current unit
-        function formatDistance(race) {
-            // Special handling for marathon and half marathon
-            if (isMarathon(race)) {
-                return "Marathon";
-            } else if (isHalfMarathon(race)) {
-                return "Half Marathon";
-            } else if (currentUnit === 'km') {
-                return race.distanceKm === 5 || race.distanceKm === 10 ? 
-                       `${race.distanceKm}K` : 
-                       `${race.distanceKm} km`;
-            } else {
-                return `${race.distanceMi} mi`;
-            }
-        }
-
-        // Helper to get all unique distances in current unit
-        function getUniqueDistances() {
-            const distances = raceData.map(race => formatDistance(race));
-            return [...new Set(distances)].sort((a, b) => {
-                // Special sorting for Marathon and Half Marathon
-                if (a === "Marathon") return 1; // Marathon should be last
-                if (b === "Marathon") return -1;
-                if (a === "Half Marathon") return 1; // Half Marathon before Marathon
-                if (b === "Half Marathon") return -1;
-                
-                // For numeric distances, extract the number for sorting
-                const numA = parseFloat(a);
-                const numB = parseFloat(b);
-                return numA - numB;
-            });
-        }
-
-        // Create filter buttons based on unique distances
-        function createFilterButtons() {
-            // Clear existing filter buttons except "All Races"
-            filterContainer.innerHTML = '';
-            
-            // Create the "All Races" button
-            const allRacesButton = document.createElement('button');
-            allRacesButton.className = 'filter-btn';
-            allRacesButton.classList.add('active');
-            allRacesButton.setAttribute('data-distance', 'all');
-            allRacesButton.textContent = 'All Races';
-            
-            allRacesButton.addEventListener('click', () => {
-                setActiveFilter('all');
-                filterAndRenderRaces();
-            });
-            
-            filterContainer.appendChild(allRacesButton);
-            
-            // Extract unique distances based on current unit
-            const uniqueDistances = getUniqueDistances();
-            
-            // Add filter buttons for each unique distance
-            uniqueDistances.forEach(distance => {
-                const button = document.createElement('button');
-                button.className = 'filter-btn';
-                button.setAttribute('data-distance', distance);
-                button.textContent = distance;
-                
-                button.addEventListener('click', () => {
-                    setActiveFilter(distance);
-                    filterAndRenderRaces();
-                });
-                
-                filterContainer.appendChild(button);
-            });
-        }
-
-        // Set active filter and update UI
-        function setActiveFilter(distance) {
-            currentFilter = distance;
-            
-            // Update active class on filter buttons
-            document.querySelectorAll('.filter-btn').forEach(btn => {
-                if (btn.getAttribute('data-distance') === distance) {
-                    btn.classList.add('active');
-                } else {
-                    btn.classList.remove('active');
-                }
-            });
-        }
-
-        // Filter races by distance and render them
-        function filterAndRenderRaces() {
-            let filteredRaces;
-            
-            if (currentFilter === 'all') {
-                filteredRaces = [...raceData];
-            } else {
-                // Filter races by the formatted distance label
-                filteredRaces = raceData.filter(race => formatDistance(race) === currentFilter);
-            }
-            
-            renderRaceCards(filteredRaces);
-        }
-
-        // Render race cards based on provided races array
-        function renderRaceCards(races) {
-            raceContainer.innerHTML = '';
-            
-            if (races.length === 0) {
-                raceContainer.innerHTML = `
-                    <div class="empty-state">
-                        <p>No races found for the selected filter.</p>
-                    </div>
-                `;
-                return;
-            }
-            
-            // Sort races by date (newest first)
-            const sortedRaces = [...races].sort((a, b) => 
-                new Date(b.date) - new Date(a.date)
-            );
-            
-            sortedRaces.forEach(race => {
-                const card = document.createElement('div');
-                card.className = 'race-card';
-                
-                // Add personal best class if it's a PB
-                if (race.personalBest) {
-                    card.classList.add('pb');
-                }
-                
-                // Create race name HTML (with link if race website exists)
-                const raceNameHTML = race.raceWebsite ? 
-                    `<h2 class="race-name"><a href="${race.raceWebsite}" target="_blank">${race.name}</a></h2>` : 
-                    `<h2 class="race-name">${race.name}</h2>`;
-                
-                // Create HTML for race links (exclude race website since it's on the title now)
-                let linksHTML = '';
-                if (race.resultsWebsite) {
-                    linksHTML += `<a href="${race.resultsWebsite}" class="race-link" target="_blank">Results</a>`;
-                }
-                if (race.stravaActivity) {
-                    linksHTML += `<a href="${race.stravaActivity}" class="race-link" target="_blank">Strava</a>`;
-                }
-                
-                // PB badge HTML
-                const pbBadgeHTML = race.personalBest ? `<div class="pb-badge">Personal Best</div>` : '';
-                
-                // Format the distance with special labels
-                const displayDistance = formatDistance(race);
-                
-                card.innerHTML = `
-                    <div class="race-header">
-                        <div class="race-date">${formatDate(race.date)}</div>
-                        ${raceNameHTML}
-                        <div class="race-distance-tag">${displayDistance}</div>
-                        ${pbBadgeHTML}
-                    </div>
-                    <div class="race-body">
-                        <div class="race-stat">
-                            <span class="race-stat-label">Time:</span>
-                            <span class="race-stat-value">${race.time}</span>
-                        </div>
-                        <div class="race-stat">
-                            <span class="race-stat-label">Pace:</span>
-                            <span class="race-stat-value">${getPace(race)}</span>
-                        </div>
-                        <div class="race-links">
-                            ${linksHTML}
-                        </div>
-                    </div>
-                `;
-                
-                raceContainer.appendChild(card);
-            });
-        }
-        
-        // Get pace based on current unit
-        function getPace(race) {
-            return currentUnit === 'km' ? race.paceKm : race.paceMi;
-        }
-
-        // Set up event listeners for unit toggle
-        unitButtons.forEach(button => {
-            button.addEventListener('click', () => {
-                const unit = button.getAttribute('data-unit');
-                
-                // Only process if unit is actually changing
-                if (unit !== currentUnit) {
-                    // Update active class
-                    unitButtons.forEach(btn => btn.classList.remove('active'));
-                    button.classList.add('active');
-                    
-                    // Update current unit
-                    currentUnit = unit;
-                    
-                    // Recreate filter buttons with new unit
-                    createFilterButtons();
-                    
-                    // Reset to show all races when changing units
-                    setActiveFilter('all');
-                    
-                    // Rerender races
-                    filterAndRenderRaces();
-                }
-            });
-        });
-
-        // Initialize the page
-        function init() {
-            // Create filter buttons
-            createFilterButtons();
-            
-            // Initial render with all races
-            filterAndRenderRaces();
         }
 
         // Run initialization
