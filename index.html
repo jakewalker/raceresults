@@ -314,167 +314,270 @@
     </div>
 
     <script>
-        // This is your race data in JSON format
-        // To update it, simply edit this array directly in the HTML file
-        const raceData = [
-           {
-    "name": "Maine Half Marathon",
-    "date": "2011-10-02",
-    "distanceKm": 21.1,
-    "distanceMi": 13.1,
-    "time": "2:49:47",
-    "paceKm": "0:08:03",
-    "paceMi": "0:12:58",
-    "raceWebsite": "https://mainemarathon.com",
-    "resultsWebsite": "",
-    "stravaActivity": "",
-    "personalBest": false
-  },
-  {
-    "name": "Maine Half Marathon",
-    "date": "2015-10-04",
-    "distanceKm": 21.1,
-    "distanceMi": 13.1,
-    "time": "2:47:45",
-    "paceKm": "0:07:57",
-    "paceMi": "0:12:48",
-    "raceWebsite": "https://mainemarathon.com",
-    "resultsWebsite": "",
-    "stravaActivity": "",
-    "personalBest": false
-  },
-  {
-    "name": "Disney Wine & Dine 10K",
-    "date": "2024-11-02",
-    "distanceKm": 10,
-    "distanceMi": 6.2,
-    "time": "1:24:35",
-    "paceKm": "0:08:28",
-    "paceMi": "0:13:39",
-    "raceWebsite": "https://www.rundisney.com/events/disneyworld/wine-and-dine-half-marathon-weekend/",
-    "resultsWebsite": "https://www.trackshackresults.com/disneysports/results/wd/wd24/10k_results.php?Link=144&Type=3&LName=walker&FName=jacob&City=&State=&Country=",
-    "stravaActivity": "https://www.strava.com/activities/12803629366/overview",
-    "personalBest": true
-  },
-  {
-    "name": "Disney Wine & Dine Half",
-    "date": "2024-11-03",
-    "distanceKm": 21.1,
-    "distanceMi": 13.1,
-    "time": "3:24:29",
-    "paceKm": "0:09:41",
-    "paceMi": "0:15:37",
-    "raceWebsite": "https://www.rundisney.com/events/disneyworld/wine-and-dine-half-marathon-weekend/",
-    "resultsWebsite": "https://www.trackshackresults.com/disneysports/results/wd/wd24/hm_results.php?Link=145&Type=3&LName=walker&FName=jacob&City=&State=&Country=",
-    "stravaActivity": "https://www.strava.com/activities/12814578129/overview",
-    "personalBest": false
-  },
-  {
-    "name": "Dedham Ripples of Hope Turkey Trot",
-    "date": "2024-11-28",
-    "distanceKm": 5,
-    "distanceMi": 3.1,
-    "time": "0:32:21",
-    "paceKm": "0:06:28",
-    "paceMi": "0:10:26",
-    "raceWebsite": "https://www.ripplesofhope.org/turkey-trot",
-    "resultsWebsite": "http://spitlerracesystems.com/raceresults/RipplesofHope.php",
-    "stravaActivity": "https://www.strava.com/activities/13002175352/overview",
-    "personalBest": false
-  },
-  {
-    "name": "Disney World Marathon",
-    "date": "2025-01-08",
-    "distanceKm": 42.2,
-    "distanceMi": 26.2,
-    "time": "5:36:05",
-    "paceKm": "0:07:58",
-    "paceMi": "0:12:50",
-    "raceWebsite": "https://www.rundisney.com/events/disneyworld/disneyworld-marathon-weekend/",
-    "resultsWebsite": "https://www.trackshackresults.com/disneysports/results/wdw/wdw25/mar_results.php?Link=148&Type=3&LName=walker&FName=jacob&City=&State=&Country=",
-    "stravaActivity": "https://www.strava.com/activities/13336173872/overview",
-    "personalBest": true
-  },
-  {
-    "name": "Disneyland Half Marathon",
-    "date": "2025-01-31",
-    "distanceKm": 21.1,
-    "distanceMi": 13.1,
-    "time": "2:29:05",
-    "paceKm": "0:07:04",
-    "paceMi": "0:11:23",
-    "raceWebsite": "https://www.rundisney.com/events/disneyland/disneyland-half-marathon-weekend/",
-    "resultsWebsite": "https://www.trackshackresults.com/disneysports/results/dl/dl25/hm_results.php?Link=150&Type=3&LName=walker&FName=jacob&City=&State=&Country=",
-    "stravaActivity": "https://www.strava.com/activities/13520879905/overview",
-    "personalBest": false
-  },
-  {
-    "name": "Cambridge Spring Classic",
-    "date": "2025-03-30",
-    "distanceKm": 5,
-    "distanceMi": 3.1,
-    "time": "0:26:56",
-    "paceKm": "0:05:23",
-    "paceMi": "0:08:41",
-    "raceWebsite": "https://runsignup.com/Race/MA/Cambridge/SpringClassic5K",
-    "resultsWebsite": "https://rtrt.me/ulink/TLMRA/TLMR-SPRING-CLASSIC-2025/tracker/RTR8NFUL/focus",
-    "stravaActivity": "https://www.strava.com/activities/14030317400/overview",
-    "personalBest": true
-  },
-  {
-    "name": "Newport Rhode Race Half",
-    "date": "2025-04-19",
-    "distanceKm": 21.1,
-    "distanceMi": 13.1,
-    "time": "2:23:06",
-    "paceKm": "0:06:47",
-    "paceMi": "0:10:55",
-    "raceWebsite": "https://rhoderaces.com/events/newport/",
-    "resultsWebsite": "https://runsignup.com/Race/Results/34170/IndividualResult/BfYk?resultSetId=541744#U69234122",
-    "stravaActivity": "https://www.strava.com/activities/14223352816/overview",
-    "personalBest": false
-  },
-  {
-    "name": "Enjoy Your Life Happy Half",
-    "date": "2025-05-10",
-    "distanceKm": 21.1,
-    "distanceMi": 13.1,
-    "time": "2:20:47",
-    "paceKm": "0:06:40",
-    "paceMi": "0:10:45",
-    "raceWebsite": "https://runsignup.com/Race/MA/Amesbury/EnjoyYourLifeHappyHalfMarathon",
-    "resultsWebsite": "https://runsignup.com/Race/Results/156515/IndividualResult/2025#U69234122",
-    "stravaActivity": "https://www.strava.com/activities/14437102010/overview",
-    "personalBest": true
-  },
-  {
-    "name": "Great Bear Run 5K",
-    "date": "2025-05-18",
-    "distanceKm": 5.0,
-    "distanceMi": 3.1,
-    "time": "0:28:20",
-    "paceKm": "0:05:40",
-    "paceMi": "0:09:08",
-    "raceWebsite": "https://greatbearrun.godaddysites.com",
-    "resultsWebsite": "https://runsignup.com/Race/Results/139740/IndividualResult/cdXq#U69234122",
-    "stravaActivity": "https://www.strava.com/activities/14519985205/overview",
-    "personalBest": false
-  },
-  {
-    "name": "Great Bear Run Mile",
-    "date": "2025-05-18",
-    "distanceKm": 1.6,
-    "distanceMi": 1.0,
-    "time": "0:08:03",
-    "paceKm": "0:06:40",
-    "paceMi": "0:05:02",
-    "raceWebsite": "https://greatbearrun.godaddysites.com",
-    "resultsWebsite": "https://runsignup.com/Race/Results/139740/IndividualResult/cdXg#U69234122",
-    "stravaActivity": "https://www.strava.com/activities/14520991299/overview",
-    "personalBest": false
-  }
-  
-        ];
+
+        <script>
+        // Global variable to store the race data once loaded
+        let raceData = [];
+
+        // DOM elements
+        const raceContainer = document.getElementById('race-container');
+        const filterContainer = document.getElementById('filter-container');
+        const unitButtons = document.querySelectorAll('.unit-btn');
+
+        // Current state
+        let currentUnit = 'km'; // Default unit is kilometers
+        let currentFilter = 'all'; // Default filter is all races
+
+        // --- START: REMOVE THE OLD 'const raceData = [ ... ];' ARRAY FROM HERE ---
+        // --- END: REMOVE THE OLD 'const raceData = [ ... ];' ARRAY UP TO HERE ---
+
+        // Async function to load race data from races.json
+        async function loadRaceData() {
+            try {
+                const response = await fetch('races.json'); // Assumes races.json is in the same directory
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                raceData = await response.json(); // Assign fetched data to the global raceData
+            } catch (error) {
+                console.error("Could not load race data:", error);
+                raceContainer.innerHTML = `
+                    <div class="empty-state">
+                        <p>Error loading race data. Please check if 'races.json' exists and is correctly formatted.</p>
+                    </div>`;
+                raceData = []; // Ensure raceData is an empty array on error
+            }
+        }
+
+        // Format date to be more readable
+        function formatDate(dateString) {
+            const options = { year: 'numeric', month: 'long', day: 'numeric' };
+            // Add a timeZone option to ensure consistency if dates are timezone-sensitive
+            // For YYYY-MM-DD, it's usually treated as UTC, so this helps interpret it correctly for toLocaleDateString
+            const date = new Date(dateString + 'T00:00:00'); // Treat as local time if no timezone specified, or specify UTC
+            return date.toLocaleDateString(undefined, options);
+        }
+
+        // Determine if a race is a marathon
+        function isMarathon(race) {
+            // Using a small tolerance for floating point comparisons is safer
+            return Math.abs(race.distanceKm - 42.2) < 0.01 || Math.abs(race.distanceMi - 26.2) < 0.01;
+        }
+
+        // Determine if a race is a half marathon
+        function isHalfMarathon(race) {
+            return Math.abs(race.distanceKm - 21.1) < 0.01 || Math.abs(race.distanceMi - 13.1) < 0.01;
+        }
+
+        // Format distance based on current unit
+        function formatDistance(race) {
+            if (isMarathon(race)) {
+                return "Marathon";
+            } else if (isHalfMarathon(race)) {
+                return "Half Marathon";
+            } else if (currentUnit === 'km') {
+                return race.distanceKm === 5 || race.distanceKm === 10 ?
+                       `${race.distanceKm}K` :
+                       `${race.distanceKm} km`;
+            } else {
+                return `${race.distanceMi} mi`;
+            }
+        }
+
+        // Helper to get all unique distances in current unit
+        function getUniqueDistances() {
+            // Ensure raceData is loaded and not empty
+            if (!raceData || raceData.length === 0) return [];
+            
+            const distances = raceData.map(race => formatDistance(race));
+            return [...new Set(distances)].sort((a, b) => {
+                if (a === "Marathon") return 1;
+                if (b === "Marathon") return -1;
+                if (a === "Half Marathon") return 1; // If you want Half after numbers but before Marathon
+                if (b === "Half Marathon") return -1; // Or adjust to sort numerically then by these strings
+
+                const numA = parseFloat(a);
+                const numB = parseFloat(b);
+
+                // Handle cases where parsing might result in NaN (e.g. "Marathon" if not caught above)
+                if (isNaN(numA) && isNaN(numB)) return a.localeCompare(b); // Sort strings alphabetically
+                if (isNaN(numA)) return 1; // Non-numeric goes after numeric
+                if (isNaN(numB)) return -1; // Numeric goes before non-numeric
+                
+                return numA - numB;
+            });
+        }
+
+        // Create filter buttons based on unique distances
+        function createFilterButtons() {
+            filterContainer.innerHTML = ''; // Clear existing filter buttons
+
+            const allRacesButton = document.createElement('button');
+            allRacesButton.className = 'filter-btn';
+            allRacesButton.setAttribute('data-distance', 'all');
+            allRacesButton.textContent = 'All Races';
+            if (currentFilter === 'all') { // Set active based on currentFilter
+                allRacesButton.classList.add('active');
+            }
+            allRacesButton.addEventListener('click', () => {
+                setActiveFilter('all');
+                filterAndRenderRaces();
+            });
+            filterContainer.appendChild(allRacesButton);
+
+            const uniqueDistances = getUniqueDistances();
+            uniqueDistances.forEach(distance => {
+                const button = document.createElement('button');
+                button.className = 'filter-btn';
+                button.setAttribute('data-distance', distance);
+                button.textContent = distance;
+                if (currentFilter === distance) { // Set active based on currentFilter
+                    button.classList.add('active');
+                }
+                button.addEventListener('click', () => {
+                    setActiveFilter(distance);
+                    filterAndRenderRaces();
+                });
+                filterContainer.appendChild(button);
+            });
+        }
+
+        // Set active filter and update UI
+        function setActiveFilter(distance) {
+            currentFilter = distance;
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                if (btn.getAttribute('data-distance') === distance) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+        }
+
+        // Filter races by distance and render them
+        function filterAndRenderRaces() {
+            // Ensure raceData is loaded and not empty
+            if (!raceData || raceData.length === 0 && !raceContainer.querySelector('.empty-state p').textContent.includes("Error loading race data")) {
+                // If no data and no load error message shown yet, show a generic no data message or wait.
+                // This might be redundant if loadRaceData already handles UI for empty data.
+                // For now, let's assume it proceeds and renderRaceCards handles an empty array.
+            }
+
+            let filteredRaces;
+            if (currentFilter === 'all') {
+                filteredRaces = [...raceData];
+            } else {
+                filteredRaces = raceData.filter(race => formatDistance(race) === currentFilter);
+            }
+            renderRaceCards(filteredRaces);
+        }
+
+        // Render race cards based on provided races array
+        function renderRaceCards(races) {
+            raceContainer.innerHTML = '';
+            if (races.length === 0) {
+                 // Don't overwrite if it's an error message from loading
+                if (!raceContainer.querySelector('.empty-state p') || !raceContainer.querySelector('.empty-state p').textContent.includes("Error loading race data")) {
+                    raceContainer.innerHTML = `
+                        <div class="empty-state">
+                            <p>No races found for the selected filter.</p>
+                        </div>
+                    `;
+                }
+                return;
+            }
+
+            const sortedRaces = [...races].sort((a, b) =>
+                new Date(b.date + 'T00:00:00') - new Date(a.date + 'T00:00:00') // Ensure dates are parsed consistently
+            );
+
+            sortedRaces.forEach(race => {
+                const card = document.createElement('div');
+                card.className = 'race-card';
+                if (race.personalBest) {
+                    card.classList.add('pb');
+                }
+                const raceNameHTML = race.raceWebsite ?
+                    `<h2 class="race-name"><a href="${race.raceWebsite}" target="_blank" rel="noopener noreferrer">${race.name}</a></h2>` :
+                    `<h2 class="race-name">${race.name}</h2>`;
+                let linksHTML = '';
+                if (race.resultsWebsite) {
+                    linksHTML += `<a href="${race.resultsWebsite}" class="race-link" target="_blank" rel="noopener noreferrer">Results</a>`;
+                }
+                if (race.stravaActivity) {
+                    linksHTML += `<a href="${race.stravaActivity}" class="race-link" target="_blank" rel="noopener noreferrer">Strava</a>`;
+                }
+                const pbBadgeHTML = race.personalBest ? `<div class="pb-badge">Personal Best</div>` : '';
+                const displayDistance = formatDistance(race);
+
+                card.innerHTML = `
+                    <div class="race-header">
+                        <div class="race-date">${formatDate(race.date)}</div>
+                        ${raceNameHTML}
+                        <div class="race-distance-tag">${displayDistance}</div>
+                        ${pbBadgeHTML}
+                    </div>
+                    <div class="race-body">
+                        <div class="race-stat">
+                            <span class="race-stat-label">Time:</span>
+                            <span class="race-stat-value">${race.time}</span>
+                        </div>
+                        <div class="race-stat">
+                            <span class="race-stat-label">Pace:</span>
+                            <span class="race-stat-value">${getPace(race)}</span>
+                        </div>
+                        <div class="race-links">
+                            ${linksHTML}
+                        </div>
+                    </div>
+                `;
+                raceContainer.appendChild(card);
+            });
+        }
+
+        // Get pace based on current unit
+        function getPace(race) {
+            return currentUnit === 'km' ? race.paceKm : race.paceMi;
+        }
+
+        // Set up event listeners for unit toggle
+        unitButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const unit = button.getAttribute('data-unit');
+                if (unit !== currentUnit) {
+                    unitButtons.forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+                    currentUnit = unit;
+                    createFilterButtons(); // Recreate filters for new unit
+                    // No need to explicitly set currentFilter to 'all' here unless desired
+                    // The active state of filter buttons will be preserved by createFilterButtons if currentFilter is not 'all'
+                    // If you want to reset to 'all' on unit change, uncomment next line:
+                    // setActiveFilter('all'); 
+                    filterAndRenderRaces();
+                }
+            });
+        });
+
+        // Initialize the page
+        async function init() {
+            await loadRaceData(); // Wait for data to be loaded
+            
+            // Only proceed if data was loaded successfully
+            if (raceData && raceData.length > 0) {
+                createFilterButtons();
+                filterAndRenderRaces(); // Initial render
+            } else if (!raceContainer.querySelector('.empty-state')) { 
+                // If raceData is empty and no error message shown by loadRaceData
+                raceContainer.innerHTML = `
+                    <div class="empty-state">
+                        <p>No race data available. Try adding some races to 'races.json'.</p>
+                    </div>`;
+            }
+        }
+
+        // Run initialization
+        init();
+    </script>
 
         // DOM elements
         const raceContainer = document.getElementById('race-container');
