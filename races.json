@@ -154,5 +154,13 @@
     "resultsWebsite": "https://runsignup.com/Race/Results/139740/IndividualResult/cdXg#U69234122",
     "stravaActivity": "https://www.strava.com/activities/14520991299/overview",
     "personalBest": false
-  }
+  },
+    {
+        "name": "Portland Half Marathon",
+        "date": "2025-06-07",
+        "distanceKm": 21.1,
+        "distanceMi": 13.1,
+        "raceWebsite": "https://www.yahoo.com"
+    }
+    }
 ]
