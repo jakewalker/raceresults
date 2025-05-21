@@ -16,6 +16,7 @@
             --secondary-color: #7209b7; /* Can be used for upcoming or goals */
             --goal-color: #10b981; /* Specific color for goals */
             --upcoming-color: #6366f1; /* Specific color for upcoming races */
+            --countdown-color: #ef4444; /* Color for countdown text */
             --background-color: #f8f9fa;
             --card-color: #ffffff;
             --text-color: #1e293b;
@@ -56,7 +57,7 @@
         }
 
         h1 {
-            color: var(--text-color);
+            color: var(--text-color); /* Changed by user */
             margin-bottom: 8px;
             font-weight: 700;
             font-size: 2.5rem;
@@ -145,6 +146,8 @@
             overflow: hidden;
             border: 1px solid var(--border-color);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex; /* Added for flex column layout */
+            flex-direction: column; /* Added for flex column layout */
         }
         .upcoming-race-card:hover {
             transform: translateY(-5px);
@@ -194,11 +197,21 @@
 
         .upcoming-race-body {
             padding: 20px;
+            flex-grow: 1; /* Added to make body take available space */
+            display: flex; /* Added for flex column layout */
+            flex-direction: column; /* Added for flex column layout */
         }
-        .upcoming-race-body p {
+        .upcoming-race-body p { /* General notes */
             font-size: 0.95rem;
             color: var(--text-light);
             margin-bottom: 10px;
+        }
+        .days-to-go {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--countdown-color);
+            margin-top: auto; /* Pushes countdown to the bottom */
+            padding-top:10px; /* Some space above countdown */
         }
         .upcoming-race-link {
             display: inline-flex;
@@ -212,6 +225,8 @@
             font-size: 0.9rem;
             font-weight: 500;
             transition: background-color 0.2s ease;
+            margin-top: 15px; /* Space above the link */
+            align-self: flex-start; /* Keep link to the left */
         }
         .upcoming-race-link:hover {
             background-color: var(--primary-hover); /* Using primary hover for consistency */
@@ -500,7 +515,7 @@
 
     <script>
         // Global variable to store the race data once loaded
-        let allRaceData = []; // Renamed to avoid confusion, stores all races from JSON
+        let allRaceData = []; 
 
         // Sample Goals Data (can be moved to JSON later)
         const goalsData = [
@@ -551,14 +566,14 @@
         function formatDate(dateString) {
             if (!dateString) return 'Date TBD';
             const options = { year: 'numeric', month: 'long', day: 'numeric' };
-            const date = new Date(dateString + 'T00:00:00'); // Treat as local date
+            const date = new Date(dateString + 'T00:00:00'); 
             return date.toLocaleDateString(undefined, options);
         }
         
         // --- GOALS RENDERING ---
         function renderGoals() {
             if (!goalsListContainer) return;
-            goalsListContainer.innerHTML = ''; // Clear previous goals
+            goalsListContainer.innerHTML = ''; 
 
             if (goalsData.length === 0) {
                 goalsListContainer.innerHTML = "<p>No goals set yet. Time to dream big!</p>";
@@ -594,14 +609,17 @@
         // --- UPCOMING RACES RENDERING ---
         function renderUpcomingRaces(races) {
             if (!upcomingRacesContainer) return;
-            upcomingRacesContainer.innerHTML = ''; // Clear previous upcoming races
+            upcomingRacesContainer.innerHTML = ''; 
 
-            const today = new Date();
-            today.setHours(0, 0, 0, 0); // Compare date part only
+            const today = new Date(); // Current date and time
+            const todayMidnight = new Date(today.getFullYear(), today.getMonth(), today.getDate()); // Today at 00:00:00
 
             const upcoming = races
-                .filter(race => new Date(race.date + 'T00:00:00') >= today)
-                .sort((a, b) => new Date(a.date + 'T00:00:00') - new Date(b.date + 'T00:00:00')); // Sort soonest first
+                .filter(race => {
+                    const raceDate = new Date(race.date + 'T00:00:00'); // Ensure race date is also at midnight for comparison
+                    return raceDate >= todayMidnight;
+                })
+                .sort((a, b) => new Date(a.date + 'T00:00:00') - new Date(b.date + 'T00:00:00')); 
 
             if (upcoming.length === 0) {
                 upcomingRacesContainer.innerHTML = `<div class="empty-state"><p>No upcoming races scheduled. Time to find a new challenge!</p></div>`;
@@ -616,7 +634,39 @@
                     `<h3 class="upcoming-race-name"><a href="${race.raceWebsite}" target="_blank" rel="noopener noreferrer">${race.name}</a></h3>` :
                     `<h3 class="upcoming-race-name">${race.name}</h3>`;
                 
-                const displayDistance = formatDistanceForDisplay(race); // Use a common distance formatter
+                const displayDistance = formatDistanceForDisplay(race); 
+
+                // Calculate days to go
+                const raceDateObj = new Date(race.date + 'T00:00:00');
+                const timeDiff = raceDateObj.getTime() - todayMidnight.getTime();
+                const daysDiff = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
+                
+                let daysToGoText = '';
+                if (daysDiff === 0) {
+                    daysToGoText = "It's Today!";
+                } else if (daysDiff === 1) {
+                    daysToGoText = "Tomorrow!";
+                } else if (daysDiff > 1) {
+                    daysToGoText = `${daysDiff} days to go`;
+                } else {
+                    daysToGoText = "Race day passed"; // Should not happen with filter
+                }
+                
+                // Build the card body content
+                let cardBodyContent = '';
+                if (race.notes) {
+                    cardBodyContent += `<p>${race.notes}</p>`;
+                } else {
+                    cardBodyContent += `<p>Get ready for this one!</p>`;
+                }
+
+                // Add countdown to the body content
+                cardBodyContent += `<p class="days-to-go">${daysToGoText}</p>`;
+
+                if (race.raceWebsite) {
+                     cardBodyContent += `<a href="${race.raceWebsite}" class="upcoming-race-link" target="_blank" rel="noopener noreferrer">Race Info</a>`;
+                }
+
 
                 card.innerHTML = `
                     <div class="upcoming-race-header">
@@ -625,66 +675,57 @@
                         <div class="upcoming-race-distance-tag">${displayDistance}</div>
                     </div>
                     <div class="upcoming-race-body">
-                      </div>
+                        ${cardBodyContent}
+                    </div>
                 `;
                 upcomingRacesContainer.appendChild(card);
             });
         }
         
         // --- COMPLETED RACES LOGIC (Filters, Cards, etc.) ---
-        // Determine if a race is a marathon
         function isMarathon(race) {
             return Math.abs(race.distanceKm - 42.2) < 0.01 || Math.abs(race.distanceMi - 26.2) < 0.01;
         }
 
-        // Determine if a race is a half marathon
         function isHalfMarathon(race) {
             return Math.abs(race.distanceKm - 21.1) < 0.01 || Math.abs(race.distanceMi - 13.1) < 0.01;
         }
         
-        // Shared function to format distance for display (used by upcoming and completed)
         function formatDistanceForDisplay(race) {
             if (isMarathon(race)) return "Marathon";
             if (isHalfMarathon(race)) return "Half Marathon";
             
-            // For specific K distances, show as 5K, 10K
             if (currentUnit === 'km') {
                  if (race.distanceKm === 10) return "10K";
                  if (race.distanceKm === 5) return "5K";
                  return `${race.distanceKm} km`;
             } else {
-                 // You might want similar specific labels for miles if common (e.g., 1 Mile)
                  if (race.distanceMi === 1) return "1 Mile";
                  return `${race.distanceMi} mi`;
             }
         }
 
-
-        // Helper to get all unique distances for completed races filter
         function getUniqueDistancesForFilter(races) {
             if (!races || races.length === 0) return [];
-            const distances = races.map(race => formatDistanceForDisplay(race)); // Use the display formatter
+            const distances = races.map(race => formatDistanceForDisplay(race)); 
             
-            // Custom sort: numbers first, then specific strings
             return [...new Set(distances)].sort((a, b) => {
                 const isANum = !isNaN(parseFloat(a));
                 const isBNum = !isNaN(parseFloat(b));
 
-                if (isANum && !isBNum) return -1; // Numbers first
-                if (!isANum && isBNum) return 1;  // Strings after numbers
-                if (isANum && isBNum) return parseFloat(a) - parseFloat(b); // Sort numbers numerically
+                if (isANum && !isBNum) return -1; 
+                if (!isANum && isBNum) return 1;  
+                if (isANum && isBNum) return parseFloat(a) - parseFloat(b); 
                 
-                // Sort strings: Half Marathon, Marathon, then others alphabetically
                 if (a === "Half Marathon" && b !== "Half Marathon") return -1;
                 if (b === "Half Marathon" && a !== "Half Marathon") return 1;
-                if (a === "Marathon" && b !== "Marathon") return 1; // Marathon after Half
+                if (a === "Marathon" && b !== "Marathon") return 1; 
                 if (b === "Marathon" && a !== "Marathon") return -1;
                 
-                return a.localeCompare(b); // Alphabetical for other strings (e.g. 5K, 10K)
+                return a.localeCompare(b); 
             });
         }
 
-        // Create filter buttons for completed races
         function createFilterButtons(races) {
             if (!filterContainer) return;
             filterContainer.innerHTML = ''; 
@@ -698,7 +739,7 @@
             }
             allRacesButton.addEventListener('click', () => {
                 setActiveFilter('all');
-                filterAndRenderCompletedRaces(allRaceData); // Pass allRaceData here
+                filterAndRenderCompletedRaces(allRaceData); 
             });
             filterContainer.appendChild(allRacesButton);
 
@@ -713,13 +754,12 @@
                 }
                 button.addEventListener('click', () => {
                     setActiveFilter(distance);
-                    filterAndRenderCompletedRaces(allRaceData); // Pass allRaceData here
+                    filterAndRenderCompletedRaces(allRaceData); 
                 });
                 filterContainer.appendChild(button);
             });
         }
 
-        // Set active filter and update UI
         function setActiveFilter(distance) {
             currentFilter = distance;
             document.querySelectorAll('.filter-container .filter-btn').forEach(btn => {
@@ -731,13 +771,12 @@
             });
         }
 
-        // Filter completed races by distance and render them
-        function filterAndRenderCompletedRaces(allRacesInput) { // Renamed parameter to avoid conflict
+        function filterAndRenderCompletedRaces(allRacesInput) { 
             if (!completedRaceContainer) return;
 
             const today = new Date();
-            today.setHours(0, 0, 0, 0);
-            const completed = allRacesInput.filter(race => new Date(race.date + 'T00:00:00') < today);
+            const todayMidnight = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+            const completed = allRacesInput.filter(race => new Date(race.date + 'T00:00:00') < todayMidnight);
 
             let filteredRaces;
             if (currentFilter === 'all') {
@@ -748,7 +787,6 @@
             renderRaceCards(filteredRaces); 
         }
 
-        // Render COMPLETED race cards
         function renderRaceCards(races) {
             if (!completedRaceContainer) return;
             completedRaceContainer.innerHTML = '';
@@ -760,7 +798,7 @@
             }
 
             const sortedRaces = [...races].sort((a, b) =>
-                new Date(b.date + 'T00:00:00') - new Date(a.date + 'T00:00:00') // Newest first
+                new Date(b.date + 'T00:00:00') - new Date(a.date + 'T00:00:00') 
             );
 
             sortedRaces.forEach(race => {
@@ -807,13 +845,11 @@
             });
         }
         
-        // Get pace based on current unit for completed races
         function getPace(race) {
             if (currentUnit === 'km') return race.paceKm;
             return race.paceMi;
         }
 
-        // Set up event listeners for unit toggle
         unitButtons.forEach(button => {
             button.addEventListener('click', () => {
                 const unit = button.getAttribute('data-unit');
@@ -822,9 +858,9 @@
                     button.classList.add('active');
                     currentUnit = unit;
                     
-                    const today = new Date(); // Define today for filtering completed races
-                    today.setHours(0,0,0,0);
-                    const completedRacesForFilter = allRaceData.filter(race => new Date(race.date + 'T00:00:00') < today);
+                    const today = new Date(); 
+                    const todayMidnight = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+                    const completedRacesForFilter = allRaceData.filter(race => new Date(race.date + 'T00:00:00') < todayMidnight);
 
                     createFilterButtons(completedRacesForFilter); 
                     filterAndRenderCompletedRaces(allRaceData); 
@@ -833,7 +869,6 @@
             });
         });
 
-        // Initialize the page
         async function init() {
             await loadRaceData(); 
             
@@ -841,22 +876,19 @@
 
             if (allRaceData && allRaceData.length > 0) {
                 const today = new Date();
-                today.setHours(0,0,0,0);
-                const completedRacesData = allRaceData.filter(race => new Date(race.date + 'T00:00:00') < today);
+                const todayMidnight = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+                const completedRacesData = allRaceData.filter(race => new Date(race.date + 'T00:00:00') < todayMidnight);
 
-                renderUpcomingRaces(allRaceData);
-                createFilterButtons(completedRacesData);
-                filterAndRenderCompletedRaces(allRaceData); 
+                renderUpcomingRaces(allRaceData); // Render upcoming races first
+                createFilterButtons(completedRacesData); // Then create filters based on completed races
+                filterAndRenderCompletedRaces(allRaceData); // Then render completed races
             } else if (completedRaceContainer && upcomingRacesContainer && !completedRaceContainer.querySelector('.empty-state') && !upcomingRacesContainer.querySelector('.empty-state')) { 
-                // Check if containers exist before trying to modify them
                 if(completedRaceContainer) completedRaceContainer.innerHTML = `<div class="empty-state"><p>No race data. Add races to 'races.json'.</p></div>`;
                 if(upcomingRacesContainer) upcomingRacesContainer.innerHTML = `<div class="empty-state"><p>No upcoming race data.</p></div>`;
             }
         }
 
-        // Run initialization
         init();
     </script>
 </body>
 </html>
-
