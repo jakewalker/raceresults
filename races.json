@@ -101,7 +101,7 @@
     "raceWebsite": "https://runsignup.com/Race/MA/Cambridge/SpringClassic5K",
     "resultsWebsite": "https://rtrt.me/ulink/TLMRA/TLMR-SPRING-CLASSIC-2025/tracker/RTR8NFUL/focus",
     "stravaActivity": "https://www.strava.com/activities/14030317400/overview",
-    "personalBest": true
+    "personalBest": false
   },
   {
     "name": "Newport Rhode Race Half",
@@ -169,17 +169,30 @@
     "personalBest": false
   },
      {
-    "name": "Cambridge Summer Classic 5K",
+    "name": "Cambridge Summer Classic 5K (with Teddy)",
     "date": "2025-06-29",
     "distanceKm": 5.0,
     "distanceMi": 3.1,
-    "time": "",
-    "paceKm": "",
-    "paceMi": "",
+    "time": "0:37:28",
+    "paceKm": "0:07:30",
+    "paceMi": "0:12:05",
     "raceWebsite": "",
-    "resultsWebsite": "",
-    "stravaActivity": "",
+    "resultsWebsite": "https://track.rtrt.me/e/TLMR-SUMMER-CLASSIC-2025#/dash/RWDRU9EY",
+    "stravaActivity": "https://www.strava.com/activities/14953399712/overview",
     "personalBest": false
+  },
+    {
+    "name": "Needham Independence Day 5K",
+    "date": "2025-07-04",
+    "distanceKm": 5.0,
+    "distanceMi": 3.1,
+    "time": "0:26:04",
+    "paceKm": "0:05:13",
+    "paceMi": "0:08:25",
+    "raceWebsite": "",
+    "resultsWebsite": "https://www.secondwindtiming.com/result-page/?id=344564&utm_source=resultEmail&utm_medium=email&utm_campaign=emailResults",
+    "stravaActivity": "https://www.strava.com/activities/15004204262/overview",
+    "personalBest": true
   },
      {
     "name": "Run to Home Base 5K",
