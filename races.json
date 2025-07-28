@@ -195,16 +195,16 @@
     "personalBest": true
   },
      {
-    "name": "Run to Home Base 5K",
+    "name": "Run to Home Base 5K (with Teddy)",
     "date": "2025-07-26",
     "distanceKm": 5.0,
     "distanceMi": 3.1,
-    "time": "",
-    "paceKm": "",
-    "paceMi": "",
-    "raceWebsite": "",
-    "resultsWebsite": "",
-    "stravaActivity": "",
+    "time": "0:36:50",
+    "paceKm": "0:07:22",
+    "paceMi": "0:11:53",
+    "raceWebsite": "https://runtohomebase.org",
+    "resultsWebsite": "https://track.rtrt.me/e/TLMR-RUN-TO-HOME-BASE-2025#/dash/RZ4WAKD8",
+    "stravaActivity": "https://www.strava.com/activities/15242978002",
     "personalBest": false
   },
      {
