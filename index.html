@@ -1,203 +1,892 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Race Results — List</title>
-  <style>
-    :root {
-      --bg: #0b0c10; --panel:#121318; --ink:#e9eef5; --muted:#a7b0bf; --line:#1c1e26; --radius:14px;
-    }
-    *{box-sizing:border-box}
-    body{margin:0;font:15px/1.6 system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,"Apple Color Emoji","Segoe UI Emoji";color:var(--ink);background:radial-gradient(1400px 900px at 80% -10%, #0f1320, var(--bg))}
-    header{position:sticky;top:0;z-index:5;backdrop-filter:blur(6px);background:linear-gradient(180deg,rgba(11,12,16,.92),rgba(11,12,16,.65));border-bottom:1px solid rgba(255,255,255,.06)}
-    .wrap{max-width:860px;margin:0 auto;padding:18px}
-    h1{margin:0 0 4px;font-weight:700;font-size:20px}
-    .sub{color:var(--muted);font-size:13px}
-    .toolbar{display:flex;gap:10px;align-items:center;margin-top:10px}
-    select{background:#0f1016;color:var(--ink);border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:6px 8px}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Race Tracker</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #4361ee;
+            --primary-hover: #3a56d4;
+            --pb-color: #f59e0b; /* Personal Best color */
+            --pb-hover: #d97706;
+            --secondary-color: #7209b7; /* Can be used for upcoming or goals */
+            --goal-color: #10b981; /* Specific color for goals */
+            --upcoming-color: #6366f1; /* Specific color for upcoming races */
+            --countdown-color: #ef4444; /* Color for countdown text */
+            --background-color: #f8f9fa;
+            --card-color: #ffffff;
+            --text-color: #1e293b;
+            --text-light: #64748b;
+            --border-color: #e2e8f0;
+            --filter-color: #f1f5f9;
+            --tag-color: #e9effd; /* For distance tags on completed races */
+            --pb-tag-color: #fef3c7; /* For PB badge */
+            --goal-tag-color: #d1fae5; /* For goal status tags */
+            --upcoming-tag-color: #e0e7ff; /* For upcoming race distance tags */
+            --unit-toggle-bg: #e2e8f0;
+        }
 
-    .list{list-style:none;margin:14px 0 36px;padding:0;display:grid;gap:10px}
-    .item{border:1px solid rgba(255,255,255,.08);background:linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.01));border-radius:var(--radius);padding:14px 16px;display:grid;gap:8px}
-    .top{display:flex;flex-wrap:wrap;gap:6px 12px;align-items:baseline}
-    .name{font-weight:650}
-    .name a{color:inherit;text-decoration:underline dotted}
-    .muted{color:var(--muted)}
-    .meta{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px 14px}
-    .kv{background:#0f1016;border:1px solid rgba(255,255,255,.06);border-radius:10px;padding:8px 10px}
-    .k{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px}
-    .v{font-weight:600}
-    .err{color:#ffd0d0;background:#3a0f13;border:1px solid #6b151f;padding:10px 12px;border-radius:12px}
-    footer{color:var(--muted);font-size:12px;text-align:center;padding:30px 0 36px}
-    @media(min-width:720px){.meta{grid-template-columns:repeat(4,minmax(0,1fr))}}
-  </style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--background-color);
+            margin: 0;
+            padding: 20px;
+            font-weight: 400;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        h1 {
+            color: var(--text-color); /* Changed by user */
+            margin-bottom: 8px;
+            font-weight: 700;
+            font-size: 2.5rem;
+            letter-spacing: -0.5px;
+        }
+        
+        h2.section-title {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: var(--text-color);
+            margin-top: 40px;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        header p {
+            color: var(--text-light);
+            font-size: 1.1rem;
+        }
+
+        /* Goals Section */
+        .goals-section {
+            margin-bottom: 40px;
+            background-color: var(--card-color);
+            padding: 24px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        .goals-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .goal-item {
+            display: flex;
+            flex-direction: column; /* Stack items vertically on small screens */
+            justify-content: space-between;
+            align-items: flex-start; /* Align items to start */
+            padding: 15px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .goal-item:last-child {
+            border-bottom: none;
+        }
+        
+        .goal-item-main {
+            flex-grow: 1;
+        }
+
+        .goal-text {
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+        }
+
+        .goal-target-date {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            margin-bottom: 5px;
+        }
+        
+        .goal-status {
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--goal-color);
+            background-color: var(--goal-tag-color);
+            margin-top: 8px; /* Add some space on small screens */
+        }
+        
+        /* Upcoming Races Section */
+        .upcoming-races-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 24px;
+            margin-bottom: 40px;
+        }
+
+        .upcoming-race-card {
+            background-color: var(--card-color);
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex; /* Added for flex column layout */
+            flex-direction: column; /* Added for flex column layout */
+        }
+        .upcoming-race-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+        }
+
+        .upcoming-race-header {
+            background-color: var(--upcoming-color);
+            color: white;
+            padding: 20px;
+        }
+        
+        .upcoming-race-date {
+            background-color: rgba(255, 255, 255, 0.15);
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            display: inline-block;
+            margin-bottom: 12px;
+        }
+
+        .upcoming-race-name {
+            margin: 0 0 4px 0;
+            font-size: 1.3rem; /* Slightly smaller than completed races */
+            font-weight: 700;
+            line-height: 1.3;
+        }
+        .upcoming-race-name a {
+            color: white;
+            text-decoration: none;
+        }
+        .upcoming-race-name a:hover {
+            text-decoration: underline;
+        }
+        
+        .upcoming-race-distance-tag {
+            display: inline-block;
+            background-color: var(--upcoming-tag-color);
+            color: var(--upcoming-color);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-top: 10px;
+        }
+
+        .upcoming-race-body {
+            padding: 20px;
+            flex-grow: 1; /* Added to make body take available space */
+            display: flex; /* Added for flex column layout */
+            flex-direction: column; /* Added for flex column layout */
+        }
+        .upcoming-race-body p { /* General notes */
+            font-size: 0.95rem;
+            color: var(--text-light);
+            margin-bottom: 10px;
+        }
+        .days-to-go {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--countdown-color);
+            margin-top: auto; /* Pushes countdown to the bottom */
+            padding-top:10px; /* Some space above countdown */
+        }
+        .upcoming-race-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 16px;
+            background-color: var(--upcoming-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: background-color 0.2s ease;
+            margin-top: 15px; /* Space above the link */
+            align-self: flex-start; /* Keep link to the left */
+        }
+        .upcoming-race-link:hover {
+            background-color: var(--primary-hover); /* Using primary hover for consistency */
+        }
+
+
+        /* Controls Container (Filters, Unit Toggle) */
+        .controls-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 30px;
+            gap: 15px;
+        }
+
+        .unit-toggle {
+            display: flex;
+            background-color: var(--unit-toggle-bg);
+            border-radius: 30px;
+            padding: 4px;
+            margin-bottom: 10px;
+            width: fit-content;
+        }
+
+        .unit-btn {
+            background: none;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--text-color);
+            transition: all 0.2s ease;
+        }
+
+        .unit-btn.active {
+            background-color: white;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
+        }
+
+        .filter-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            width: 100%;
+        }
+
+        .filter-btn {
+            background-color: var(--filter-color);
+            border: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--text-color);
+            transition: all 0.2s ease;
+        }
+
+        .filter-btn:hover {
+            background-color: #e6eaf3;
+        }
+
+        .filter-btn.active {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        /* Completed Race Cards */
+        .race-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 24px;
+        }
+
+        .race-card {
+            background-color: var(--card-color);
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid var(--border-color);
+        }
+        
+        .race-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+        }
+        
+        .race-card.pb .race-header {
+            background-color: var(--pb-color);
+        }
+        
+        .race-card.pb .race-link { /* Style links in PB cards */
+            background-color: var(--pb-color);
+        }
+        
+        .race-card.pb .race-link:hover {
+            background-color: var(--pb-hover);
+        }
+        
+        .pb-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background-color: var(--pb-tag-color);
+            color: var(--pb-color); /* Text color for PB badge */
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            display: inline-block;
+        }
+
+        .race-header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 20px;
+            position: relative;
+        }
+
+        .race-date {
+            background-color: rgba(255, 255, 255, 0.15);
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            display: inline-block;
+            margin-bottom: 12px;
+        }
+
+        .race-name {
+            margin: 0 0 4px 0;
+            font-size: 1.5rem;
+            font-weight: 700;
+            line-height: 1.3;
+            letter-spacing: -0.3px;
+        }
+        
+        .race-name a {
+            color: white;
+            text-decoration: none;
+        }
+        
+        .race-name a:hover {
+            text-decoration: underline;
+        }
+
+        .race-distance-tag {
+            display: inline-block;
+            background-color: var(--tag-color);
+            color: var(--primary-color);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-top: 10px;
+        }
+
+        .race-body {
+            padding: 24px;
+        }
+
+        .race-stat {
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+        }
+
+        .race-stat-label {
+            font-weight: 600;
+            color: var(--text-light);
+            width: 80px; /* Fixed width for alignment */
+        }
+
+        .race-stat-value {
+            font-weight: 500;
+        }
+
+        .race-links {
+            margin-top: 20px;
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .race-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 16px;
+            background-color: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: background-color 0.2s ease;
+        }
+
+        .race-link:hover {
+            background-color: var(--primary-hover);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px;
+            color: var(--text-light);
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            grid-column: 1 / -1; /* Make it span all columns in a grid */
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+            h2.section-title {
+                font-size: 1.5rem;
+            }
+            .race-cards, .upcoming-races-container {
+                grid-template-columns: 1fr; /* Single column for cards on smaller screens */
+            }
+            .race-links {
+                flex-direction: column; /* Stack links vertically */
+            }
+            .goal-item {
+                align-items: flex-start; /* Ensure alignment on small screens */
+            }
+            .goal-status {
+                align-self: flex-start; /* Keep status tag aligned left */
+                margin-top: 8px;
+            }
+        }
+         @media (min-width: 769px) { /* Styles for larger screens */
+            .goal-item {
+                flex-direction: row; /* Align items in a row */
+                align-items: center; /* Center items vertically */
+            }
+            .goal-status {
+                margin-top: 0; /* Remove top margin */
+                margin-left: auto; /* Push status to the right */
+            }
+        }
+    </style>
 </head>
 <body>
-  <header>
-    <div class="wrap">
-      <h1>Race Results</h1>
-      <div class="sub" id="summary">Built from races.json</div>
-      <div class="toolbar" role="region" aria-label="Filters">
-        <label>Distance
-          <select id="dist">
-            <option value="">All</option>
-          </select>
-        </label>
-        <div class="sub" id="notice"></div>
-      </div>
+    <div class="container">
+        <header>
+            <h1>Jake Walker - Run Tracker</h1>
+            <p>Past and future races and running goals</p>
+        </header>
+
+        <h2 class="section-title">Completed Races</h2>
+        <div class="controls-container">
+            <div class="unit-toggle">
+                <button class="unit-btn active" data-unit="km">Kilometers</button>
+                <button class="unit-btn" data-unit="mi">Miles</button>
+            </div>
+            <div id="filter-container" class="filter-container">
+                </div>
+        </div>
+
+        <div id="race-container" class="race-cards">
+            </div>
+        
+        <div id="upcoming-races-main-container">
+             <h2 class="section-title">Upcoming Races</h2>
+            <div id="upcoming-races-container" class="upcoming-races-container">
+                </div>
+        </div>
+
+        <div id="goals-section-container">
+            <h2 class="section-title">My Running Goals</h2>
+            <div id="goals-list-container" class="goals-section">
+                </div>
+        </div>
+
     </div>
-  </header>
-  <main class="wrap" id="app" aria-live="polite">
-    <p id="status" class="muted">Loading results…</p>
-  </main>
-  <footer>
-    Minimal list • Future races hidden • Filter by distance • Newest first
-  </footer>
 
-  <script>
-    // ---------- Helpers ----------
-    const KM_PER_MI = 1.609344;
-    const $ = s => document.querySelector(s);
+    <script>
+        // Global variable to store the race data once loaded
+        let allRaceData = []; 
 
-    function parseHMS(s){
-      if(!s||typeof s!=='string') return null;
-      const p=s.trim().split(':').map(Number);
-      if(p.some(n=>Number.isNaN(n))) return null;
-      if(p.length===3){const [h,m,sec]=p;return h*3600+m*60+sec}
-      if(p.length===2){const [m,sec]=p;return m*60+sec}
-      return null;
-    }
-    function fmtPace(secPerMi){
-      if(secPerMi==null||!isFinite(secPerMi)||secPerMi<=0) return '—';
-      const m=Math.floor(secPerMi/60), s=String(Math.round(secPerMi%60)).padStart(2,'0');
-      return `${m}:${s}/mi`;
-    }
-    function fmtDateISO(iso){
-      const d=new Date(iso+'T00:00:00');
-      if(isNaN(d)) return iso||'—';
-      return d.toLocaleDateString(undefined,{year:'numeric',month:'short',day:'numeric'});
-    }
-    function isFutureDate(iso){
-      if(!iso) return false; const d=new Date(iso+'T00:00:00');
-      const t=new Date(); const a=new Date(t.getFullYear(),t.getMonth(),t.getDate());
-      const b=new Date(d.getFullYear(),d.getMonth(),d.getDate());
-      return b>a;
-    }
-    function chooseTime(r){ return r&&(r.chip_time||r.time||r.result||r.finish_time)||null; }
+        // Sample Goals Data (can be moved to JSON later)
+        const goalsData = [
+            {
+                "id": "goal1",
+                "text": "Complete the Chicago Marathon in under 5 hours",
+                "targetDate": "2025-10-12",
+                "status": "Training",
+                "notes": "Thinking about making this a more aggressive goal"
+            },
+            {
+                "id": "goal2",
+                "text": "Find and complete a trail run race of some kind",
+                "targetDate": "2026-05-21",
+                "status": "Considering",
+                "notes": "I'd like to try a trail run race at some point in the next year"
+            }
+        ];
 
-    // Flexible distance support
-    function distanceFromRecord(r){
-      const tryFields=[["distance_mi","mi"],["distance_km","km"],["distance",null],["dist",null]];
-      for(const [field,hint] of tryFields){
-        if(r[field]==null) continue; const val=r[field];
-        if(typeof val==='number'){
-          if(hint==='km') return {miles: val/KM_PER_MI, label: distLabelKm(val)};
-          if(hint==='mi') return {miles: val, label: distLabelMi(val)};
-          if(val<=30) return {miles: val, label: distLabelMi(val)}; // assume miles
-          return {miles: val/KM_PER_MI, label: distLabelKm(val)};
+        // DOM elements
+        const completedRaceContainer = document.getElementById('race-container');
+        const upcomingRacesContainer = document.getElementById('upcoming-races-container');
+        const goalsListContainer = document.getElementById('goals-list-container');
+        const filterContainer = document.getElementById('filter-container');
+        const unitButtons = document.querySelectorAll('.unit-btn');
+
+        // Current state
+        let currentUnit = 'km'; 
+        let currentFilter = 'all'; 
+
+        // Async function to load race data from races.json
+        async function loadRaceData() {
+            try {
+                const response = await fetch('races.json');
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                allRaceData = await response.json();
+            } catch (error) {
+                console.error("Could not load race data:", error);
+                if(completedRaceContainer) completedRaceContainer.innerHTML = `<div class="empty-state"><p>Error loading race data. Please check 'races.json'.</p></div>`;
+                if(upcomingRacesContainer) upcomingRacesContainer.innerHTML = `<div class="empty-state"><p>Could not load upcoming race data.</p></div>`;
+                allRaceData = [];
+            }
         }
-        if(typeof val==='string'){
-          const m=val.trim().toLowerCase();
-          const km=m.match(/([0-9]+(?:\.[0-9]+)?)\s*(km|kilometers?)/);
-          const mi=m.match(/([0-9]+(?:\.[0-9]+)?)\s*(mi|miles?)/);
-          if(km){const n=parseFloat(km[1]); return {miles:n/KM_PER_MI,label:distLabelKm(n)};}
-          if(mi){const n=parseFloat(mi[1]); return {miles:n,label:distLabelMi(n)};}
-          if(/\bmarathon\b/.test(m)) return {miles:26.219,label:'Marathon'};
-          if(/\bhalf\b/.test(m)) return {miles:13.109,label:'Half'};
-          if(/\b10k\b/.test(m)) return {miles:6.214,label:'10K'};
-          if(/\b5k\b/.test(m)) return {miles:3.107,label:'5K'};
-          if(/\b7\s*mile\b/.test(m)) return {miles:7,label:'7 Mile'};
+
+        // Format date to be more readable
+        function formatDate(dateString) {
+            if (!dateString) return 'Date TBD';
+            const options = { year: 'numeric', month: 'long', day: 'numeric' };
+            const date = new Date(dateString + 'T00:00:00'); 
+            return date.toLocaleDateString(undefined, options);
         }
-      }
-      return {miles:null,label:null};
-    }
-    function distLabelKm(km){
-      const common={1.609:'1 Mile',5:'5K',10:'10K',21.0975:'Half',42.195:'Marathon',11.265:'7 Mile'};
-      const keys=Object.keys(common).map(parseFloat);
-      const near=keys.find(x=>Math.abs(x-km)<0.05);
-      return near?common[near]:`${km.toFixed(2)} km`;
-    }
-    function distLabelMi(mi){
-      const common={1:'1 Mile',3.107:'5K',6.214:'10K',13.109:'Half',26.219:'Marathon',7:'7 Mile'};
-      const keys=Object.keys(common).map(parseFloat);
-      const near=keys.find(x=>Math.abs(x-mi)<0.05);
-      return near?common[near]:`${mi.toFixed(2)} mi`;
-    }
+        
+        // --- GOALS RENDERING ---
+        function renderGoals() {
+            if (!goalsListContainer) return;
+            goalsListContainer.innerHTML = ''; 
 
-    // ---------- Rendering ----------
-    function kv(k,v){ const wrap=document.createElement('div'); wrap.className='kv';
-      const K=document.createElement('div');K.className='k';K.textContent=k;
-      const V=document.createElement('div');V.className='v';V.textContent=v;
-      wrap.appendChild(K);wrap.appendChild(V); return wrap; }
+            if (goalsData.length === 0) {
+                goalsListContainer.innerHTML = "<p>No goals set yet. Time to dream big!</p>";
+                return;
+            }
+            
+            const ul = document.createElement('ul');
+            ul.className = 'goals-list';
 
-    function card(r){
-      const li=document.createElement('li'); li.className='item';
-      const top=document.createElement('div'); top.className='top';
-      const name=document.createElement('div'); name.className='name';
-      const link=r.url||r.link||r.href;
-      if(link){ const a=document.createElement('a'); a.href=link; a.target='_blank'; a.rel='noopener noreferrer'; a.textContent=r.name||'Untitled Race'; name.appendChild(a); }
-      else { name.textContent=r.name||'Untitled Race'; }
-      const date=document.createElement('div'); date.className='muted'; date.textContent=fmtDateISO(r.date);
-      const city=document.createElement('div'); city.className='muted'; if(r.city) city.textContent=`• ${r.city}`;
-      top.appendChild(name); top.appendChild(date); if(r.city) top.appendChild(city);
+            goalsData.forEach(goal => {
+                const li = document.createElement('li');
+                li.className = 'goal-item';
+                
+                let statusClass = '';
+                if (goal.status.toLowerCase() === 'achieved') statusClass = 'status-achieved';
+                else if (goal.status.toLowerCase() === 'in progress') statusClass = 'status-in-progress';
+                else if (goal.status.toLowerCase() === 'planning') statusClass = 'status-planning';
 
-      const meta=document.createElement('div'); meta.className='meta';
-      const {miles,label}=distanceFromRecord(r);
-      const timeStr=chooseTime(r);
-      const secs=parseHMS(timeStr);
-      const pace=(miles&&secs)? secs/miles : null;
-      meta.appendChild(kv('Distance', label||'—'));
-      meta.appendChild(kv('Time', timeStr||'—'));
-      meta.appendChild(kv('Pace', fmtPace(pace)));
-      meta.appendChild(kv('Category', r.category||'—'));
+                li.innerHTML = `
+                    <div class="goal-item-main">
+                        <div class="goal-text">${goal.text}</div>
+                        ${goal.targetDate ? `<div class="goal-target-date">Target: ${formatDate(goal.targetDate)}</div>` : ''}
+                        ${goal.notes ? `<p style="font-size:0.9em; color: var(--text-light);">${goal.notes}</p>` : ''}
+                    </div>
+                    <span class="goal-status ${statusClass}">${goal.status}</span>
+                `;
+                ul.appendChild(li);
+            });
+            goalsListContainer.appendChild(ul);
+        }
 
-      li.appendChild(top); li.appendChild(meta);
-      if(r.notes){ const notes=document.createElement('div'); notes.className='muted'; notes.textContent=r.notes; li.appendChild(notes); }
-      return li;
-    }
 
-    function renderList(data){
-      const app=$('#app'); app.innerHTML='';
-      const ul=document.createElement('ul'); ul.className='list';
-      let shown=0;
-      for(const r of data){ if(isFutureDate(r.date)) continue; ul.appendChild(card(r)); shown++; }
-      app.appendChild(ul);
-      $('#summary').textContent=`${shown} races • newest first`;
-    }
+        // --- UPCOMING RACES RENDERING ---
+        function renderUpcomingRaces(races) {
+            if (!upcomingRacesContainer) return;
+            upcomingRacesContainer.innerHTML = ''; 
 
-    // ---------- Bootstrap ----------
-    (async function init(){
-      const status=$('#status');
-      try{
-        const res=await fetch('races.json',{cache:'no-store'});
-        if(!res.ok) throw new Error(`HTTP ${res.status}`);
-        const raw=await res.json();
-        if(!Array.isArray(raw)) throw new Error('races.json must be an array');
+            const today = new Date(); // Current date and time
+            const todayMidnight = new Date(today.getFullYear(), today.getMonth(), today.getDate()); // Today at 00:00:00
 
-        const todayStr=new Date().toLocaleDateString(undefined,{year:'numeric',month:'short',day:'numeric'});
-        $('#notice').textContent=`Future races hidden • Today: ${todayStr}`;
+            const upcoming = races
+                .filter(race => {
+                    const raceDate = new Date(race.date + 'T00:00:00'); // Ensure race date is also at midnight for comparison
+                    return raceDate >= todayMidnight;
+                })
+                .sort((a, b) => new Date(a.date + 'T00:00:00') - new Date(b.date + 'T00:00:00')); 
 
-        const data=raw.filter(r=>!isFutureDate(r.date)).sort((a,b)=> new Date(b.date)-new Date(a.date));
+            if (upcoming.length === 0) {
+                upcomingRacesContainer.innerHTML = `<div class="empty-state"><p>No upcoming races scheduled. Time to find a new challenge!</p></div>`;
+                return;
+            }
 
-        // Populate distance select
-        const set=new Set();
-        for(const r of data){ const lbl=distanceFromRecord(r).label; if(lbl&&lbl!=='—') set.add(lbl); }
-        const sel=$('#dist');
-        const sorted=[...set].sort((a,b)=> a.localeCompare(b));
-        sel.innerHTML=['<option value="">All</option>'].concat(sorted.map(x=>`<option value="${x}">${x}</option>`)).join('');
-        sel.addEventListener('input', ()=>{
-          const v=sel.value; const subset=v? data.filter(r=>distanceFromRecord(r).label===v) : data;
-          renderList(subset);
+            upcoming.forEach(race => {
+                const card = document.createElement('div');
+                card.className = 'upcoming-race-card';
+                
+                const raceNameHTML = race.raceWebsite ?
+                    `<h3 class="upcoming-race-name"><a href="${race.raceWebsite}" target="_blank" rel="noopener noreferrer">${race.name}</a></h3>` :
+                    `<h3 class="upcoming-race-name">${race.name}</h3>`;
+                
+                const displayDistance = formatDistanceForDisplay(race); 
+
+                // Calculate days to go
+                const raceDateObj = new Date(race.date + 'T00:00:00');
+                const timeDiff = raceDateObj.getTime() - todayMidnight.getTime();
+                const daysDiff = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
+                
+                let daysToGoText = '';
+                if (daysDiff === 0) {
+                    daysToGoText = "It's Today!";
+                } else if (daysDiff === 1) {
+                    daysToGoText = "Tomorrow!";
+                } else if (daysDiff > 1) {
+                    daysToGoText = `${daysDiff} days to go`;
+                } else {
+                    daysToGoText = "Race day passed"; // Should not happen with filter
+                }
+                
+                // Build the card body content
+                let cardBodyContent = '';
+                if (race.notes) {
+                    cardBodyContent += `<p>${race.notes}</p>`;
+                } else {
+                    cardBodyContent += ``;
+                }
+
+                // Add countdown to the body content
+                cardBodyContent += `<p class="days-to-go">${daysToGoText}</p>`;
+
+               
+
+
+                card.innerHTML = `
+                    <div class="upcoming-race-header">
+                        <div class="upcoming-race-date">${formatDate(race.date)}</div>
+                        ${raceNameHTML}
+                        <div class="upcoming-race-distance-tag">${displayDistance}</div>
+                    </div>
+                    <div class="upcoming-race-body">
+                        ${cardBodyContent}
+                    </div>
+                `;
+                upcomingRacesContainer.appendChild(card);
+            });
+        }
+        
+        // --- COMPLETED RACES LOGIC (Filters, Cards, etc.) ---
+        function isMarathon(race) {
+            return Math.abs(race.distanceKm - 42.2) < 0.01 || Math.abs(race.distanceMi - 26.2) < 0.01;
+        }
+
+        function isHalfMarathon(race) {
+            return Math.abs(race.distanceKm - 21.1) < 0.01 || Math.abs(race.distanceMi - 13.1) < 0.01;
+        }
+        
+        function formatDistanceForDisplay(race) {
+            if (isMarathon(race)) return "Marathon";
+            if (isHalfMarathon(race)) return "Half Marathon";
+            
+            if (currentUnit === 'km') {
+                 if (race.distanceKm === 10) return "10K";
+                 if (race.distanceKm === 5) return "5K";
+                 return `${race.distanceKm} km`;
+            } else {
+                 if (race.distanceMi === 1) return "1 Mile";
+                 return `${race.distanceMi} mi`;
+            }
+        }
+
+        function getUniqueDistancesForFilter(races) {
+            if (!races || races.length === 0) return [];
+            const distances = races.map(race => formatDistanceForDisplay(race)); 
+            
+            return [...new Set(distances)].sort((a, b) => {
+                const isANum = !isNaN(parseFloat(a));
+                const isBNum = !isNaN(parseFloat(b));
+
+                if (isANum && !isBNum) return -1; 
+                if (!isANum && isBNum) return 1;  
+                if (isANum && isBNum) return parseFloat(a) - parseFloat(b); 
+                
+                if (a === "Half Marathon" && b !== "Half Marathon") return -1;
+                if (b === "Half Marathon" && a !== "Half Marathon") return 1;
+                if (a === "Marathon" && b !== "Marathon") return 1; 
+                if (b === "Marathon" && a !== "Marathon") return -1;
+                
+                return a.localeCompare(b); 
+            });
+        }
+
+        function createFilterButtons(races) {
+            if (!filterContainer) return;
+            filterContainer.innerHTML = ''; 
+
+            const allRacesButton = document.createElement('button');
+            allRacesButton.className = 'filter-btn';
+            allRacesButton.setAttribute('data-distance', 'all');
+            allRacesButton.textContent = 'All Races';
+            if (currentFilter === 'all') {
+                allRacesButton.classList.add('active');
+            }
+            allRacesButton.addEventListener('click', () => {
+                setActiveFilter('all');
+                filterAndRenderCompletedRaces(allRaceData); 
+            });
+            filterContainer.appendChild(allRacesButton);
+
+            const uniqueDistances = getUniqueDistancesForFilter(races);
+            uniqueDistances.forEach(distance => {
+                const button = document.createElement('button');
+                button.className = 'filter-btn';
+                button.setAttribute('data-distance', distance);
+                button.textContent = distance;
+                if (currentFilter === distance) {
+                    button.classList.add('active');
+                }
+                button.addEventListener('click', () => {
+                    setActiveFilter(distance);
+                    filterAndRenderCompletedRaces(allRaceData); 
+                });
+                filterContainer.appendChild(button);
+            });
+        }
+
+        function setActiveFilter(distance) {
+            currentFilter = distance;
+            document.querySelectorAll('.filter-container .filter-btn').forEach(btn => {
+                if (btn.getAttribute('data-distance') === distance) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+        }
+
+        function filterAndRenderCompletedRaces(allRacesInput) { 
+            if (!completedRaceContainer) return;
+
+            const today = new Date();
+            const todayMidnight = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+            const completed = allRacesInput.filter(race => new Date(race.date + 'T00:00:00') < todayMidnight);
+
+            let filteredRaces;
+            if (currentFilter === 'all') {
+                filteredRaces = [...completed];
+            } else {
+                filteredRaces = completed.filter(race => formatDistanceForDisplay(race) === currentFilter);
+            }
+            renderRaceCards(filteredRaces); 
+        }
+
+        function renderRaceCards(races) {
+            if (!completedRaceContainer) return;
+            completedRaceContainer.innerHTML = '';
+            if (races.length === 0) {
+                if (!completedRaceContainer.querySelector('.empty-state p') || !completedRaceContainer.querySelector('.empty-state p').textContent.includes("Error loading race data")) {
+                    completedRaceContainer.innerHTML = `<div class="empty-state"><p>No completed races found for this filter.</p></div>`;
+                }
+                return;
+            }
+
+            const sortedRaces = [...races].sort((a, b) =>
+                new Date(b.date + 'T00:00:00') - new Date(a.date + 'T00:00:00') 
+            );
+
+            sortedRaces.forEach(race => {
+                const card = document.createElement('div');
+                card.className = 'race-card';
+                if (race.personalBest) {
+                    card.classList.add('pb');
+                }
+                const raceNameHTML = race.raceWebsite ?
+                    `<h2 class="race-name"><a href="${race.raceWebsite}" target="_blank" rel="noopener noreferrer">${race.name}</a></h2>` :
+                    `<h2 class="race-name">${race.name}</h2>`;
+                let linksHTML = '';
+                if (race.resultsWebsite) {
+                    linksHTML += `<a href="${race.resultsWebsite}" class="race-link" target="_blank" rel="noopener noreferrer">Results</a>`;
+                }
+                if (race.stravaActivity) {
+                    linksHTML += `<a href="${race.stravaActivity}" class="race-link" target="_blank" rel="noopener noreferrer">Strava</a>`;
+                }
+                const pbBadgeHTML = race.personalBest ? `<div class="pb-badge">Personal Best</div>` : '';
+                const displayDistance = formatDistanceForDisplay(race);
+
+                card.innerHTML = `
+                    <div class="race-header">
+                        <div class="race-date">${formatDate(race.date)}</div>
+                        ${raceNameHTML}
+                        <div class="race-distance-tag">${displayDistance}</div>
+                        ${pbBadgeHTML}
+                    </div>
+                    <div class="race-body">
+                        <div class="race-stat">
+                            <span class="race-stat-label">Time:</span>
+                            <span class="race-stat-value">${race.time || 'N/A'}</span>
+                        </div>
+                        <div class="race-stat">
+                            <span class="race-stat-label">Pace:</span>
+                            <span class="race-stat-value">${getPace(race) || 'N/A'}</span>
+                        </div>
+                        <div class="race-links">
+                            ${linksHTML}
+                        </div>
+                    </div>
+                `;
+                completedRaceContainer.appendChild(card);
+            });
+        }
+        
+        function getPace(race) {
+            if (currentUnit === 'km') return race.paceKm;
+            return race.paceMi;
+        }
+
+        unitButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const unit = button.getAttribute('data-unit');
+                if (unit !== currentUnit) {
+                    unitButtons.forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+                    currentUnit = unit;
+                    
+                    const today = new Date(); 
+                    const todayMidnight = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+                    const completedRacesForFilter = allRaceData.filter(race => new Date(race.date + 'T00:00:00') < todayMidnight);
+
+                    createFilterButtons(completedRacesForFilter); 
+                    filterAndRenderCompletedRaces(allRaceData); 
+                    renderUpcomingRaces(allRaceData); 
+                }
+            });
         });
 
-        renderList(data);
-        status.remove();
-      }catch(err){
-        console.error(err);
-        status.className='err';
-        status.innerHTML=`Could not load <code>races.json</code>. If you opened this file directly, the browser blocks <code>fetch</code> for <code>file://</code> URLs.<br>Run a tiny server (choose one):<br>• Python: <code>python3 -m http.server 5500</code> → visit <code>http://localhost:5500/</code><br>• Node: <code>npx serve</code>`;
-      }
-    })();
-  </script>
+        async function init() {
+            await loadRaceData(); 
+            
+            renderGoals(); 
+
+            if (allRaceData && allRaceData.length > 0) {
+                const today = new Date();
+                const todayMidnight = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+                const completedRacesData = allRaceData.filter(race => new Date(race.date + 'T00:00:00') < todayMidnight);
+
+                renderUpcomingRaces(allRaceData); // Render upcoming races first
+                createFilterButtons(completedRacesData); // Then create filters based on completed races
+                filterAndRenderCompletedRaces(allRaceData); // Then render completed races
+            } else if (completedRaceContainer && upcomingRacesContainer && !completedRaceContainer.querySelector('.empty-state') && !upcomingRacesContainer.querySelector('.empty-state')) { 
+                if(completedRaceContainer) completedRaceContainer.innerHTML = `<div class="empty-state"><p>No race data. Add races to 'races.json'.</p></div>`;
+                if(upcomingRacesContainer) upcomingRacesContainer.innerHTML = `<div class="empty-state"><p>No upcoming race data.</p></div>`;
+            }
+        }
+
+        init();
+    </script>
 </body>
 </html>
