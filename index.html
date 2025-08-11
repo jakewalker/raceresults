@@ -3,56 +3,33 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Race Results (List)</title>
+  <title>Race Results — List</title>
   <style>
-    /* Minimal, readable list view */
     :root {
-      --bg: #0b0c10;
-      --panel: #121318;
-      --ink: #e9eef5;
-      --muted: #a7b0bf;
-      --line: #1c1e26;
-      --accent: #8ab4ff;
-      --radius: 14px;
+      --bg: #0b0c10; --panel:#121318; --ink:#e9eef5; --muted:#a7b0bf; --line:#1c1e26; --radius:14px;
     }
-    * { box-sizing: border-box; }
-    html, body { height: 100%; }
-    body {
-      margin: 0;
-      font: 15px/1.6 system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
-      color: var(--ink);
-      background: radial-gradient(1400px 900px at 80% -10%, #0f1320, var(--bg));
-    }
+    *{box-sizing:border-box}
+    body{margin:0;font:15px/1.6 system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,"Apple Color Emoji","Segoe UI Emoji";color:var(--ink);background:radial-gradient(1400px 900px at 80% -10%, #0f1320, var(--bg))}
+    header{position:sticky;top:0;z-index:5;backdrop-filter:blur(6px);background:linear-gradient(180deg,rgba(11,12,16,.92),rgba(11,12,16,.65));border-bottom:1px solid rgba(255,255,255,.06)}
+    .wrap{max-width:860px;margin:0 auto;padding:18px}
+    h1{margin:0 0 4px;font-weight:700;font-size:20px}
+    .sub{color:var(--muted);font-size:13px}
+    .toolbar{display:flex;gap:10px;align-items:center;margin-top:10px}
+    select{background:#0f1016;color:var(--ink);border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:6px 8px}
 
-    header { position: sticky; top: 0; z-index: 5; backdrop-filter: blur(6px);
-      background: linear-gradient(180deg, rgba(11,12,16,.92), rgba(11,12,16,.65)); border-bottom: 1px solid rgba(255,255,255,.06); }
-    .wrap { max-width: 820px; margin: 0 auto; padding: 18px 18px; }
-    h1 { margin: 0 0 2px; font-size: 20px; font-weight: 700; letter-spacing: .2px; }
-    .sub { color: var(--muted); font-size: 13px; }
-
-    main.wrap { padding-top: 18px; }
-
-    .list { list-style: none; margin: 12px 0 36px; padding: 0; display: grid; gap: 10px; }
-    .item {
-      border: 1px solid rgba(255,255,255,.08); background: linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.01));
-      border-radius: var(--radius); padding: 14px 16px; display: grid; gap: 8px;
-    }
-    .top { display: flex; flex-wrap: wrap; gap: 6px 12px; align-items: baseline; }
-    .name { font-weight: 650; }
-    .muted { color: var(--muted); }
-
-    .meta { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 6px 14px; }
-    .kv { background: #0f1016; border: 1px solid rgba(255,255,255,.06); border-radius: 10px; padding: 8px 10px; }
-    .k { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: .5px; }
-    .v { font-weight: 600; }
-
-    .err { color: #ffd0d0; background: #3a0f13; border: 1px solid #6b151f; padding: 10px 12px; border-radius: 12px; }
-
-    footer { color: var(--muted); font-size: 12px; text-align: center; padding: 30px 0 36px; }
-
-    @media (min-width: 720px) {
-      .meta { grid-template-columns: repeat(4, minmax(0,1fr)); }
-    }
+    .list{list-style:none;margin:14px 0 36px;padding:0;display:grid;gap:10px}
+    .item{border:1px solid rgba(255,255,255,.08);background:linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.01));border-radius:var(--radius);padding:14px 16px;display:grid;gap:8px}
+    .top{display:flex;flex-wrap:wrap;gap:6px 12px;align-items:baseline}
+    .name{font-weight:650}
+    .name a{color:inherit;text-decoration:underline dotted}
+    .muted{color:var(--muted)}
+    .meta{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px 14px}
+    .kv{background:#0f1016;border:1px solid rgba(255,255,255,.06);border-radius:10px;padding:8px 10px}
+    .k{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px}
+    .v{font-weight:600}
+    .err{color:#ffd0d0;background:#3a0f13;border:1px solid #6b151f;padding:10px 12px;border-radius:12px}
+    footer{color:var(--muted);font-size:12px;text-align:center;padding:30px 0 36px}
+    @media(min-width:720px){.meta{grid-template-columns:repeat(4,minmax(0,1fr))}}
   </style>
 </head>
 <body>
@@ -60,162 +37,165 @@
     <div class="wrap">
       <h1>Race Results</h1>
       <div class="sub" id="summary">Built from races.json</div>
+      <div class="toolbar" role="region" aria-label="Filters">
+        <label>Distance
+          <select id="dist">
+            <option value="">All</option>
+          </select>
+        </label>
+        <div class="sub" id="notice"></div>
+      </div>
     </div>
   </header>
   <main class="wrap" id="app" aria-live="polite">
     <p id="status" class="muted">Loading results…</p>
   </main>
   <footer>
-    Minimal list view · Newest first · Pace shown when distance and time are present
+    Minimal list • Future races hidden • Filter by distance • Newest first
   </footer>
 
   <script>
-    // ————— Helpers —————
+    // ---------- Helpers ----------
     const KM_PER_MI = 1.609344;
-    const $ = sel => document.querySelector(sel);
+    const $ = s => document.querySelector(s);
 
-    function parseHMS(s) {
-      if (!s || typeof s !== 'string') return null;
-      const parts = s.trim().split(':').map(Number);
-      if (parts.some(n => Number.isNaN(n))) return null;
-      if (parts.length === 3) { const [h,m,sec] = parts; return h*3600 + m*60 + sec; }
-      if (parts.length === 2) { const [m,sec] = parts; return m*60 + sec; }
+    function parseHMS(s){
+      if(!s||typeof s!=='string') return null;
+      const p=s.trim().split(':').map(Number);
+      if(p.some(n=>Number.isNaN(n))) return null;
+      if(p.length===3){const [h,m,sec]=p;return h*3600+m*60+sec}
+      if(p.length===2){const [m,sec]=p;return m*60+sec}
       return null;
     }
-
-    function fmtPace(secPerMi) {
-      if (secPerMi == null || !isFinite(secPerMi) || secPerMi <= 0) return '—';
-      const m = Math.floor(secPerMi/60);
-      const s = String(Math.round(secPerMi % 60)).padStart(2,'0');
+    function fmtPace(secPerMi){
+      if(secPerMi==null||!isFinite(secPerMi)||secPerMi<=0) return '—';
+      const m=Math.floor(secPerMi/60), s=String(Math.round(secPerMi%60)).padStart(2,'0');
       return `${m}:${s}/mi`;
     }
-
-    function distLabelFromRecord(r) {
-      if (typeof r.distance_mi === 'number') return distLabelMi(r.distance_mi);
-      if (typeof r.distance_km === 'number') return distLabelKm(r.distance_km);
-      return '—';
+    function fmtDateISO(iso){
+      const d=new Date(iso+'T00:00:00');
+      if(isNaN(d)) return iso||'—';
+      return d.toLocaleDateString(undefined,{year:'numeric',month:'short',day:'numeric'});
     }
-
-    function distMiFromRecord(r) {
-      if (typeof r.distance_mi === 'number') return r.distance_mi;
-      if (typeof r.distance_km === 'number') return r.distance_km / KM_PER_MI;
-      return null;
+    function isFutureDate(iso){
+      if(!iso) return false; const d=new Date(iso+'T00:00:00');
+      const t=new Date(); const a=new Date(t.getFullYear(),t.getMonth(),t.getDate());
+      const b=new Date(d.getFullYear(),d.getMonth(),d.getDate());
+      return b>a;
     }
+    function chooseTime(r){ return r&&(r.chip_time||r.time||r.result||r.finish_time)||null; }
 
-    function distLabelKm(km) {
-      const common = {
-        1.609: '1 Mile', 5: '5K', 10: '10K', 21.0975: 'Half', 42.195: 'Marathon', 11.265: '7 Mile'
-      };
-      const keys = Object.keys(common).map(parseFloat);
-      const near = keys.find(x => Math.abs(x - km) < 0.05);
-      return near ? common[near] : `${km.toFixed(2)} km`;
-    }
-
-    function distLabelMi(mi) {
-      const common = {
-        1: '1 Mile', 3.107: '5K', 6.214: '10K', 13.109: 'Half', 26.219: 'Marathon', 7: '7 Mile'
-      };
-      const keys = Object.keys(common).map(parseFloat);
-      const near = keys.find(x => Math.abs(x - mi) < 0.05);
-      return near ? common[near] : `${mi.toFixed(2)} mi`;
-    }
-
-    function fmtDateISO(iso) {
-      const d = new Date(iso + 'T00:00:00');
-      if (isNaN(d)) return iso || '—';
-      return d.toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' });
-    }
-
-    function chooseTime(r) {
-      // prefer chip_time, fall back to time
-      return r && (r.chip_time || r.time) || null;
-    }
-
-    // ————— Rendering —————
-    function renderList(data) {
-      const app = $('#app');
-      app.innerHTML = '';
-
-      const ul = document.createElement('ul');
-      ul.className = 'list';
-
-      let shown = 0;
-      for (const r of data) {
-        const li = document.createElement('li');
-        li.className = 'item';
-
-        // Top line: Name — Date (City)
-        const top = document.createElement('div');
-        top.className = 'top';
-        const name = document.createElement('div');
-        name.className = 'name';
-        name.textContent = r.name || 'Untitled Race';
-        const date = document.createElement('div');
-        date.className = 'muted';
-        date.textContent = fmtDateISO(r.date);
-        const city = document.createElement('div');
-        city.className = 'muted';
-        if (r.city) city.textContent = `• ${r.city}`;
-        top.appendChild(name); top.appendChild(date); if (r.city) top.appendChild(city);
-
-        // Meta grid: Distance / Time / Pace / Category
-        const meta = document.createElement('div');
-        meta.className = 'meta';
-
-        const distanceMi = distMiFromRecord(r);
-        const timeStr = chooseTime(r);
-        const secs = parseHMS(timeStr);
-        const pace = (distanceMi && secs) ? secs / distanceMi : null;
-
-        meta.appendChild(kv('Distance', distLabelFromRecord(r)));
-        meta.appendChild(kv('Time', timeStr || '—'));
-        meta.appendChild(kv('Pace', fmtPace(pace)));
-        meta.appendChild(kv('Category', r.category || '—'));
-
-        li.appendChild(top);
-        li.appendChild(meta);
-
-        // Optional notes line
-        if (r.notes) {
-          const notes = document.createElement('div');
-          notes.className = 'muted';
-          notes.textContent = r.notes;
-          li.appendChild(notes);
+    // Flexible distance support
+    function distanceFromRecord(r){
+      const tryFields=[["distance_mi","mi"],["distance_km","km"],["distance",null],["dist",null]];
+      for(const [field,hint] of tryFields){
+        if(r[field]==null) continue; const val=r[field];
+        if(typeof val==='number'){
+          if(hint==='km') return {miles: val/KM_PER_MI, label: distLabelKm(val)};
+          if(hint==='mi') return {miles: val, label: distLabelMi(val)};
+          if(val<=30) return {miles: val, label: distLabelMi(val)}; // assume miles
+          return {miles: val/KM_PER_MI, label: distLabelKm(val)};
         }
-
-        ul.appendChild(li);
-        shown++;
+        if(typeof val==='string'){
+          const m=val.trim().toLowerCase();
+          const km=m.match(/([0-9]+(?:\.[0-9]+)?)\s*(km|kilometers?)/);
+          const mi=m.match(/([0-9]+(?:\.[0-9]+)?)\s*(mi|miles?)/);
+          if(km){const n=parseFloat(km[1]); return {miles:n/KM_PER_MI,label:distLabelKm(n)};}
+          if(mi){const n=parseFloat(mi[1]); return {miles:n,label:distLabelMi(n)};}
+          if(/\bmarathon\b/.test(m)) return {miles:26.219,label:'Marathon'};
+          if(/\bhalf\b/.test(m)) return {miles:13.109,label:'Half'};
+          if(/\b10k\b/.test(m)) return {miles:6.214,label:'10K'};
+          if(/\b5k\b/.test(m)) return {miles:3.107,label:'5K'};
+          if(/\b7\s*mile\b/.test(m)) return {miles:7,label:'7 Mile'};
+        }
       }
+      return {miles:null,label:null};
+    }
+    function distLabelKm(km){
+      const common={1.609:'1 Mile',5:'5K',10:'10K',21.0975:'Half',42.195:'Marathon',11.265:'7 Mile'};
+      const keys=Object.keys(common).map(parseFloat);
+      const near=keys.find(x=>Math.abs(x-km)<0.05);
+      return near?common[near]:`${km.toFixed(2)} km`;
+    }
+    function distLabelMi(mi){
+      const common={1:'1 Mile',3.107:'5K',6.214:'10K',13.109:'Half',26.219:'Marathon',7:'7 Mile'};
+      const keys=Object.keys(common).map(parseFloat);
+      const near=keys.find(x=>Math.abs(x-mi)<0.05);
+      return near?common[near]:`${mi.toFixed(2)} mi`;
+    }
 
+    // ---------- Rendering ----------
+    function kv(k,v){ const wrap=document.createElement('div'); wrap.className='kv';
+      const K=document.createElement('div');K.className='k';K.textContent=k;
+      const V=document.createElement('div');V.className='v';V.textContent=v;
+      wrap.appendChild(K);wrap.appendChild(V); return wrap; }
+
+    function card(r){
+      const li=document.createElement('li'); li.className='item';
+      const top=document.createElement('div'); top.className='top';
+      const name=document.createElement('div'); name.className='name';
+      const link=r.url||r.link||r.href;
+      if(link){ const a=document.createElement('a'); a.href=link; a.target='_blank'; a.rel='noopener noreferrer'; a.textContent=r.name||'Untitled Race'; name.appendChild(a); }
+      else { name.textContent=r.name||'Untitled Race'; }
+      const date=document.createElement('div'); date.className='muted'; date.textContent=fmtDateISO(r.date);
+      const city=document.createElement('div'); city.className='muted'; if(r.city) city.textContent=`• ${r.city}`;
+      top.appendChild(name); top.appendChild(date); if(r.city) top.appendChild(city);
+
+      const meta=document.createElement('div'); meta.className='meta';
+      const {miles,label}=distanceFromRecord(r);
+      const timeStr=chooseTime(r);
+      const secs=parseHMS(timeStr);
+      const pace=(miles&&secs)? secs/miles : null;
+      meta.appendChild(kv('Distance', label||'—'));
+      meta.appendChild(kv('Time', timeStr||'—'));
+      meta.appendChild(kv('Pace', fmtPace(pace)));
+      meta.appendChild(kv('Category', r.category||'—'));
+
+      li.appendChild(top); li.appendChild(meta);
+      if(r.notes){ const notes=document.createElement('div'); notes.className='muted'; notes.textContent=r.notes; li.appendChild(notes); }
+      return li;
+    }
+
+    function renderList(data){
+      const app=$('#app'); app.innerHTML='';
+      const ul=document.createElement('ul'); ul.className='list';
+      let shown=0;
+      for(const r of data){ if(isFutureDate(r.date)) continue; ul.appendChild(card(r)); shown++; }
       app.appendChild(ul);
-      $('#summary').textContent = `${shown} races • newest first`;
+      $('#summary').textContent=`${shown} races • newest first`;
     }
 
-    function kv(k, v) {
-      const wrap = document.createElement('div');
-      wrap.className = 'kv';
-      const key = document.createElement('div'); key.className = 'k'; key.textContent = k;
-      const val = document.createElement('div'); val.className = 'v'; val.textContent = v;
-      wrap.appendChild(key); wrap.appendChild(val);
-      return wrap;
-    }
-
-    // ————— Bootstrap —————
+    // ---------- Bootstrap ----------
     (async function init(){
-      const status = $('#status');
-      try {
-        const res = await fetch('races.json', { cache: 'no-store' });
-        if (!res.ok) throw new Error(`HTTP ${res.status}`);
-        const raw = await res.json();
-        if (!Array.isArray(raw)) throw new Error('races.json must be an array');
-        // sort newest first
-        const data = raw.slice().sort((a,b) => new Date(b.date) - new Date(a.date));
+      const status=$('#status');
+      try{
+        const res=await fetch('races.json',{cache:'no-store'});
+        if(!res.ok) throw new Error(`HTTP ${res.status}`);
+        const raw=await res.json();
+        if(!Array.isArray(raw)) throw new Error('races.json must be an array');
+
+        const todayStr=new Date().toLocaleDateString(undefined,{year:'numeric',month:'short',day:'numeric'});
+        $('#notice').textContent=`Future races hidden • Today: ${todayStr}`;
+
+        const data=raw.filter(r=>!isFutureDate(r.date)).sort((a,b)=> new Date(b.date)-new Date(a.date));
+
+        // Populate distance select
+        const set=new Set();
+        for(const r of data){ const lbl=distanceFromRecord(r).label; if(lbl&&lbl!=='—') set.add(lbl); }
+        const sel=$('#dist');
+        const sorted=[...set].sort((a,b)=> a.localeCompare(b));
+        sel.innerHTML=['<option value="">All</option>'].concat(sorted.map(x=>`<option value="${x}">${x}</option>`)).join('');
+        sel.addEventListener('input', ()=>{
+          const v=sel.value; const subset=v? data.filter(r=>distanceFromRecord(r).label===v) : data;
+          renderList(subset);
+        });
+
         renderList(data);
         status.remove();
-      } catch (err) {
+      }catch(err){
         console.error(err);
-        status.className = 'err';
-        status.innerHTML = `Could not load <code>races.json</code>. If you opened this file directly, the browser blocks <code>fetch</code> for <code>file://</code> URLs.<br>Run a tiny server (choose one):<br>• Python: <code>python3 -m http.server 5500</code> → visit <code>http://localhost:5500/</code><br>• Node: <code>npx serve</code>`;
+        status.className='err';
+        status.innerHTML=`Could not load <code>races.json</code>. If you opened this file directly, the browser blocks <code>fetch</code> for <code>file://</code> URLs.<br>Run a tiny server (choose one):<br>• Python: <code>python3 -m http.server 5500</code> → visit <code>http://localhost:5500/</code><br>• Node: <code>npx serve</code>`;
       }
     })();
   </script>
