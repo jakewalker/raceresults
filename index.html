@@ -221,7 +221,8 @@
     }
 
     function escapeHtml(str) {
-      return String(str).replace(/[&<>"]g, s => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[s]));
+      return String(str).replace(/[&<>"']/g, s => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;','\'':'&#39;'}[s]));
+    }[s]));
     }
 
     // ---- Filtering ----
@@ -230,7 +231,9 @@
       const y = el('#year').value;
       const d = el('#dist').value;
       const filtered = window.__data.filter(r => {
-        const matchesQ = !q || `${r.name} ${r.city}`.toLowerCase().includes(q);
+        const name = (r.name || '').toLowerCase();
+        const city = (r.city || '').toLowerCase();
+        const matchesQ = !q || `${name} ${city}`.includes(q);
         const matchesY = !y || String(yearOf(r.date)) === y;
         const dist = r.distance_km ? distLabel(r.distance_km) : (r.distance_mi ? distLabelMi(r.distance_mi) : 'Unknown');
         const matchesD = !d || dist === d;
