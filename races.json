@@ -225,13 +225,13 @@
     "date": "2025-08-17",
     "distanceKm": 11.3,
     "distanceMi": 7.0,
-    "time": "",
-    "paceKm": "",
-    "paceMi": "",
-    "raceWebsite": "",
-    "resultsWebsite": "",
-    "stravaActivity": "",
-    "personalBest": false
+    "time": "1:11:21",
+    "paceKm": "0:06:19",
+    "paceMi": "0:10:12",
+    "raceWebsite": "https://falmouthroadrace.com",
+    "resultsWebsite": "https://rtrt.me/ulink/_RT/FRR-FALMOUTH-2025/tracker/RPHZ3TBY/focus",
+    "stravaActivity": "https://www.strava.com/activities/15490781968",
+    "personalBest": true
   },
      {
     "name": "Cambridge Fall Classic 5K",
