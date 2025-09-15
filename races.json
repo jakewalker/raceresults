@@ -233,6 +233,19 @@
     "stravaActivity": "https://www.strava.com/activities/15490781968",
     "personalBest": true
   },
+    {
+    "name": "Boston Irish Cultural Center 5K",
+    "date": "2025-09-14",
+    "distanceKm": 5.0,
+    "distanceMi": 3.1,
+    "time": "0:26:45",
+    "paceKm": "0:05:21",
+    "paceMi": "0:08:37",
+    "raceWebsite": "https://falmouthroadrace.com",
+    "resultsWebsite": "https://www.iresultslive.com/results/?eid=6542",
+    "stravaActivity": "https://www.strava.com/activities/15809605731",
+    "personalBest": false
+  },
      {
     "name": "Cambridge Fall Classic 5K",
     "date": "2025-10-05",
