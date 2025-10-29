@@ -247,16 +247,16 @@
     "personalBest": false
   },
      {
-    "name": "Cambridge Fall Classic 5K",
+    "name": "Cambridge Fall Classic 5K (with Teddy)",
     "date": "2025-10-05",
     "distanceKm": 5.0,
     "distanceMi": 3.1,
-    "time": "",
-    "paceKm": "",
-    "paceMi": "",
-    "raceWebsite": "",
-    "resultsWebsite": "",
-    "stravaActivity": "",
+    "time": "0:30:47",
+    "paceKm": "0:06:09",
+    "paceMi": "0:09:56",
+    "raceWebsite": "https://runsignup.com/Race/MA/Cambridge/FallClassic5K",
+    "resultsWebsite": "https://track.rtrt.me/e/TLMR-FALL-CLASSIC-2025#/dash/RN8HJG36",
+    "stravaActivity": "https://www.strava.com/activities/16042352244/overview",
     "personalBest": false
   },
      {
@@ -271,5 +271,31 @@
     "resultsWebsite": "https://results.chicagomarathon.com/2025?content=detail&fpid=search&pid=search&idp=9TGG96382B7DC4&lang=EN_CAP&event=MAR&event_main_group=runner&search%5Bname%5D=walker&search%5Bfirstname%5D=Jacob&search_event=MAR",
     "stravaActivity": "https://www.strava.com/activities/16120871981/overview",
     "personalBest": true
+  },
+     {
+    "name": "Disney World Wine & Dine Half Marathon (workout)",
+    "date": "2025-10-26",
+    "distanceKm": 21.1,
+    "distanceMi": 13.1,
+    "time": "2:23:39",
+    "paceKm": "0:06:48",
+    "paceMi": "0:10:58",
+    "raceWebsite": "https://www.rundisney.com/",
+    "resultsWebsite": "https://www.trackshackresults.com/disneysports/results/wd/wd25/hm_results.php?Link=158&Type=3&LName=walker&FName=jacob&City=&State=&Country=",
+    "stravaActivity": "https://www.strava.com/activities/16260892614/overview",
+    "personalBest": true
+  },
+     {
+    "name": "Falmouth In Th Fall",
+    "date": "2025-10-29",
+    "distanceKm": 11.3,
+    "distanceMi": 7.0,
+    "time": "",
+    "paceKm": "",
+    "paceMi": "",
+    "raceWebsite": "https://falmouthinthefall.com",
+    "resultsWebsite": "",
+    "stravaActivity": "",
+    "personalBest": false
   }
 ]
