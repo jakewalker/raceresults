@@ -287,13 +287,26 @@
   },
      {
     "name": "Falmouth In The Fall",
-    "date": "2025-10-29",
+    "date": "2025-11-02",
     "distanceKm": 11.3,
     "distanceMi": 7.0,
     "time": "",
     "paceKm": "",
     "paceMi": "",
     "raceWebsite": "https://falmouthinthefall.com",
+    "resultsWebsite": "",
+    "stravaActivity": "",
+    "personalBest": false
+  },
+     {
+    "name": "Philadelphia Marathon",
+    "date": "2025-11-23",
+    "distanceKm": 42.2,
+    "distanceMi": 26.2,
+    "time": "",
+    "paceKm": "",
+    "paceMi": "",
+    "raceWebsite": "https://www.philadelphiamarathon.com",
     "resultsWebsite": "",
     "stravaActivity": "",
     "personalBest": false
