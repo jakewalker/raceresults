@@ -283,10 +283,10 @@
     "raceWebsite": "https://www.rundisney.com/",
     "resultsWebsite": "https://www.trackshackresults.com/disneysports/results/wd/wd25/hm_results.php?Link=158&Type=3&LName=walker&FName=jacob&City=&State=&Country=",
     "stravaActivity": "https://www.strava.com/activities/16260892614/overview",
-    "personalBest": true
+    "personalBest": false
   },
      {
-    "name": "Falmouth In Th Fall",
+    "name": "Falmouth In The Fall",
     "date": "2025-10-29",
     "distanceKm": 11.3,
     "distanceMi": 7.0,
