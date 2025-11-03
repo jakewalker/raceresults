@@ -231,7 +231,7 @@
     "raceWebsite": "https://falmouthroadrace.com",
     "resultsWebsite": "https://rtrt.me/ulink/_RT/FRR-FALMOUTH-2025/tracker/RPHZ3TBY/focus",
     "stravaActivity": "https://www.strava.com/activities/15490781968",
-    "personalBest": true
+    "personalBest": false
   },
     {
     "name": "Boston Irish Cultural Center 5K",
@@ -290,13 +290,13 @@
     "date": "2025-11-02",
     "distanceKm": 11.3,
     "distanceMi": 7.0,
-    "time": "",
-    "paceKm": "",
-    "paceMi": "",
+    "time": "1:02:40",
+    "paceKm": "0:05:33",
+    "paceMi": "0:08:58",
     "raceWebsite": "https://falmouthinthefall.com",
-    "resultsWebsite": "",
-    "stravaActivity": "",
-    "personalBest": false
+    "resultsWebsite": "https://rtrt.me/ulink/_RT/FRR-FALMOUTH-IN-THE-FALL-2025/tracker/RNBGVFC4/focus",
+    "stravaActivity": "https://www.strava.com/activities/16334411578/overview",
+    "personalBest": true
   },
      {
     "name": "Philadelphia Marathon",
