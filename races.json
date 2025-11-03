@@ -75,7 +75,7 @@
     "raceWebsite": "https://www.rundisney.com/events/disneyworld/disneyworld-marathon-weekend/",
     "resultsWebsite": "https://www.trackshackresults.com/disneysports/results/wdw/wdw25/mar_results.php?Link=148&Type=3&LName=walker&FName=jacob&City=&State=&Country=",
     "stravaActivity": "https://www.strava.com/activities/13336173872/overview",
-    "personalBest": true
+    "personalBest": false
   },
   {
     "name": "Disneyland Half Marathon",
