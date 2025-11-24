@@ -270,7 +270,7 @@
     "raceWebsite": "https://www.chicagomarathon.com",
     "resultsWebsite": "https://results.chicagomarathon.com/2025?content=detail&fpid=search&pid=search&idp=9TGG96382B7DC4&lang=EN_CAP&event=MAR&event_main_group=runner&search%5Bname%5D=walker&search%5Bfirstname%5D=Jacob&search_event=MAR",
     "stravaActivity": "https://www.strava.com/activities/16120871981/overview",
-    "personalBest": true
+    "personalBest": false
   },
      {
     "name": "Disney World Wine & Dine Half Marathon (workout)",
@@ -303,12 +303,12 @@
     "date": "2025-11-23",
     "distanceKm": 42.2,
     "distanceMi": 26.2,
-    "time": "",
-    "paceKm": "",
-    "paceMi": "",
+    "time": "4:40:33",
+    "paceKm": "0:06:39",
+    "paceMi": "0:10:42",
     "raceWebsite": "https://www.philadelphiamarathon.com",
-    "resultsWebsite": "",
-    "stravaActivity": "",
-    "personalBest": false
+    "resultsWebsite": "https://www.mychiptime.com/searchevent.php?id=16897&utm_source=Philadelphia+Marathon+Weekend&utm_campaign=24c6b6a2f9-finisher-email-half-marathon-112324_COPY_01&utm_medium=email&utm_term=0_fa2559b911-24c6b6a2f9-362946019&mc_cid=24c6b6a2f9&mc_eid=9a60efcb93",
+    "stravaActivity": "https://www.strava.com/activities/16545904248",
+    "personalBest": true
   }
 ]
