@@ -308,7 +308,33 @@
     "paceMi": "0:10:42",
     "raceWebsite": "https://www.philadelphiamarathon.com",
     "resultsWebsite": "https://www.mychiptime.com/searchevent.php?id=16897&utm_source=Philadelphia+Marathon+Weekend&utm_campaign=24c6b6a2f9-finisher-email-half-marathon-112324_COPY_01&utm_medium=email&utm_term=0_fa2559b911-24c6b6a2f9-362946019&mc_cid=24c6b6a2f9&mc_eid=9a60efcb93",
-    "stravaActivity": "https://www.strava.com/activities/16545904248",
+    "stravaActivity": "https://www.strava.com/activities/16545904248/overview",
     "personalBest": true
+  },
+     {
+    "name": "Dedham Ripples of Hope Turkey Trot (with Teddy)",
+    "date": "2025-11-27",
+    "distanceKm": 5,
+    "distanceMi": 3.1,
+    "time": "0:32:18",
+    "paceKm": "0:06:28",
+    "paceMi": "0:10:26",
+    "raceWebsite": "https://www.ripplesofhope.org/turkey-trot",
+    "resultsWebsite": "https://results.raceroster.com/v3/events/u6dc2nrjc65mcshb/race/220293/participant/w7s4prk2xvtywruq?filter_search=walker",
+    "stravaActivity": "https://www.strava.com/activities/16582059657/overview",
+    "personalBest": false
+  },
+     {
+    "name": "Lexington Legacy 5K",
+    "date": "2024-11-29",
+    "distanceKm": 5,
+    "distanceMi": 3.1,
+    "time": "0:26:29",
+    "paceKm": "0:05:18",
+    "paceMi": "0:08:33",
+    "raceWebsite": "https://www.lexingtonlegacy5k.com",
+    "resultsWebsite": "https://www.secondwindtiming.com/result-page/?id=366997",
+    "stravaActivity": "https://www.strava.com/activities/16600835044/overview",
+    "personalBest": false
   }
 ]
