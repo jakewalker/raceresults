@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jake Walker | Race Analytics</title>
+    <title>Jake Walker | Race Results</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -184,7 +184,7 @@
         <header>
             <div>
                 <h1>Jake Walker</h1>
-                <div class="subtitle">Race Performance Analytics</div>
+                <div class="subtitle">Race Results</div>
             </div>
             <div class="toggle-group">
                 <button class="toggle-btn" data-unit="km">Metric (km)</button>
@@ -192,20 +192,7 @@
             </div>
         </header>
 
-        <div class="dashboard-grid">
-            <section>
-                <div class="section-header">Upcoming Events</div>
-                <div class="data-panel" style="border:none; box-shadow:none; background:transparent;">
-                    <ul id="upcoming-list" class="simple-list"></ul>
-                </div>
-            </section>
-            <section>
-                <div class="section-header">Current Objectives</div>
-                <div class="data-panel" style="border:none; box-shadow:none; background:transparent;">
-                    <ul id="goals-list" class="simple-list"></ul>
-                </div>
-            </section>
-        </div>
+        
 
         <section>
             <div class="controls-bar">
@@ -231,6 +218,21 @@
                 </div>
             </div>
         </section>
+
+        <div class="dashboard-grid">
+            <section>
+                <div class="section-header">Upcoming Events</div>
+                <div class="data-panel" style="border:none; box-shadow:none; background:transparent;">
+                    <ul id="upcoming-list" class="simple-list"></ul>
+                </div>
+            </section>
+            <section>
+                <div class="section-header">Goals</div>
+                <div class="data-panel" style="border:none; box-shadow:none; background:transparent;">
+                    <ul id="goals-list" class="simple-list"></ul>
+                </div>
+            </section>
+        </div>
     </div>
 
     <script>
