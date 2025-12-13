@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jake Walker | Race Results</title>
+    <title>Jake Walker | Race Analytics</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -14,18 +14,13 @@
             --text-primary: #111827;
             --text-secondary: #6b7280;
             --border-color: #e5e7eb;
-            --primary-accent: #2563eb; /* Strong Blue */
+            --primary-accent: #2563eb;
             --highlight-bg: #eff6ff;
-            --pb-color: #d97706; /* Amber for PB */
+            --pb-color: #d97706;
             --pb-bg: #fffbeb;
-            --success-color: #10b981;
         }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
 
         body {
             font-family: 'Inter', -apple-system, sans-serif;
@@ -35,17 +30,13 @@
             padding: 2rem;
         }
 
-        /* Utility for Monospace Numbers (The "Analytical" Look) */
         .mono {
             font-family: 'JetBrains Mono', 'Courier New', monospace;
             font-variant-numeric: tabular-nums;
             font-size: 0.9rem;
         }
 
-        .container {
-            max-width: 1000px;
-            margin: 0 auto;
-        }
+        .container { max-width: 1000px; margin: 0 auto; }
 
         /* --- Header --- */
         header {
@@ -57,19 +48,10 @@
             padding-bottom: 1.5rem;
         }
 
-        h1 {
-            font-size: 1.75rem;
-            font-weight: 600;
-            letter-spacing: -0.02em;
-        }
+        h1 { font-size: 1.75rem; font-weight: 600; letter-spacing: -0.02em; }
+        .subtitle { color: var(--text-secondary); font-size: 0.95rem; margin-top: 0.25rem; }
 
-        .subtitle {
-            color: var(--text-secondary);
-            font-size: 0.95rem;
-            margin-top: 0.25rem;
-        }
-
-        /* --- Controls & Toggles --- */
+        /* --- Controls --- */
         .controls-bar {
             display: flex;
             justify-content: space-between;
@@ -104,11 +86,7 @@
             box-shadow: 0 1px 2px rgba(0,0,0,0.05);
         }
 
-        .filter-group {
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
-        }
+        .filter-group { display: flex; gap: 8px; flex-wrap: wrap; }
 
         .filter-chip {
             background: transparent;
@@ -121,68 +99,32 @@
             transition: all 0.2s;
         }
 
-        .filter-chip:hover {
-            border-color: var(--text-secondary);
-            color: var(--text-primary);
-        }
-
+        .filter-chip:hover { border-color: var(--text-secondary); color: var(--text-primary); }
         .filter-chip.active {
             background: var(--text-primary);
             color: white;
             border-color: var(--text-primary);
         }
 
-        /* --- Main Data Table --- */
+        /* --- Table --- */
         .data-panel {
             background: var(--surface-color);
             border: 1px solid var(--border-color);
             border-radius: 8px;
-            overflow: hidden; /* For rounded corners */
+            overflow: hidden;
             box-shadow: 0 1px 3px rgba(0,0,0,0.02);
             margin-bottom: 3rem;
         }
 
-        .table-wrapper {
-            width: 100%;
-            overflow-x: auto;
-        }
+        .table-wrapper { width: 100%; overflow-x: auto; }
+        table { width: 100%; border-collapse: collapse; font-size: 0.95rem; text-align: left; }
+        thead { background-color: #f9fafb; border-bottom: 1px solid var(--border-color); }
+        th { padding: 12px 16px; font-weight: 600; font-size: 0.8rem; text-transform: uppercase; color: var(--text-secondary); }
+        td { padding: 16px; border-bottom: 1px solid var(--border-color); vertical-align: middle; }
+        tr:last-child td { border-bottom: none; }
+        tr:hover td { background-color: #f8fafc; }
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 0.95rem;
-            text-align: left;
-        }
-
-        thead {
-            background-color: #f9fafb;
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        th {
-            padding: 12px 16px;
-            font-weight: 600;
-            font-size: 0.8rem;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            color: var(--text-secondary);
-        }
-
-        td {
-            padding: 16px;
-            border-bottom: 1px solid var(--border-color);
-            vertical-align: middle;
-        }
-
-        tr:last-child td {
-            border-bottom: none;
-        }
-
-        tr:hover td {
-            background-color: #f8fafc;
-        }
-
-        /* Column Specifics */
+        /* Columns */
         .col-date { width: 15%; color: var(--text-secondary); }
         .col-name { width: 35%; font-weight: 500; }
         .col-dist { width: 10%; }
@@ -190,172 +132,85 @@
         .col-pace { width: 15%; }
         .col-link { width: 10%; text-align: right; }
 
-        /* PB Styles within Table */
-        tr.is-pb td {
-            background-color: rgba(254, 243, 199, 0.15); /* Very faint yellow tint */
-        }
-        tr.is-pb .col-time {
-            color: var(--pb-color);
-            font-weight: 600;
-            position: relative;
-        }
+        /* PB Styles */
+        tr.is-pb td { background-color: rgba(254, 243, 199, 0.15); }
+        tr.is-pb .col-time { color: var(--pb-color); font-weight: 600; }
         tr.is-pb .col-time::after {
-            content: 'PB';
-            font-size: 0.65rem;
-            background: var(--pb-color);
-            color: white;
-            padding: 2px 4px;
-            border-radius: 3px;
-            margin-left: 8px;
-            vertical-align: middle;
-            font-family: 'Inter', sans-serif;
-            font-weight: 700;
+            content: 'PB'; font-size: 0.65rem; background: var(--pb-color); color: white;
+            padding: 2px 4px; border-radius: 3px; margin-left: 8px; vertical-align: middle; font-weight: 700;
         }
 
         /* Links */
-        .icon-link {
-            text-decoration: none;
-            color: var(--text-secondary);
-            font-size: 0.85rem;
-            margin-left: 10px;
-            transition: color 0.2s;
-        }
-        .icon-link:hover {
-            color: var(--primary-accent);
-        }
+        .icon-link { text-decoration: none; color: var(--text-secondary); font-size: 0.85rem; margin-left: 10px; }
+        .icon-link:hover { color: var(--primary-accent); }
+        .race-link-primary { text-decoration: none; color: inherit; }
+        .race-link-primary:hover { color: var(--primary-accent); text-decoration: underline; }
 
-        .race-link-primary {
-            text-decoration: none;
-            color: inherit;
-        }
-        .race-link-primary:hover {
-            color: var(--primary-accent);
-            text-decoration: underline;
-        }
-
-        /* --- Sections (Goals & Upcoming) --- */
-        .dashboard-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 2rem;
-            margin-bottom: 3rem;
-        }
-
+        /* --- Dashboard Grid --- */
+        .dashboard-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-bottom: 3rem; }
         .section-header {
-            font-size: 1rem;
-            font-weight: 600;
-            margin-bottom: 1rem;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            color: var(--text-secondary);
-            border-bottom: 2px solid var(--border-color);
-            padding-bottom: 0.5rem;
-            display: inline-block;
+            font-size: 1rem; font-weight: 600; margin-bottom: 1rem; text-transform: uppercase;
+            color: var(--text-secondary); border-bottom: 2px solid var(--border-color); padding-bottom: 0.5rem;
         }
-
-        .simple-list {
-            list-style: none;
-        }
-
-        .list-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 12px 0;
-            border-bottom: 1px solid var(--border-color);
-        }
-        
+        .simple-list { list-style: none; }
+        .list-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid var(--border-color); }
         .list-item:last-child { border-bottom: none; }
-
-        .list-main {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .list-title {
-            font-weight: 500;
-            font-size: 0.95rem;
-        }
-
-        .list-sub {
-            font-size: 0.85rem;
-            color: var(--text-secondary);
-        }
-
-        .status-badge {
-            font-size: 0.75rem;
-            padding: 2px 8px;
-            border-radius: 12px;
-            font-weight: 600;
-            background: #e5e7eb;
-            color: var(--text-secondary);
-        }
-        
+        .list-main { display: flex; flex-direction: column; }
+        .list-title { font-weight: 500; font-size: 0.95rem; }
+        .list-sub { font-size: 0.85rem; color: var(--text-secondary); }
+        .status-badge { font-size: 0.75rem; padding: 2px 8px; border-radius: 12px; font-weight: 600; background: #e5e7eb; color: var(--text-secondary); }
         .status-badge.in-progress { background: #dbeafe; color: #1e40af; }
         .status-badge.countdown { background: var(--highlight-bg); color: var(--primary-accent); }
+        .empty-state { padding: 3rem; text-align: center; color: var(--text-secondary); font-style: italic; }
 
-        .empty-state {
-            padding: 3rem;
-            text-align: center;
-            color: var(--text-secondary);
-            font-style: italic;
-        }
-
-        /* --- Mobile Responsive --- */
+        /* --- Mobile --- */
         @media (max-width: 768px) {
             body { padding: 1rem; }
-            
             .dashboard-grid { grid-template-columns: 1fr; gap: 2rem;}
-
-            /* Force table into a list view for mobile */
             thead { display: none; }
-            tr { 
-                display: flex; 
-                flex-direction: column; 
-                padding: 1rem; 
-                border-bottom: 1px solid var(--border-color);
-            }
-            td { 
-                padding: 4px 0; 
-                border: none; 
-                width: 100%; 
-                display: flex;
-                justify-content: space-between;
-            }
-            
-            /* Add labels for mobile */
+            tr { display: flex; flex-direction: column; padding: 1rem; border-bottom: 1px solid var(--border-color); }
+            td { padding: 4px 0; border: none; width: 100%; display: flex; justify-content: space-between; }
             td.col-date::before { content: 'Date'; color: var(--text-secondary); font-size: 0.85rem; }
             td.col-dist::before { content: 'Distance'; color: var(--text-secondary); font-size: 0.85rem; }
             td.col-time::before { content: 'Time'; color: var(--text-secondary); font-size: 0.85rem; }
             td.col-pace::before { content: 'Pace'; color: var(--text-secondary); font-size: 0.85rem; }
-            
-            /* Hide name label, make name big */
             td.col-name { font-size: 1.1rem; font-weight: 700; margin-bottom: 8px; display: block;}
             td.col-link { text-align: left; margin-top: 8px; }
         }
     </style>
 </head>
 <body>
-
     <div class="container">
         <header>
             <div>
                 <h1>Jake Walker</h1>
-                <div class="subtitle">Race Results</div>
+                <div class="subtitle">Race Performance Analytics</div>
             </div>
             <div class="toggle-group">
-                <button class="toggle-btn active" data-unit="km">Metric (km)</button>
-                <button class="toggle-btn" data-unit="mi">Imperial (mi)</button>
+                <button class="toggle-btn" data-unit="km">Metric (km)</button>
+                <button class="toggle-btn active" data-unit="mi">Imperial (mi)</button>
             </div>
         </header>
 
-        
+        <div class="dashboard-grid">
+            <section>
+                <div class="section-header">Upcoming Events</div>
+                <div class="data-panel" style="border:none; box-shadow:none; background:transparent;">
+                    <ul id="upcoming-list" class="simple-list"></ul>
+                </div>
+            </section>
+            <section>
+                <div class="section-header">Current Objectives</div>
+                <div class="data-panel" style="border:none; box-shadow:none; background:transparent;">
+                    <ul id="goals-list" class="simple-list"></ul>
+                </div>
+            </section>
+        </div>
 
         <section>
             <div class="controls-bar">
                 <div class="section-header" style="border:none; margin:0;">Race History</div>
-                <div id="filter-container" class="filter-group">
-                    </div>
+                <div id="filter-container" class="filter-group"></div>
             </div>
 
             <div class="data-panel">
@@ -371,47 +226,24 @@
                                 <th class="col-link">Data</th>
                             </tr>
                         </thead>
-                        <tbody id="race-table-body">
-                            </tbody>
+                        <tbody id="race-table-body"></tbody>
                     </table>
                 </div>
             </div>
         </section>
-
-        <div class="dashboard-grid">
-            
-            <section>
-                <div class="section-header">Upcoming Events</div>
-                <div class="data-panel" style="border:none; box-shadow:none; background:transparent;">
-                    <ul id="upcoming-list" class="simple-list">
-                        </ul>
-                </div>
-            </section>
-
-            <section>
-                <div class="section-header">Goals</div>
-                <div class="data-panel" style="border:none; box-shadow:none; background:transparent;">
-                    <ul id="goals-list" class="simple-list">
-                        </ul>
-                </div>
-            </section>
-        </div>
     </div>
 
     <script>
-        // --- Configuration & State ---
         let allRaceData = [];
-        let currentUnit = 'km';
+        let currentUnit = 'mi'; // Default to Imperial
         let currentFilter = 'all';
 
-        // Sample Goals (You can move these to JSON if preferred)
         const goalsData = [
-            { text: "Sub 25 minute 5K", status: "TBD" },
-            { text: "Sub 2:00 Half Marathon", status: "TBD" },
-            { text: "PR London Marathon (< 4:40)", status: "TBD" }
+            { text: "Sub 25 minute 5K", status: "In Progress" },
+            { text: "Sub 2:00 Half Marathon", status: "In Progress" },
+            { text: "PR London Marathon (< 4:40)", status: "Planning" }
         ];
 
-        // --- Fetch Data ---
         async function loadRaceData() {
             try {
                 const response = await fetch('races.json');
@@ -420,11 +252,10 @@
                 initDashboard();
             } catch (error) {
                 console.error(error);
-                document.getElementById('race-table-body').innerHTML = `<tr><td colspan="6" class="empty-state">Error loading race data. Ensure races.json is in the folder.</td></tr>`;
+                document.getElementById('race-table-body').innerHTML = `<tr><td colspan="6" class="empty-state">Error loading race data.</td></tr>`;
             }
         }
 
-        // --- Core Helpers ---
         const formatDate = (dateStr) => {
             const date = new Date(dateStr + 'T00:00:00');
             return date.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
@@ -436,12 +267,30 @@
         const getDisplayDist = (r) => {
             if (isMarathon(r)) return 'Marathon';
             if (isHalf(r)) return 'Half Mar';
-            return currentUnit === 'km' ? `${r.distanceKm}k` : `${r.distanceMi}m`;
+            return currentUnit === 'km' ? `${r.distanceKm}k` : `${r.distanceMi}mi`;
         };
 
         const getPace = (r) => currentUnit === 'km' ? r.paceKm : r.paceMi;
 
-        // --- Rendering ---
+        // FIXED: Helper function for strict numeric sorting
+        function getSortValue(distStr) {
+            // Specific values for the named distances
+            if (distStr === 'Marathon') return 42.2;
+            if (distStr === 'Half Mar') return 21.1;
+            
+            // Handle "11.3k", "5k"
+            if (distStr.endsWith('k')) {
+                return parseFloat(distStr); // Returns 11.3, 5, etc.
+            }
+            
+            // Handle "3.1mi", "6.2mi" -> convert to approx KM for consistent comparison
+            if (distStr.endsWith('mi')) {
+                return parseFloat(distStr) * 1.609; 
+            }
+            
+            // Fallback
+            return parseFloat(distStr) || 0;
+        }
 
         function renderGoals() {
             const container = document.getElementById('goals-list');
@@ -470,7 +319,6 @@
                 const raceDate = new Date(r.date + 'T00:00:00');
                 const diffTime = Math.abs(raceDate - today);
                 const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
-                
                 return `
                 <li class="list-item">
                     <div class="list-main">
@@ -491,9 +339,8 @@
             const today = new Date().setHours(0,0,0,0);
             const completed = data
                 .filter(r => new Date(r.date + 'T00:00:00') < today)
-                .sort((a, b) => new Date(b.date) - new Date(a.date)); // Newest first
+                .sort((a, b) => new Date(b.date) - new Date(a.date));
 
-            // Apply Filter
             const filtered = currentFilter === 'all' 
                 ? completed 
                 : completed.filter(r => getDisplayDist(r) === currentFilter);
@@ -507,15 +354,13 @@
                 const tr = document.createElement('tr');
                 if (r.personalBest) tr.classList.add('is-pb');
 
-                // Name Cell (Logic for Link)
                 const nameHtml = r.raceWebsite 
                     ? `<a href="${r.raceWebsite}" class="race-link-primary" target="_blank">${r.name}</a>` 
                     : r.name;
 
-                // Action Links
                 let linksHtml = '';
                 if (r.stravaActivity) linksHtml += `<a href="${r.stravaActivity}" class="icon-link" title="Strava" target="_blank">Strava</a>`;
-                if (r.resultsWebsite) linksHtml += `<a href="${r.resultsWebsite}" class="icon-link" title="Official Results" target="_blank">Results</a>`;
+                if (r.resultsWebsite) linksHtml += `<a href="${r.resultsWebsite}" class="icon-link" title="Results" target="_blank">Results</a>`;
 
                 tr.innerHTML = `
                     <td class="col-date mono">${formatDate(r.date)}</td>
@@ -535,12 +380,15 @@
             const completed = allRaceData.filter(r => new Date(r.date + 'T00:00:00') < today);
             
             // Get unique distances
-            const dists = [...new Set(completed.map(r => getDisplayDist(r)))].sort();
+            const dists = [...new Set(completed.map(r => getDisplayDist(r)))];
             
-            // Basic "All" Button
+            // Sort NUMERICALLY (Smallest distance first)
+            dists.sort((a, b) => {
+                return getSortValue(a) - getSortValue(b);
+            });
+            
             let html = `<button class="filter-chip ${currentFilter === 'all' ? 'active' : ''}" onclick="setFilter('all')">All</button>`;
             
-            // Distance Buttons
             dists.forEach(d => {
                 html += `<button class="filter-chip ${currentFilter === d ? 'active' : ''}" onclick="setFilter('${d}')">${d}</button>`;
             });
@@ -548,30 +396,23 @@
             container.innerHTML = html;
         }
 
-        // --- Interaction ---
         window.setFilter = (filter) => {
             currentFilter = filter;
-            createFilters(); // Re-render buttons to update active state
+            createFilters(); 
             renderTable(allRaceData);
         };
 
         document.querySelectorAll('.toggle-btn').forEach(btn => {
             btn.addEventListener('click', (e) => {
-                // UI Toggle
                 document.querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('active'));
                 e.target.classList.add('active');
-                
-                // State Update
                 currentUnit = e.target.dataset.unit;
-                
-                // Refresh
-                createFilters(); // Filters might change names (10km vs 6.2mi)
+                createFilters();
                 renderTable(allRaceData);
-                renderUpcoming(); // Distance labels change here too
+                renderUpcoming();
             });
         });
 
-        // --- Init ---
         function initDashboard() {
             renderGoals();
             renderUpcoming();
@@ -580,7 +421,6 @@
         }
 
         loadRaceData();
-
     </script>
 </body>
 </html>
