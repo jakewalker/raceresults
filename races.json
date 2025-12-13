@@ -336,5 +336,44 @@
     "resultsWebsite": "https://www.secondwindtiming.com/result-page/?id=366997",
     "stravaActivity": "https://www.strava.com/activities/16600835044/overview",
     "personalBest": false
+  },
+    {
+    "name": "Seaside Santa Dash",
+    "date": "2025-12-20",
+    "distanceKm": 10,
+    "distanceMi": 6.2,
+    "time": "",
+    "paceKm": "",
+    "paceMi": "",
+    "raceWebsite": "https://runsignup.com/Race/ME/Kennebunk/SeasideSantaDash",
+    "resultsWebsite": "",
+    "stravaActivity": "",
+    "personalBest": false
+  },
+    {
+    "name": "Disney World Dopey Challenge",
+    "date": "2026-01-08",
+    "distanceKm": 78.3,
+    "distanceMi": 48.6,
+    "time": "",
+    "paceKm": "",
+    "paceMi": "",
+    "raceWebsite": "https://www.rundisney.com/events/disneyworld/disneyworld-marathon-weekend/",
+    "resultsWebsite": "",
+    "stravaActivity": "",
+    "personalBest": false
+  },
+    {
+    "name": "London Marathon",
+    "date": "2026-04-26",
+    "distanceKm": 42.2,
+    "distanceMi": 26.2,
+    "time": "",
+    "paceKm": "",
+    "paceMi": "",
+    "raceWebsite": "https://www.londonmarathonevents.co.uk/london-marathon",
+    "resultsWebsite": "",
+    "stravaActivity": "",
+    "personalBest": false
   }
 ]
