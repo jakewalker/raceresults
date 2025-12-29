@@ -338,17 +338,17 @@
     "personalBest": false
   },
     {
-    "name": "Seaside Santa Dash",
+    "name": "Seaside Santa Dash (Short Course, 5.9 mi)",
     "date": "2025-12-20",
     "distanceKm": 10,
     "distanceMi": 6.2,
-    "time": "",
-    "paceKm": "",
-    "paceMi": "",
+    "time": "0:51:22",
+    "paceKm": "0:05:24",
+    "paceMi": "0:08:42",
     "raceWebsite": "https://runsignup.com/Race/ME/Kennebunk/SeasideSantaDash",
-    "resultsWebsite": "",
+    "resultsWebsite": "https://www.secondwindtiming.com/result-page/?id=366999#2_50D290",
     "stravaActivity": "",
-    "personalBest": false
+    "personalBest": true
   },
     {
     "name": "Disney World Dopey Challenge",
