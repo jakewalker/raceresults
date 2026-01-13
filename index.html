@@ -9,7 +9,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-color: #f8f9fa;
+            --bg-color: #f3f4f6; /* Slightly darker bg for contrast with cards */
             --surface-color: #ffffff;
             --text-primary: #111827;
             --text-secondary: #6b7280;
@@ -46,6 +46,8 @@
             align-items: flex-end;
             border-bottom: 1px solid var(--border-color);
             padding-bottom: 1.5rem;
+            flex-wrap: wrap;
+            gap: 1rem;
         }
 
         h1 { font-size: 1.75rem; font-weight: 600; letter-spacing: -0.02em; }
@@ -97,9 +99,10 @@
             color: var(--text-secondary);
             cursor: pointer;
             transition: all 0.2s;
+            white-space: nowrap; /* Prevent text wrapping inside chip */
         }
 
-        .filter-chip:hover { border-color: var(--text-secondary); color: var(--text-primary); }
+        .filter-chip:hover { border-color: var(--text-secondary); color: var(--text-primary); background: white; }
         .filter-chip.active {
             background: var(--text-primary);
             color: white;
@@ -163,19 +166,150 @@
         .status-badge.countdown { background: var(--highlight-bg); color: var(--primary-accent); }
         .empty-state { padding: 3rem; text-align: center; color: var(--text-secondary); font-style: italic; }
 
-        /* --- Mobile --- */
+        /* --- MOBILE OPTIMIZATIONS --- */
         @media (max-width: 768px) {
-            body { padding: 1rem; }
-            .dashboard-grid { grid-template-columns: 1fr; gap: 2rem;}
+            body { padding: 1rem; background-color: #f3f4f6; } /* Use gray bg to make white cards pop */
+
+            /* Header - Stack title and toggles */
+            header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+                margin-bottom: 1.5rem;
+            }
+            .toggle-group { width: 100%; display: flex; }
+            .toggle-btn { flex: 1; text-align: center; padding: 8px; }
+
+            /* Filters - Horizontal Scroll */
+            .controls-bar { margin-bottom: 1rem; gap: 0.5rem; display: block; }
+            .section-header.mobile-hidden { display: none; } /* Hide "Race History" text on mobile to save space */
+            
+            .filter-group {
+                flex-wrap: nowrap;
+                overflow-x: auto;
+                padding-bottom: 4px;
+                /* Hide scrollbar but allow scroll */
+                -ms-overflow-style: none;  
+                scrollbar-width: none;
+                /* Fade effect on edges roughly handled by padding */
+                margin-right: -1rem; /* Bleed to edge */
+                padding-right: 1rem;
+            }
+            .filter-group::-webkit-scrollbar { display: none; }
+
+            /* Dashboard - Stack columns */
+            .dashboard-grid { grid-template-columns: 1fr; gap: 2rem; margin-bottom: 2rem; }
+            
+            /* --- The "Card" Transformation --- */
+            .data-panel { background: transparent; border: none; box-shadow: none; overflow: visible; }
+            .table-wrapper { overflow: visible; }
+            table { display: block; }
             thead { display: none; }
-            tr { display: flex; flex-direction: column; padding: 1rem; border-bottom: 1px solid var(--border-color); }
-            td { padding: 4px 0; border: none; width: 100%; display: flex; justify-content: space-between; }
-            td.col-date::before { content: 'Date'; color: var(--text-secondary); font-size: 0.85rem; }
-            td.col-dist::before { content: 'Distance'; color: var(--text-secondary); font-size: 0.85rem; }
-            td.col-time::before { content: 'Time'; color: var(--text-secondary); font-size: 0.85rem; }
-            td.col-pace::before { content: 'Pace'; color: var(--text-secondary); font-size: 0.85rem; }
-            td.col-name { font-size: 1.1rem; font-weight: 700; margin-bottom: 8px; display: block;}
-            td.col-link { text-align: left; margin-top: 8px; }
+            tbody { display: block; }
+
+            tr {
+                display: grid;
+                grid-template-columns: 1fr 1fr; /* 2 Columns */
+                gap: 0.5rem 1rem; /* Row gap, Col gap */
+                
+                background: white;
+                padding: 1.25rem;
+                border-radius: 12px;
+                box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+                border: 1px solid rgba(0,0,0,0.05);
+                margin-bottom: 1rem;
+                position: relative;
+            }
+
+            /* Reset standard cell styles */
+            td { padding: 0; border: none; width: auto; display: block; }
+            tr:hover td { background-color: transparent; }
+            tr:last-child td { border-bottom: none; }
+
+            /* Labels */
+            td::before {
+                content: attr(data-label); /* Requires slight HTML tweak or class-based content below */
+                display: block;
+                font-size: 0.7rem;
+                text-transform: uppercase;
+                letter-spacing: 0.05em;
+                color: var(--text-secondary);
+                font-weight: 600;
+                margin-bottom: 2px;
+            }
+
+            /* 1. Event Name (Full Width) */
+            td.col-name {
+                grid-column: 1 / -1;
+                font-size: 1.1rem;
+                font-weight: 600;
+                margin-bottom: 0.5rem;
+                border-bottom: 1px solid var(--border-color);
+                padding-bottom: 0.75rem;
+                order: 1;
+            }
+            td.col-name::before { display: none; }
+
+            /* 2. Date (Row 2, Col 1) */
+            td.col-date { grid-column: 1; order: 2; }
+            td.col-date::before { content: 'Date'; }
+
+            /* 3. Distance (Row 2, Col 2) */
+            td.col-dist { grid-column: 2; order: 3; }
+            td.col-dist::before { content: 'Distance'; }
+
+            /* 4. Time (Row 3, Col 1) */
+            td.col-time { grid-column: 1; order: 4; margin-top: 0.5rem; }
+            td.col-time::before { content: 'Time'; }
+
+            /* 5. Pace (Row 3, Col 2) */
+            td.col-pace { grid-column: 2; order: 5; margin-top: 0.5rem; }
+            td.col-pace::before { content: 'Pace'; }
+
+            /* 6. Links (Full Width Footer) */
+            td.col-link {
+                grid-column: 1 / -1;
+                order: 6;
+                margin-top: 0.75rem;
+                padding-top: 0.75rem;
+                border-top: 1px dashed var(--border-color);
+                display: flex;
+                justify-content: flex-end;
+                gap: 1rem;
+            }
+            td.col-link::before { display: none; }
+            
+            /* Larger tap targets for links */
+            .icon-link {
+                margin-left: 0;
+                padding: 6px 12px;
+                background: #f0f9ff;
+                color: var(--primary-accent);
+                border-radius: 6px;
+                font-weight: 500;
+            }
+
+            /* PB Styling adjustments for card */
+            tr.is-pb { 
+                background: white; 
+                border: 1px solid var(--pb-color); 
+                position: relative; 
+                overflow: hidden;
+            }
+            tr.is-pb::after {
+                content: "PB";
+                position: absolute;
+                top: 0; right: 0;
+                background: var(--pb-color);
+                color: white;
+                font-size: 0.7rem;
+                font-weight: 700;
+                padding: 4px 8px;
+                border-bottom-left-radius: 8px;
+            }
+            /* Hide the small pill inside the time cell since we have the corner badge */
+            tr.is-pb .col-time::after { display: none; }
+            tr.is-pb td { background-color: transparent; }
         }
     </style>
 </head>
@@ -192,11 +326,9 @@
             </div>
         </header>
 
-        
-
         <section>
             <div class="controls-bar">
-                <div class="section-header" style="border:none; margin:0;">Race History</div>
+                <div class="section-header mobile-hidden" style="border:none; margin:0;">Race History</div>
                 <div id="filter-container" class="filter-group"></div>
             </div>
 
@@ -274,23 +406,11 @@
 
         const getPace = (r) => currentUnit === 'km' ? r.paceKm : r.paceMi;
 
-        // FIXED: Helper function for strict numeric sorting
         function getSortValue(distStr) {
-            // Specific values for the named distances
             if (distStr === 'Marathon') return 42.2;
             if (distStr === 'Half Mar') return 21.1;
-            
-            // Handle "11.3k", "5k"
-            if (distStr.endsWith('k')) {
-                return parseFloat(distStr); // Returns 11.3, 5, etc.
-            }
-            
-            // Handle "3.1mi", "6.2mi" -> convert to approx KM for consistent comparison
-            if (distStr.endsWith('mi')) {
-                return parseFloat(distStr) * 1.609; 
-            }
-            
-            // Fallback
+            if (distStr.endsWith('k')) return parseFloat(distStr);
+            if (distStr.endsWith('mi')) return parseFloat(distStr) * 1.609; 
             return parseFloat(distStr) || 0;
         }
 
@@ -363,6 +483,8 @@
                 let linksHtml = '';
                 if (r.stravaActivity) linksHtml += `<a href="${r.stravaActivity}" class="icon-link" title="Strava" target="_blank">Strava</a>`;
                 if (r.resultsWebsite) linksHtml += `<a href="${r.resultsWebsite}" class="icon-link" title="Results" target="_blank">Results</a>`;
+                // Add an empty space if no links to maintain layout height in grid if needed, though grid handles it well.
+                if (!linksHtml) linksHtml = '<span style="color:var(--text-secondary); font-size:0.8rem;">No Data</span>';
 
                 tr.innerHTML = `
                     <td class="col-date mono">${formatDate(r.date)}</td>
@@ -381,13 +503,9 @@
             const today = new Date().setHours(0,0,0,0);
             const completed = allRaceData.filter(r => new Date(r.date + 'T00:00:00') < today);
             
-            // Get unique distances
             const dists = [...new Set(completed.map(r => getDisplayDist(r)))];
             
-            // Sort NUMERICALLY (Smallest distance first)
-            dists.sort((a, b) => {
-                return getSortValue(a) - getSortValue(b);
-            });
+            dists.sort((a, b) => getSortValue(a) - getSortValue(b));
             
             let html = `<button class="filter-chip ${currentFilter === 'all' ? 'active' : ''}" onclick="setFilter('all')">All</button>`;
             
