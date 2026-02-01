@@ -449,6 +449,12 @@
             margin-bottom: 3rem;
         }
 
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 1.5rem;
+        }
+
         .stats-card {
             background: var(--surface-color);
             border: 1px solid var(--border-color);
@@ -520,6 +526,37 @@
         .stat-number.highlight {
             color: var(--primary-accent);
             font-weight: 600;
+        }
+
+        /* Summary stats for totals card */
+        .summary-stats {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .summary-stat-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .summary-stat-row:last-child {
+            border-bottom: none;
+        }
+
+        .summary-stat-label {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+        }
+
+        .summary-stat-value {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-primary);
         }
 
         /* --- MOBILE OPTIMIZATIONS --- */
@@ -627,6 +664,10 @@
             }
 
             /* Stats section mobile */
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
             .stats-table {
                 font-size: 0.8rem;
             }
@@ -837,13 +878,6 @@
             <div id="pb-grid" class="pb-grid"></div>
         </section>
 
-        <!-- Race Statistics Section -->
-        <section class="stats-section">
-            <div class="section-header">Race Statistics</div>
-            <div class="stats-card">
-                <div id="stats-by-year" class="table-wrapper"></div>
-            </div>
-        </section>
         
 
         <!-- Race History Section -->
@@ -1095,23 +1129,11 @@
             if (Math.abs(r.distanceKm - 10) < 0.5) return '10K';
             if (Math.abs(r.distanceKm - 5) < 0.5) return '5K';
             if (Math.abs(r.distanceKm - 1.6) < 0.2) return '1 Mile';
-            // For other distances, respect the unit toggle
-            return currentUnit === 'km' ? `${r.distanceKm}K` : `${r.distanceMi}mi`;
-        }
-
-        function getDistanceSortValue(category) {
-            if (category === '1 Mile') return 1.6;
-            if (category === '5K') return 5;
-            if (category === '10K') return 10;
-            if (category === 'Half Marathon') return 21.1;
-            if (category === 'Marathon') return 42.2;
-            // Parse numeric value from category string
-            if (category.endsWith('K')) return parseFloat(category);
-            if (category.endsWith('mi')) return parseFloat(category) * 1.609;
-            return parseFloat(category) || 0;
+            return `${r.distanceKm}K`;
         }
 
         function renderStatistics() {
+            const totalsContainer = document.getElementById('stats-totals');
             const byYearContainer = document.getElementById('stats-by-year');
             const today = new Date().setHours(0,0,0,0);
 
@@ -1119,16 +1141,25 @@
             const completed = allRaceData.filter(r => new Date(r.date + 'T00:00:00') < today);
 
             if (completed.length === 0) {
-                byYearContainer.innerHTML = '<div class="empty-state">No completed races yet.</div>';
+                totalsContainer.innerHTML = '<div class="empty-state">No completed races yet.</div>';
+                byYearContainer.innerHTML = '';
                 return;
             }
 
             // Get unique distance categories and years
+            const distanceOrder = ['1 Mile', '5K', '10K', 'Half Marathon', 'Marathon'];
             const allCategories = completed.map(r => getDistanceCategory(r));
             const uniqueCategories = [...new Set(allCategories)];
 
-            // Sort categories by distance using actual km values
-            uniqueCategories.sort((a, b) => getDistanceSortValue(a) - getDistanceSortValue(b));
+            // Sort categories by distance
+            uniqueCategories.sort((a, b) => {
+                const aIdx = distanceOrder.indexOf(a);
+                const bIdx = distanceOrder.indexOf(b);
+                if (aIdx !== -1 && bIdx !== -1) return aIdx - bIdx;
+                if (aIdx !== -1) return -1;
+                if (bIdx !== -1) return 1;
+                return getSortValue(a) - getSortValue(b);
+            });
 
             const years = [...new Set(completed.map(r => new Date(r.date).getFullYear()))].sort((a, b) => b - a);
 
@@ -1151,6 +1182,24 @@
                 const cat = getDistanceCategory(r);
                 countsByYearAndDistance[year][cat]++;
             });
+
+            // Render totals summary
+            let totalsHtml = '';
+            uniqueCategories.forEach(cat => {
+                totalsHtml += `
+                    <div class="summary-stat-row">
+                        <span class="summary-stat-label">${cat}</span>
+                        <span class="summary-stat-value">${totalsByDistance[cat]}</span>
+                    </div>
+                `;
+            });
+            totalsHtml += `
+                <div class="summary-stat-row" style="border-top: 2px solid var(--border-color); margin-top: 0.5rem; padding-top: 1rem;">
+                    <span class="summary-stat-label" style="font-weight: 600; color: var(--text-primary);">Total Races</span>
+                    <span class="summary-stat-value highlight" style="color: var(--primary-accent);">${completed.length}</span>
+                </div>
+            `;
+            totalsContainer.innerHTML = totalsHtml;
 
             // Render by-year table
             let tableHtml = '<table class="stats-table"><thead><tr><th>Distance</th>';
@@ -1192,7 +1241,6 @@
                 e.target.classList.add('active');
                 currentUnit = e.target.dataset.unit;
                 renderPersonalBests();
-                renderStatistics();
                 createFilters();
                 renderTable(allRaceData);
                 renderUpcoming();
