@@ -444,6 +444,121 @@
             font-size: 0.9rem;
         }
 
+        /* --- Race Statistics Section --- */
+        .stats-section {
+            margin-bottom: 3rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 1.5rem;
+        }
+
+        .stats-card {
+            background: var(--surface-color);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: var(--card-shadow);
+        }
+
+        .stats-card .section-header {
+            margin-bottom: 1rem;
+        }
+
+        .stats-card .section-header::after {
+            display: none;
+        }
+
+        .stats-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.85rem;
+        }
+
+        .stats-table th,
+        .stats-table td {
+            padding: 10px 12px;
+            text-align: center;
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .stats-table th {
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-secondary);
+            background: var(--border-light);
+        }
+
+        .stats-table th:first-child,
+        .stats-table td:first-child {
+            text-align: left;
+            font-weight: 500;
+        }
+
+        .stats-table td:first-child {
+            color: var(--text-primary);
+        }
+
+        .stats-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .stats-table .total-row td {
+            font-weight: 600;
+            background: var(--border-light);
+            border-top: 2px solid var(--border-color);
+        }
+
+        .stats-table .mono {
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .stat-number {
+            display: inline-block;
+            min-width: 24px;
+            color: var(--text-secondary);
+        }
+
+        .stat-number.highlight {
+            color: var(--primary-accent);
+            font-weight: 600;
+        }
+
+        /* Summary stats for totals card */
+        .summary-stats {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .summary-stat-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .summary-stat-row:last-child {
+            border-bottom: none;
+        }
+
+        .summary-stat-label {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+        }
+
+        .summary-stat-value {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
         /* --- MOBILE OPTIMIZATIONS --- */
         @media (max-width: 768px) {
             body {
@@ -546,6 +661,25 @@
 
             .dashboard-card {
                 padding: 1.25rem;
+            }
+
+            /* Stats section mobile */
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-table {
+                font-size: 0.8rem;
+            }
+
+            .stats-table th,
+            .stats-table td {
+                padding: 8px 6px;
+            }
+
+            .stats-card {
+                padding: 1.25rem;
+                overflow-x: auto;
             }
 
             /* --- Card Transformation for Race History --- */
@@ -742,6 +876,21 @@
         <section class="pb-section">
             <div class="section-header">Personal Bests</div>
             <div id="pb-grid" class="pb-grid"></div>
+        </section>
+
+        <!-- Race Statistics Section -->
+        <section class="stats-section">
+            <div class="section-header">Race Statistics</div>
+            <div class="stats-grid">
+                <div class="stats-card">
+                    <div class="section-header">Totals</div>
+                    <div id="stats-totals" class="summary-stats"></div>
+                </div>
+                <div class="stats-card">
+                    <div class="section-header">Races by Year</div>
+                    <div id="stats-by-year" class="table-wrapper"></div>
+                </div>
+            </div>
         </section>
 
         <!-- Race History Section -->
@@ -972,6 +1121,112 @@
             container.innerHTML = html;
         }
 
+        function getDistanceCategory(r) {
+            if (isMarathon(r)) return 'Marathon';
+            if (isHalf(r)) return 'Half Marathon';
+            if (Math.abs(r.distanceKm - 10) < 0.5) return '10K';
+            if (Math.abs(r.distanceKm - 5) < 0.5) return '5K';
+            if (Math.abs(r.distanceKm - 1.6) < 0.2) return '1 Mile';
+            return `${r.distanceKm}K`;
+        }
+
+        function renderStatistics() {
+            const totalsContainer = document.getElementById('stats-totals');
+            const byYearContainer = document.getElementById('stats-by-year');
+            const today = new Date().setHours(0,0,0,0);
+
+            // Only count completed races
+            const completed = allRaceData.filter(r => new Date(r.date + 'T00:00:00') < today);
+
+            if (completed.length === 0) {
+                totalsContainer.innerHTML = '<div class="empty-state">No completed races yet.</div>';
+                byYearContainer.innerHTML = '';
+                return;
+            }
+
+            // Get unique distance categories and years
+            const distanceOrder = ['1 Mile', '5K', '10K', 'Half Marathon', 'Marathon'];
+            const allCategories = completed.map(r => getDistanceCategory(r));
+            const uniqueCategories = [...new Set(allCategories)];
+
+            // Sort categories by distance
+            uniqueCategories.sort((a, b) => {
+                const aIdx = distanceOrder.indexOf(a);
+                const bIdx = distanceOrder.indexOf(b);
+                if (aIdx !== -1 && bIdx !== -1) return aIdx - bIdx;
+                if (aIdx !== -1) return -1;
+                if (bIdx !== -1) return 1;
+                return getSortValue(a) - getSortValue(b);
+            });
+
+            const years = [...new Set(completed.map(r => new Date(r.date).getFullYear()))].sort((a, b) => b - a);
+
+            // Calculate totals by distance
+            const totalsByDistance = {};
+            uniqueCategories.forEach(cat => totalsByDistance[cat] = 0);
+            completed.forEach(r => {
+                const cat = getDistanceCategory(r);
+                totalsByDistance[cat]++;
+            });
+
+            // Calculate counts by year and distance
+            const countsByYearAndDistance = {};
+            years.forEach(year => {
+                countsByYearAndDistance[year] = {};
+                uniqueCategories.forEach(cat => countsByYearAndDistance[year][cat] = 0);
+            });
+            completed.forEach(r => {
+                const year = new Date(r.date).getFullYear();
+                const cat = getDistanceCategory(r);
+                countsByYearAndDistance[year][cat]++;
+            });
+
+            // Render totals summary
+            let totalsHtml = '';
+            uniqueCategories.forEach(cat => {
+                totalsHtml += `
+                    <div class="summary-stat-row">
+                        <span class="summary-stat-label">${cat}</span>
+                        <span class="summary-stat-value">${totalsByDistance[cat]}</span>
+                    </div>
+                `;
+            });
+            totalsHtml += `
+                <div class="summary-stat-row" style="border-top: 2px solid var(--border-color); margin-top: 0.5rem; padding-top: 1rem;">
+                    <span class="summary-stat-label" style="font-weight: 600; color: var(--text-primary);">Total Races</span>
+                    <span class="summary-stat-value highlight" style="color: var(--primary-accent);">${completed.length}</span>
+                </div>
+            `;
+            totalsContainer.innerHTML = totalsHtml;
+
+            // Render by-year table
+            let tableHtml = '<table class="stats-table"><thead><tr><th>Distance</th>';
+            years.forEach(year => {
+                tableHtml += `<th>${year}</th>`;
+            });
+            tableHtml += '<th>Total</th></tr></thead><tbody>';
+
+            uniqueCategories.forEach(cat => {
+                tableHtml += `<tr><td>${cat}</td>`;
+                years.forEach(year => {
+                    const count = countsByYearAndDistance[year][cat];
+                    tableHtml += `<td class="mono"><span class="stat-number${count > 0 ? ' highlight' : ''}">${count || '-'}</span></td>`;
+                });
+                tableHtml += `<td class="mono"><span class="stat-number highlight">${totalsByDistance[cat]}</span></td></tr>`;
+            });
+
+            // Add total row
+            tableHtml += '<tr class="total-row"><td>Total</td>';
+            years.forEach(year => {
+                const yearTotal = Object.values(countsByYearAndDistance[year]).reduce((a, b) => a + b, 0);
+                tableHtml += `<td class="mono"><span class="stat-number highlight">${yearTotal}</span></td>`;
+            });
+            tableHtml += `<td class="mono"><span class="stat-number highlight">${completed.length}</span></td></tr>`;
+
+            tableHtml += '</tbody></table>';
+            byYearContainer.innerHTML = tableHtml;
+        }
+
         window.setFilter = (filter) => {
             currentFilter = filter;
             createFilters();
@@ -992,6 +1247,7 @@
 
         function initDashboard() {
             renderPersonalBests();
+            renderStatistics();
             renderGoals();
             renderUpcoming();
             createFilters();
