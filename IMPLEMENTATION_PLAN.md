@@ -99,27 +99,11 @@ raceresults-app/
 
 ## Phase 0: Prerequisites & Account Setup
 
-### Time estimate: 1-2 hours
+### Time estimate: 30 minutes
 
-### Step 0.1: Install Required Software
+**Good news:** You don't need to install anything on your computer. Everything runs in the browser.
 
-You'll need these installed on your computer:
-
-**Node.js** (JavaScript runtime - like PHP but for JS)
-- Download from: https://nodejs.org
-- Choose the LTS (Long Term Support) version
-- Verify installation: open terminal, run `node --version`
-
-**Git** (version control)
-- You may already have this
-- Verify: run `git --version`
-- If not installed: https://git-scm.com/downloads
-
-**A code editor**
-- Recommended: VS Code (https://code.visualstudio.com)
-- Has great support for JavaScript/TypeScript
-
-### Step 0.2: Create Accounts
+### Step 0.1: Create Accounts
 
 Create accounts on these services (all have generous free tiers):
 
@@ -140,7 +124,7 @@ Create accounts on these services (all have generous free tiers):
    - Sign up for free account
    - This manages your DNS
 
-### Step 0.3: Buy Your Domain
+### Step 0.2: Buy Your Domain
 
 Purchase `raceresults.site` from any registrar:
 - **Porkbun** - Often cheapest, good UI
@@ -148,6 +132,23 @@ Purchase `raceresults.site` from any registrar:
 - **Cloudflare Registrar** - At-cost pricing, already integrated
 
 Don't configure anything yet - we'll set up DNS later.
+
+### Step 0.3: Understanding GitHub Codespaces
+
+**GitHub Codespaces** is VS Code running in your browser. It's like having a development computer in the cloud.
+
+- Node.js, Git, and all tools are pre-installed
+- You get 60 free hours/month (plenty for this project)
+- Your code saves automatically to GitHub
+- You can close the browser and come back later - your work persists
+
+**How it works:**
+1. Create a repository on GitHub
+2. Click "Code" button → "Codespaces" → "Create codespace"
+3. Wait ~30 seconds for it to spin up
+4. You're now in a full development environment
+
+We'll set this up in Phase 2 after creating the database.
 
 ---
 
@@ -321,32 +322,44 @@ CREATE OR REPLACE TRIGGER on_auth_user_created
 
 ### Time estimate: 1-2 hours
 
-### Step 2.1: Create New Project
+### Step 2.1: Create the GitHub Repository
 
-Open your terminal and run:
+1. Go to https://github.com/new
+2. Fill in:
+   - **Repository name:** `raceresults-app`
+   - **Description:** "Multi-tenant race results tracker"
+   - **Visibility:** Public (or Private, your choice)
+   - **Initialize:** Check "Add a README file"
+3. Click "Create repository"
+
+### Step 2.2: Open in GitHub Codespaces
+
+1. On your new repository page, click the green **Code** button
+2. Click the **Codespaces** tab
+3. Click **Create codespace on main**
+4. Wait 30-60 seconds for it to set up
+
+You're now in VS Code in your browser! The terminal at the bottom is where you'll run commands.
+
+### Step 2.3: Create the Next.js Project
+
+In the Codespaces terminal (bottom of screen), run:
 
 ```bash
-# Create a new Next.js app
-npx create-next-app@latest raceresults-app
+# Create a new Next.js app in the current directory
+npx create-next-app@latest . --typescript --tailwind --eslint --app --no-src-dir --import-alias "@/*"
 
-# When prompted, choose:
-# ✔ Would you like to use TypeScript? Yes
-# ✔ Would you like to use ESLint? Yes
-# ✔ Would you like to use Tailwind CSS? Yes
-# ✔ Would you like to use `src/` directory? No
-# ✔ Would you like to use App Router? Yes
-# ✔ Would you like to customize the default import alias? No
-
-# Go into the project
-cd raceresults-app
+# When asked "The directory . is not empty. Continue?" type: y
 
 # Install Supabase libraries
 npm install @supabase/supabase-js @supabase/ssr
 ```
 
-### Step 2.2: Set Up Environment Variables
+### Step 2.4: Set Up Environment Variables
 
-Create a file called `.env.local` in your project root:
+1. In the Codespaces file explorer (left sidebar), right-click and select **New File**
+2. Name it `.env.local`
+3. Add these contents (replace with your actual values from Step 1.5):
 
 ```bash
 # Supabase (get these from Step 1.5)
@@ -357,11 +370,28 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key-here
 NEXT_PUBLIC_ROOT_DOMAIN=raceresults.site
 ```
 
-**Important:** The `.env.local` file is gitignored by default - it won't be uploaded to GitHub. You'll add these same values to Vercel later.
+4. Save the file (Ctrl+S or Cmd+S)
 
-### Step 2.3: Create Supabase Client
+**Note:** This file is gitignored - it stays local to your Codespace and won't be uploaded to GitHub (which is correct for security). You'll add these same values to Vercel later.
 
-Create `lib/supabase.ts`:
+### Step 2.5: Test Your App Locally
+
+In the terminal, run:
+
+```bash
+npm run dev
+```
+
+Codespaces will show a popup: "Your application running on port 3000 is available." Click **Open in Browser** to see your app running.
+
+You can leave this running while you work. Press Ctrl+C in the terminal to stop it.
+
+### Step 2.6: Create Supabase Client
+
+In Codespaces:
+1. Right-click in the file explorer → **New Folder** → name it `lib`
+2. Right-click on the `lib` folder → **New File** → name it `supabase.ts`
+3. Paste this code:
 
 ```typescript
 import { createBrowserClient } from '@supabase/ssr'
@@ -374,7 +404,7 @@ export function createClient() {
 }
 ```
 
-Create `lib/supabase-server.ts`:
+Now create another file in the `lib` folder called `supabase-server.ts`:
 
 ```typescript
 import { createServerClient, type CookieOptions } from '@supabase/ssr'
@@ -406,9 +436,9 @@ export async function createServerSupabaseClient() {
 }
 ```
 
-### Step 2.4: Create Subdomain Middleware
+### Step 2.7: Create Subdomain Middleware
 
-Create `middleware.ts` in the project root:
+Create a new file called `middleware.ts` in the project root (same level as `package.json`, not inside any folder):
 
 ```typescript
 import { NextResponse } from 'next/server'
@@ -449,11 +479,11 @@ export const config = {
 }
 ```
 
-### Step 2.5: Create Basic Pages
+### Step 2.8: Create Basic Pages
 
-I'll outline the key files you need to create. Each file goes in the `app/` directory.
+Now create the page files. The `app/` folder already exists from the Next.js setup.
 
-**app/page.tsx** - Landing page:
+**Replace `app/page.tsx`** (this file already exists - click on it and replace the contents):
 
 ```tsx
 import Link from 'next/link'
@@ -489,7 +519,12 @@ export default function HomePage() {
 }
 ```
 
-**app/user/[username]/page.tsx** - Public profile page:
+**Create `app/user/[username]/page.tsx`** - Public profile page:
+
+1. Right-click on `app` folder → **New Folder** → name it `user`
+2. Right-click on `user` folder → **New Folder** → name it `[username]` (yes, with the brackets!)
+3. Right-click on `[username]` folder → **New File** → name it `page.tsx`
+4. Paste this code:
 
 ```tsx
 import { createServerSupabaseClient } from '@/lib/supabase-server'
@@ -545,7 +580,19 @@ export default async function UserProfilePage({ params }: Props) {
 }
 ```
 
-### Step 2.6: Port Your Existing UI Components
+### Step 2.9: Commit Your Changes
+
+Before moving on, let's save your work to GitHub:
+
+1. Click the **Source Control** icon in the left sidebar (looks like a branch/fork)
+2. You'll see a list of changed files
+3. Type a message in the text box: "Initial Next.js setup with Supabase"
+4. Click the **Commit** button (checkmark icon)
+5. Click **Sync Changes** to push to GitHub
+
+Do this regularly as you work - it's like saving your progress.
+
+### Step 2.10: Port Your Existing UI Components
 
 You'll want to convert your existing HTML/CSS/JS into React components. The structure will be:
 
@@ -1209,19 +1256,17 @@ function formatPace(secondsPerUnit: number): string {
 
 ### Time estimate: 30 minutes - 1 hour
 
-### Step 5.1: Push to GitHub
+### Step 5.1: Make Sure Everything is Committed
 
-```bash
-# In your project directory
-git init
-git add .
-git commit -m "Initial commit"
+Before deploying, make sure all your changes are saved to GitHub:
 
-# Create repo on GitHub, then:
-git remote add origin https://github.com/YOUR_USERNAME/raceresults-app.git
-git branch -M main
-git push -u origin main
-```
+1. In Codespaces, click the **Source Control** icon (left sidebar)
+2. If there are any uncommitted changes, commit them:
+   - Add a message like "Ready for deployment"
+   - Click **Commit**
+   - Click **Sync Changes**
+
+Your code is already on GitHub since you've been working in Codespaces - no extra steps needed!
 
 ### Step 5.2: Connect to Vercel
 
@@ -1302,12 +1347,9 @@ Or build a one-time import feature in the dashboard that reads your existing `ra
 
 ## Summary Checklist
 
-### Phase 0: Setup (1-2 hours)
-- [ ] Install Node.js
-- [ ] Install Git
-- [ ] Install VS Code
+### Phase 0: Setup (30 mins)
 - [ ] Create GitHub account
-- [ ] Create Vercel account
+- [ ] Create Vercel account (sign up with GitHub)
 - [ ] Create Supabase account
 - [ ] Create Cloudflare account
 - [ ] Buy domain (raceresults.site)
@@ -1319,17 +1361,21 @@ Or build a one-time import feature in the dashboard that reads your existing `ra
 - [ ] Note down API keys
 
 ### Phase 2: Next.js App (1-2 hours)
-- [ ] Create Next.js project
+- [ ] Create GitHub repository
+- [ ] Open in GitHub Codespaces
+- [ ] Run create-next-app
 - [ ] Install Supabase libraries
 - [ ] Set up environment variables
 - [ ] Create Supabase client files
 - [ ] Create middleware for subdomains
 - [ ] Create basic pages
+- [ ] Commit and sync changes
 
 ### Phase 3: Authentication (2-3 hours)
 - [ ] Create signup page
 - [ ] Create login page
 - [ ] Test user creation
+- [ ] Commit and sync changes
 
 ### Phase 4: Dashboard (4-6 hours)
 - [ ] Create dashboard layout
@@ -1337,11 +1383,13 @@ Or build a one-time import feature in the dashboard that reads your existing `ra
 - [ ] Create add race form
 - [ ] Create edit race form
 - [ ] Port existing UI components
+- [ ] Commit and sync changes
 
 ### Phase 5: Deploy (30 mins - 1 hour)
-- [ ] Push to GitHub
-- [ ] Deploy on Vercel
-- [ ] Configure custom domain
+- [ ] Connect Vercel to your GitHub repo
+- [ ] Add environment variables in Vercel
+- [ ] Deploy
+- [ ] Configure custom domain in Vercel
 - [ ] Set up Cloudflare DNS
 - [ ] Update Supabase URLs
 
@@ -1356,12 +1404,15 @@ Or build a one-time import feature in the dashboard that reads your existing `ra
 | Item | Monthly Cost |
 |------|--------------|
 | Domain (raceresults.site) | ~$1/mo ($10-15/year) |
+| GitHub Codespaces | $0 (60 free hours/month) |
 | Vercel (free tier) | $0 |
 | Supabase (free tier) | $0 |
 | Cloudflare (free tier) | $0 |
 | **Total** | **~$1/month** |
 
 Free tiers are generous enough for hundreds of users. You'd only need to upgrade if the app becomes very popular.
+
+**Note on Codespaces:** 60 hours/month is plenty for this project. If you're actively developing, remember to stop your Codespace when you're done for the day (click your avatar → "Stop Codespace"). It auto-stops after 30 minutes of inactivity anyway.
 
 ---
 
