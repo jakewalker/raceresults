@@ -909,16 +909,7 @@
 <!-- Race Statistics Section -->
         <section class="stats-section">
             <div class="section-header">Race Statistics</div>
-            <div class="stats-grid">
-                <div class="stats-card">
-                    <div class="section-header">Totals</div>
-                    <div id="stats-totals" class="summary-stats"></div>
-                </div>
-                <div class="stats-card">
-                    <div class="section-header">Races by Year</div>
-                    <div id="stats-by-year" class="table-wrapper"></div>
-                </div>
-            </div>
+            <div id="stats-by-year" class="table-wrapper"></div>
         </section>
         
         <div class="dashboard-grid">
@@ -985,7 +976,12 @@
 
         function getSortValue(distStr) {
             if (distStr === 'Marathon') return 42.2;
+            if (distStr === 'Half Marathon') return 21.1;
             if (distStr === 'Half Mar') return 21.1;
+            if (distStr === '10K') return 10;
+            if (distStr === '5K') return 5;
+            if (distStr === '1 Mile') return 1.6;
+            if (distStr.endsWith('K')) return parseFloat(distStr);
             if (distStr.endsWith('k')) return parseFloat(distStr);
             if (distStr.endsWith('mi')) return parseFloat(distStr) * 1.609;
             return parseFloat(distStr) || 0;
@@ -1129,11 +1125,10 @@
             if (Math.abs(r.distanceKm - 10) < 0.5) return '10K';
             if (Math.abs(r.distanceKm - 5) < 0.5) return '5K';
             if (Math.abs(r.distanceKm - 1.6) < 0.2) return '1 Mile';
-            return `${r.distanceKm}K`;
+            return currentUnit === 'km' ? `${r.distanceKm}K` : `${r.distanceMi} mi`;
         }
 
         function renderStatistics() {
-            const totalsContainer = document.getElementById('stats-totals');
             const byYearContainer = document.getElementById('stats-by-year');
             const today = new Date().setHours(0,0,0,0);
 
@@ -1141,25 +1136,16 @@
             const completed = allRaceData.filter(r => new Date(r.date + 'T00:00:00') < today);
 
             if (completed.length === 0) {
-                totalsContainer.innerHTML = '<div class="empty-state">No completed races yet.</div>';
-                byYearContainer.innerHTML = '';
+                byYearContainer.innerHTML = '<div class="empty-state">No completed races yet.</div>';
                 return;
             }
 
             // Get unique distance categories and years
-            const distanceOrder = ['1 Mile', '5K', '10K', 'Half Marathon', 'Marathon'];
             const allCategories = completed.map(r => getDistanceCategory(r));
             const uniqueCategories = [...new Set(allCategories)];
 
-            // Sort categories by distance
-            uniqueCategories.sort((a, b) => {
-                const aIdx = distanceOrder.indexOf(a);
-                const bIdx = distanceOrder.indexOf(b);
-                if (aIdx !== -1 && bIdx !== -1) return aIdx - bIdx;
-                if (aIdx !== -1) return -1;
-                if (bIdx !== -1) return 1;
-                return getSortValue(a) - getSortValue(b);
-            });
+            // Sort categories by distance value
+            uniqueCategories.sort((a, b) => getSortValue(a) - getSortValue(b));
 
             const years = [...new Set(completed.map(r => new Date(r.date).getFullYear()))].sort((a, b) => b - a);
 
@@ -1182,24 +1168,6 @@
                 const cat = getDistanceCategory(r);
                 countsByYearAndDistance[year][cat]++;
             });
-
-            // Render totals summary
-            let totalsHtml = '';
-            uniqueCategories.forEach(cat => {
-                totalsHtml += `
-                    <div class="summary-stat-row">
-                        <span class="summary-stat-label">${cat}</span>
-                        <span class="summary-stat-value">${totalsByDistance[cat]}</span>
-                    </div>
-                `;
-            });
-            totalsHtml += `
-                <div class="summary-stat-row" style="border-top: 2px solid var(--border-color); margin-top: 0.5rem; padding-top: 1rem;">
-                    <span class="summary-stat-label" style="font-weight: 600; color: var(--text-primary);">Total Races</span>
-                    <span class="summary-stat-value highlight" style="color: var(--primary-accent);">${completed.length}</span>
-                </div>
-            `;
-            totalsContainer.innerHTML = totalsHtml;
 
             // Render by-year table
             let tableHtml = '<table class="stats-table"><thead><tr><th>Distance</th>';
@@ -1244,6 +1212,7 @@
                 createFilters();
                 renderTable(allRaceData);
                 renderUpcoming();
+                renderStatistics();
             });
         });
 
