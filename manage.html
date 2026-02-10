@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Races | Jake Walker</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #f8fafc;
+            --surface-color: #ffffff;
+            --text-primary: #0f172a;
+            --text-secondary: #64748b;
+            --text-muted: #94a3b8;
+            --border-color: #e2e8f0;
+            --border-light: #f1f5f9;
+            --primary-accent: #3b82f6;
+            --primary-accent-hover: #2563eb;
+            --danger-color: #ef4444;
+            --danger-hover: #dc2626;
+            --success-color: #10b981;
+            --success-hover: #059669;
+            --pb-color: #f59e0b;
+            --pb-bg: #fffbeb;
+            --card-shadow: 0 1px 3px rgba(0,0,0,0.04), 0 1px 2px rgba(0,0,0,0.06);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            line-height: 1.6;
+            padding: 2rem;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .container { max-width: 1200px; margin: 0 auto; }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .header-left a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        .header-left a:hover { color: var(--primary-accent); }
+
+        h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: -0.025em;
+        }
+
+        .header-actions { display: flex; gap: 0.5rem; }
+
+        .btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            font-family: inherit;
+        }
+
+        .btn-primary {
+            background: var(--primary-accent);
+            color: white;
+        }
+
+        .btn-primary:hover { background: var(--primary-accent-hover); }
+
+        .btn-success {
+            background: var(--success-color);
+            color: white;
+        }
+
+        .btn-success:hover { background: var(--success-hover); }
+
+        .btn-danger {
+            background: var(--danger-color);
+            color: white;
+        }
+
+        .btn-danger:hover { background: var(--danger-hover); }
+
+        .btn-secondary {
+            background: var(--surface-color);
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+        }
+
+        .btn-secondary:hover { background: var(--border-light); }
+
+        .btn-sm {
+            padding: 4px 10px;
+            font-size: 0.75rem;
+        }
+
+        /* Toast notification */
+        .toast {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: var(--text-primary);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Form section */
+        .form-section {
+            background: var(--surface-color);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--card-shadow);
+        }
+
+        .form-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.25rem;
+        }
+
+        .form-header h2 {
+            font-size: 1rem;
+            font-weight: 600;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .form-group.full-width {
+            grid-column: 1 / -1;
+        }
+
+        .form-group label {
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-secondary);
+        }
+
+        .form-group input,
+        .form-group select {
+            padding: 8px 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            font-size: 0.875rem;
+            font-family: inherit;
+            color: var(--text-primary);
+            background: var(--surface-color);
+            transition: border-color 0.15s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--primary-accent);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        .form-group input[readonly] {
+            background: var(--border-light);
+            color: var(--text-secondary);
+        }
+
+        .distance-presets {
+            display: flex;
+            gap: 4px;
+            margin-top: 4px;
+        }
+
+        .preset-btn {
+            padding: 2px 8px;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            background: var(--surface-color);
+            font-size: 0.7rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+
+        .preset-btn:hover {
+            background: var(--primary-accent);
+            color: white;
+            border-color: var(--primary-accent);
+        }
+
+        .checkbox-group {
+            flex-direction: row;
+            align-items: center;
+            gap: 8px;
+            padding-top: 1.5rem;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: var(--pb-color);
+        }
+
+        .checkbox-group label {
+            text-transform: none;
+            font-size: 0.875rem;
+            color: var(--text-primary);
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        /* Table section */
+        .table-section {
+            background: var(--surface-color);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--card-shadow);
+        }
+
+        .table-wrapper {
+            width: 100%;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.85rem;
+        }
+
+        thead { background-color: var(--border-light); }
+
+        th {
+            padding: 12px 16px;
+            font-weight: 600;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-secondary);
+            text-align: left;
+            white-space: nowrap;
+        }
+
+        td {
+            padding: 10px 16px;
+            border-bottom: 1px solid var(--border-light);
+            vertical-align: middle;
+            white-space: nowrap;
+        }
+
+        tr:last-child td { border-bottom: none; }
+
+        tbody tr { transition: background-color 0.15s ease; }
+        tbody tr:hover td { background-color: var(--border-light); }
+
+        tr.is-pb td { background-color: var(--pb-bg); }
+        tr.is-pb:hover td { background-color: #fef3c7; }
+
+        .mono {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+        }
+
+        .pb-badge {
+            font-size: 0.6rem;
+            background: var(--pb-color);
+            color: white;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: 700;
+            margin-left: 6px;
+        }
+
+        .upcoming-badge {
+            font-size: 0.6rem;
+            background: var(--primary-accent);
+            color: white;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: 700;
+            margin-left: 6px;
+        }
+
+        .row-actions {
+            display: flex;
+            gap: 4px;
+        }
+
+        .url-indicator {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            margin-right: 2px;
+        }
+
+        .url-indicator.has-url { background: var(--success-color); }
+        .url-indicator.no-url { background: var(--border-color); }
+
+        .race-count {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            padding: 12px 16px;
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        @media (max-width: 768px) {
+            body { padding: 1rem; }
+
+            header {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .header-actions {
+                flex-wrap: wrap;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .checkbox-group {
+                padding-top: 0;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="header-left">
+                <div>
+                    <h1>Manage Races</h1>
+                    <a href="index.html">&larr; Back to Race Results</a>
+                </div>
+            </div>
+            <div class="header-actions">
+                <button class="btn btn-secondary" onclick="downloadJSON()">Download JSON</button>
+                <button class="btn btn-primary" onclick="copyJSON()">Copy to Clipboard</button>
+            </div>
+        </header>
+
+        <section class="form-section">
+            <div class="form-header">
+                <h2 id="form-title">Add New Race</h2>
+                <button class="btn btn-secondary btn-sm" id="cancel-edit-btn" onclick="cancelEdit()" style="display:none;">Cancel Edit</button>
+            </div>
+            <form id="race-form" onsubmit="handleSubmit(event)">
+                <div class="form-grid">
+                    <div class="form-group" style="grid-column: span 2;">
+                        <label for="name">Race Name</label>
+                        <input type="text" id="name" required placeholder="e.g. Boston Marathon">
+                    </div>
+                    <div class="form-group">
+                        <label for="date">Date</label>
+                        <input type="date" id="date" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="distanceKm">Distance (km)</label>
+                        <input type="number" id="distanceKm" step="0.1" required placeholder="e.g. 5.0" oninput="onDistanceKmChange()">
+                        <div class="distance-presets">
+                            <button type="button" class="preset-btn" onclick="setDistance(1.6, 1.0)">Mile</button>
+                            <button type="button" class="preset-btn" onclick="setDistance(5, 3.1)">5K</button>
+                            <button type="button" class="preset-btn" onclick="setDistance(10, 6.2)">10K</button>
+                            <button type="button" class="preset-btn" onclick="setDistance(21.1, 13.1)">Half</button>
+                            <button type="button" class="preset-btn" onclick="setDistance(42.2, 26.2)">Full</button>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="distanceMi">Distance (mi)</label>
+                        <input type="number" id="distanceMi" step="0.1" required placeholder="e.g. 3.1" oninput="onDistanceMiChange()">
+                    </div>
+                    <div class="form-group">
+                        <label for="time">Finish Time (H:MM:SS)</label>
+                        <input type="text" id="time" placeholder="e.g. 0:25:30" oninput="calculatePaces()">
+                    </div>
+                    <div class="form-group">
+                        <label for="paceKm">Pace /km</label>
+                        <input type="text" id="paceKm" readonly placeholder="Auto-calculated">
+                    </div>
+                    <div class="form-group">
+                        <label for="paceMi">Pace /mi</label>
+                        <input type="text" id="paceMi" readonly placeholder="Auto-calculated">
+                    </div>
+                    <div class="form-group">
+                        <label for="raceWebsite">Race Website</label>
+                        <input type="url" id="raceWebsite" placeholder="https://...">
+                    </div>
+                    <div class="form-group">
+                        <label for="resultsWebsite">Results URL</label>
+                        <input type="url" id="resultsWebsite" placeholder="https://...">
+                    </div>
+                    <div class="form-group">
+                        <label for="stravaActivity">Strava Activity URL</label>
+                        <input type="url" id="stravaActivity" placeholder="https://...">
+                    </div>
+                    <div class="form-group checkbox-group">
+                        <input type="checkbox" id="personalBest">
+                        <label for="personalBest">Personal Best</label>
+                    </div>
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-success" id="submit-btn">Add Race</button>
+                </div>
+            </form>
+        </section>
+
+        <section class="table-section">
+            <div id="race-count" class="race-count"></div>
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Name</th>
+                            <th>Dist</th>
+                            <th>Time</th>
+                            <th>Pace /km</th>
+                            <th>Pace /mi</th>
+                            <th>Links</th>
+                            <th>PB</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="race-table-body"></tbody>
+                </table>
+            </div>
+        </section>
+    </div>
+
+    <div id="toast" class="toast"></div>
+
+    <script>
+        let races = [];
+        let editingIndex = -1;
+
+        async function loadRaces() {
+            try {
+                const response = await fetch('races.json');
+                if (!response.ok) throw new Error('Failed to load races.json');
+                races = await response.json();
+                renderTable();
+            } catch (error) {
+                console.error(error);
+                showToast('Error loading races.json');
+            }
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2500);
+        }
+
+        // --- Time/Pace helpers ---
+
+        const parseTime = (str) => {
+            if (!str || !str.trim()) return null;
+            const parts = str.trim().split(':').map(Number);
+            if (parts.length === 3) return parts[0] * 3600 + parts[1] * 60 + parts[2];
+            if (parts.length === 2) return parts[0] * 60 + parts[1];
+            return null;
+        };
+
+        const formatTime = (totalSeconds) => {
+            if (totalSeconds == null || isNaN(totalSeconds)) return '';
+            const h = Math.floor(totalSeconds / 3600);
+            const m = Math.floor((totalSeconds % 3600) / 60);
+            const s = Math.round(totalSeconds % 60);
+            return `${h}:${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+        };
+
+        function calculatePaces() {
+            const timeStr = document.getElementById('time').value;
+            const distKm = parseFloat(document.getElementById('distanceKm').value);
+            const distMi = parseFloat(document.getElementById('distanceMi').value);
+            const totalSeconds = parseTime(timeStr);
+
+            if (totalSeconds && distKm > 0) {
+                document.getElementById('paceKm').value = formatTime(totalSeconds / distKm);
+            } else {
+                document.getElementById('paceKm').value = '';
+            }
+
+            if (totalSeconds && distMi > 0) {
+                document.getElementById('paceMi').value = formatTime(totalSeconds / distMi);
+            } else {
+                document.getElementById('paceMi').value = '';
+            }
+        }
+
+        // --- Distance helpers ---
+
+        function setDistance(km, mi) {
+            document.getElementById('distanceKm').value = km;
+            document.getElementById('distanceMi').value = mi;
+            calculatePaces();
+        }
+
+        function onDistanceKmChange() {
+            const km = parseFloat(document.getElementById('distanceKm').value);
+            if (!isNaN(km)) {
+                document.getElementById('distanceMi').value = Math.round(km * 0.621371 * 10) / 10;
+            }
+            calculatePaces();
+        }
+
+        function onDistanceMiChange() {
+            const mi = parseFloat(document.getElementById('distanceMi').value);
+            if (!isNaN(mi)) {
+                document.getElementById('distanceKm').value = Math.round(mi * 1.60934 * 10) / 10;
+            }
+            calculatePaces();
+        }
+
+        // --- Form handling ---
+
+        function handleSubmit(e) {
+            e.preventDefault();
+
+            const race = {
+                name: document.getElementById('name').value.trim(),
+                date: document.getElementById('date').value,
+                distanceKm: parseFloat(document.getElementById('distanceKm').value),
+                distanceMi: parseFloat(document.getElementById('distanceMi').value),
+                time: document.getElementById('time').value.trim(),
+                paceKm: document.getElementById('paceKm').value.trim(),
+                paceMi: document.getElementById('paceMi').value.trim(),
+                raceWebsite: document.getElementById('raceWebsite').value.trim(),
+                resultsWebsite: document.getElementById('resultsWebsite').value.trim(),
+                stravaActivity: document.getElementById('stravaActivity').value.trim(),
+                personalBest: document.getElementById('personalBest').checked
+            };
+
+            if (editingIndex >= 0) {
+                races[editingIndex] = race;
+                showToast('Race updated');
+                cancelEdit();
+            } else {
+                races.push(race);
+                showToast('Race added');
+                document.getElementById('race-form').reset();
+            }
+
+            renderTable();
+        }
+
+        function editRace(index) {
+            const r = races[index];
+            editingIndex = index;
+
+            document.getElementById('name').value = r.name;
+            document.getElementById('date').value = r.date;
+            document.getElementById('distanceKm').value = r.distanceKm;
+            document.getElementById('distanceMi').value = r.distanceMi;
+            document.getElementById('time').value = r.time;
+            document.getElementById('paceKm').value = r.paceKm;
+            document.getElementById('paceMi').value = r.paceMi;
+            document.getElementById('raceWebsite').value = r.raceWebsite;
+            document.getElementById('resultsWebsite').value = r.resultsWebsite;
+            document.getElementById('stravaActivity').value = r.stravaActivity;
+            document.getElementById('personalBest').checked = r.personalBest;
+
+            document.getElementById('form-title').textContent = 'Edit Race';
+            document.getElementById('submit-btn').textContent = 'Save Changes';
+            document.getElementById('cancel-edit-btn').style.display = '';
+            document.getElementById('name').focus();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function cancelEdit() {
+            editingIndex = -1;
+            document.getElementById('race-form').reset();
+            document.getElementById('form-title').textContent = 'Add New Race';
+            document.getElementById('submit-btn').textContent = 'Add Race';
+            document.getElementById('cancel-edit-btn').style.display = 'none';
+        }
+
+        function deleteRace(index) {
+            const r = races[index];
+            if (!confirm(`Delete "${r.name}" (${r.date})?`)) return;
+            races.splice(index, 1);
+            if (editingIndex === index) cancelEdit();
+            else if (editingIndex > index) editingIndex--;
+            renderTable();
+            showToast('Race deleted');
+        }
+
+        // --- Table rendering ---
+
+        function renderTable() {
+            const tbody = document.getElementById('race-table-body');
+            const today = new Date().toISOString().split('T')[0];
+
+            const sorted = races
+                .map((r, i) => ({ ...r, _origIndex: i }))
+                .sort((a, b) => b.date.localeCompare(a.date));
+
+            document.getElementById('race-count').textContent = `${races.length} race${races.length !== 1 ? 's' : ''}`;
+
+            tbody.innerHTML = sorted.map(r => {
+                const isUpcoming = r.date >= today && !r.time;
+                const linkDots = [
+                    `<span class="url-indicator ${r.raceWebsite ? 'has-url' : 'no-url'}" title="Race website: ${r.raceWebsite || 'none'}"></span>`,
+                    `<span class="url-indicator ${r.resultsWebsite ? 'has-url' : 'no-url'}" title="Results: ${r.resultsWebsite || 'none'}"></span>`,
+                    `<span class="url-indicator ${r.stravaActivity ? 'has-url' : 'no-url'}" title="Strava: ${r.stravaActivity || 'none'}"></span>`
+                ].join('');
+
+                return `<tr class="${r.personalBest ? 'is-pb' : ''}">
+                    <td class="mono">${r.date}</td>
+                    <td>${r.name}${isUpcoming ? '<span class="upcoming-badge">UPCOMING</span>' : ''}${r.personalBest ? '<span class="pb-badge">PB</span>' : ''}</td>
+                    <td class="mono">${r.distanceKm}km</td>
+                    <td class="mono">${r.time || '-'}</td>
+                    <td class="mono">${r.paceKm || '-'}</td>
+                    <td class="mono">${r.paceMi || '-'}</td>
+                    <td>${linkDots}</td>
+                    <td>${r.personalBest ? 'Yes' : ''}</td>
+                    <td class="row-actions">
+                        <button class="btn btn-secondary btn-sm" onclick="editRace(${r._origIndex})">Edit</button>
+                        <button class="btn btn-danger btn-sm" onclick="deleteRace(${r._origIndex})">Del</button>
+                    </td>
+                </tr>`;
+            }).join('');
+        }
+
+        // --- Export ---
+
+        function generateJSON() {
+            return JSON.stringify(races, null, 2) + '\n';
+        }
+
+        function downloadJSON() {
+            const blob = new Blob([generateJSON()], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'races.json';
+            a.click();
+            URL.revokeObjectURL(url);
+            showToast('Downloaded races.json');
+        }
+
+        function copyJSON() {
+            navigator.clipboard.writeText(generateJSON()).then(() => {
+                showToast('Copied to clipboard');
+            }).catch(() => {
+                showToast('Failed to copy');
+            });
+        }
+
+        loadRaces();
+    </script>
+</body>
+</html>
