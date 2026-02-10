@@ -7,7 +7,8 @@ Personal race results tracking website for Jake Walker. A static single-page app
 ## Project Structure
 
 ```
-index.html    - Entire SPA (HTML + embedded CSS + embedded JavaScript)
+index.html    - SPA (HTML + embedded JavaScript)
+styles.css    - All CSS styles (linked from index.html)
 races.json    - Race data (JSON array of race objects)
 CNAME         - GitHub Pages custom domain config
 .nojekyll     - Disables Jekyll processing on GitHub Pages
@@ -52,4 +53,4 @@ Each race object:
 - **JavaScript:** camelCase functions/variables, `const`/`let` (no `var`), semicolons required, template literals for string interpolation, arrow functions for callbacks
 - **CSS:** CSS custom properties (variables) defined on `:root`, kebab-case class names (e.g., `.pb-card`, `.filter-chip`), mobile breakpoints at 768px and 480px
 - **HTML:** semantic HTML5 elements, `data-*` attributes for configuration, kebab-case class names
-- All CSS and JS are embedded in `index.html` — do not split into separate files
+- CSS lives in `styles.css`, JS is embedded in `index.html`
