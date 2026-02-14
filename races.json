@@ -1,5 +1,5 @@
 [
-{
+  {
     "name": "Maine Half Marathon",
     "date": "2011-10-02",
     "distanceKm": 21.1,
@@ -132,7 +132,7 @@
   {
     "name": "Great Bear Run 5K",
     "date": "2025-05-18",
-    "distanceKm": 5.0,
+    "distanceKm": 5,
     "distanceMi": 3.1,
     "time": "0:28:20",
     "paceKm": "0:05:40",
@@ -146,7 +146,7 @@
     "name": "Great Bear Run Mile",
     "date": "2025-05-18",
     "distanceKm": 1.6,
-    "distanceMi": 1.0,
+    "distanceMi": 1,
     "time": "0:08:03",
     "paceKm": "0:06:40",
     "paceMi": "0:08:03",
@@ -155,7 +155,7 @@
     "stravaActivity": "https://www.strava.com/activities/14520991299/overview",
     "personalBest": false
   },
-    {
+  {
     "name": "Portland Old Port Half Marathon",
     "date": "2025-06-07",
     "distanceKm": 21.1,
@@ -168,10 +168,10 @@
     "stravaActivity": "https://www.strava.com/activities/14723963734",
     "personalBest": false
   },
-     {
+  {
     "name": "Cambridge Summer Classic 5K (with Teddy)",
     "date": "2025-06-29",
-    "distanceKm": 5.0,
+    "distanceKm": 5,
     "distanceMi": 3.1,
     "time": "0:37:28",
     "paceKm": "0:07:30",
@@ -181,10 +181,10 @@
     "stravaActivity": "https://www.strava.com/activities/14953399712/overview",
     "personalBest": false
   },
-    {
+  {
     "name": "Needham Independence Day 5K",
     "date": "2025-07-04",
-    "distanceKm": 5.0,
+    "distanceKm": 5,
     "distanceMi": 3.1,
     "time": "0:26:04",
     "paceKm": "0:05:13",
@@ -194,10 +194,10 @@
     "stravaActivity": "https://www.strava.com/activities/15004204262/overview",
     "personalBest": true
   },
-     {
+  {
     "name": "Run to Home Base 5K (with Teddy)",
     "date": "2025-07-26",
-    "distanceKm": 5.0,
+    "distanceKm": 5,
     "distanceMi": 3.1,
     "time": "0:36:50",
     "paceKm": "0:07:22",
@@ -207,10 +207,10 @@
     "stravaActivity": "https://www.strava.com/activities/15242978002",
     "personalBest": false
   },
-    {
+  {
     "name": "BAA Carson Beach Shoreline 5K",
     "date": "2025-08-07",
-    "distanceKm": 5.0,
+    "distanceKm": 5,
     "distanceMi": 3.1,
     "time": "0:26:28",
     "paceKm": "0:05:18",
@@ -220,11 +220,11 @@
     "stravaActivity": "https://www.strava.com/activities/15381864477",
     "personalBest": false
   },
-     {
+  {
     "name": "Falmouth Road Race",
     "date": "2025-08-17",
     "distanceKm": 11.3,
-    "distanceMi": 7.0,
+    "distanceMi": 7,
     "time": "1:11:21",
     "paceKm": "0:06:19",
     "paceMi": "0:10:12",
@@ -233,10 +233,10 @@
     "stravaActivity": "https://www.strava.com/activities/15490781968",
     "personalBest": false
   },
-    {
+  {
     "name": "Boston Irish Cultural Center 5K",
     "date": "2025-09-14",
-    "distanceKm": 5.0,
+    "distanceKm": 5,
     "distanceMi": 3.1,
     "time": "0:26:45",
     "paceKm": "0:05:21",
@@ -246,10 +246,10 @@
     "stravaActivity": "https://www.strava.com/activities/15809605731",
     "personalBest": false
   },
-     {
+  {
     "name": "Cambridge Fall Classic 5K (with Teddy)",
     "date": "2025-10-05",
-    "distanceKm": 5.0,
+    "distanceKm": 5,
     "distanceMi": 3.1,
     "time": "0:30:47",
     "paceKm": "0:06:09",
@@ -259,7 +259,7 @@
     "stravaActivity": "https://www.strava.com/activities/16042352244/overview",
     "personalBest": false
   },
-     {
+  {
     "name": "Chicago Marathon",
     "date": "2025-10-12",
     "distanceKm": 42.2,
@@ -272,7 +272,7 @@
     "stravaActivity": "https://www.strava.com/activities/16120871981/overview",
     "personalBest": false
   },
-     {
+  {
     "name": "Disney World Wine & Dine Half Marathon (workout)",
     "date": "2025-10-26",
     "distanceKm": 21.1,
@@ -285,11 +285,11 @@
     "stravaActivity": "https://www.strava.com/activities/16260892614/overview",
     "personalBest": false
   },
-     {
+  {
     "name": "Falmouth In The Fall",
     "date": "2025-11-02",
     "distanceKm": 11.3,
-    "distanceMi": 7.0,
+    "distanceMi": 7,
     "time": "1:02:40",
     "paceKm": "0:05:33",
     "paceMi": "0:08:58",
@@ -298,7 +298,7 @@
     "stravaActivity": "https://www.strava.com/activities/16334411578/overview",
     "personalBest": true
   },
-     {
+  {
     "name": "Philadelphia Marathon",
     "date": "2025-11-23",
     "distanceKm": 42.2,
@@ -311,7 +311,7 @@
     "stravaActivity": "https://www.strava.com/activities/16545904248/overview",
     "personalBest": true
   },
-     {
+  {
     "name": "Dedham Ripples of Hope Turkey Trot (with Teddy)",
     "date": "2025-11-27",
     "distanceKm": 5,
@@ -324,7 +324,7 @@
     "stravaActivity": "https://www.strava.com/activities/16582059657/overview",
     "personalBest": false
   },
-     {
+  {
     "name": "Lexington Legacy 5K",
     "date": "2025-11-29",
     "distanceKm": 5,
@@ -337,7 +337,7 @@
     "stravaActivity": "https://www.strava.com/activities/16600835044/overview",
     "personalBest": false
   },
-    {
+  {
     "name": "Seaside Santa Dash (Short Course, 5.9 mi)",
     "date": "2025-12-20",
     "distanceKm": 10,
@@ -350,7 +350,7 @@
     "stravaActivity": "https://www.strava.com/activities/16794650482/overview",
     "personalBest": false
   },
-    {
+  {
     "name": "Disney World Marathon Weekend 5K (Dopey 1/4)",
     "date": "2026-01-08",
     "distanceKm": 5,
@@ -363,7 +363,7 @@
     "stravaActivity": "https://www.strava.com/activities/16977360992/overview",
     "personalBest": false
   },
-    {
+  {
     "name": "Disney World Marathon Weekend 10K (Dopey 2/4)",
     "date": "2026-01-09",
     "distanceKm": 10,
@@ -376,7 +376,7 @@
     "stravaActivity": "https://www.strava.com/activities/16988296603/overview",
     "personalBest": true
   },
-    {
+  {
     "name": "Disney World Marathon Weekend Half Marathon (Dopey 3/4)",
     "date": "2026-01-10",
     "distanceKm": 21.1,
@@ -389,7 +389,7 @@
     "stravaActivity": "https://www.strava.com/activities/17000086047/overview",
     "personalBest": false
   },
-    {
+  {
     "name": "Disney World Marathon Weekend Marathon (Dopey 4/4)",
     "date": "2026-01-11",
     "distanceKm": 42.2,
@@ -402,7 +402,7 @@
     "stravaActivity": "https://www.strava.com/activities/17013398577/overview",
     "personalBest": false
   },
-    {
+  {
     "name": "London Marathon",
     "date": "2026-04-26",
     "distanceKm": 42.2,
@@ -415,19 +415,173 @@
     "stravaActivity": "",
     "personalBest": false
   },
-    {"name": "Cupid's Chase 5K", "date": "2026-02-14", "distanceKm": 5.0, "distanceMi": 3.1, "time": "", "paceKm": "", "paceMi": "", "raceWebsite": "https://runsignup.com/Race/MA/Wakefield/CupidsChasema", "resultsWebsite": "", "stravaActivity": "", "personalBest": false},
-{"name": "On The Run Half Marathon", "date": "2026-03-21", "distanceKm": 21.1, "distanceMi": 13.1, "time": "", "paceKm": "", "paceMi": "", "raceWebsite": "https://www.runna.com/races/race/on-the-run-half-marathon", "resultsWebsite": "", "stravaActivity": "", "personalBest": false},
-   {"name": "Cambridge Spring Classic 5K", "date": "2026-03-29", "distanceKm": 5.0, "distanceMi": 3.1, "time": "", "paceKm": "", "paceMi": "", "raceWebsite": "https://runsignup.com/Race/MA/Cambridge/SpringClassic5K", "resultsWebsite": "", "stravaActivity": "", "personalBest": false},
-
-    {"name": "BAA 5K", "date": "2026-04-18", "distanceKm": 5.0, "distanceMi": 3.1, "time": "", "paceKm": "", "paceMi": "", "raceWebsite": "https://www.baa.org/races/boston-5k", "resultsWebsite": "", "stravaActivity": "", "personalBest": false},
-{"name": "Bayshore Marathon", "date": "2026-05-23", "distanceKm": 21.1, "distanceMi": 13.1, "time": "", "paceKm": "", "paceMi": "", "raceWebsite": "https://www.bayshoremarathon.org/", "resultsWebsite": "", "stravaActivity": "", "personalBest": false},
-{"name": "Covered Bridge Half Marathon", "date": "2026-06-07", "distanceKm": 21.1, "distanceMi": 13.1, "time": "", "paceKm": "", "paceMi": "", "raceWebsite": "https://cbhm.com/", "resultsWebsite": "", "stravaActivity": "", "personalBest": false},
-{"name": "BAA 10K", "date": "2026-06-21", "distanceKm": 10.0, "distanceMi": 6.2, "time": "", "paceKm": "", "paceMi": "", "raceWebsite": "https://www.baa.org/races/boston-10k", "resultsWebsite": "", "stravaActivity": "", "personalBest": false},
-{"name": "Cambridge Summer Classic 5K", "date": "2026-06-28", "distanceKm": 5.0, "distanceMi": 3.1, "time": "", "paceKm": "", "paceMi": "", "raceWebsite": "https://runsignup.com/Race/Events/MA/Cambridge/SummerClassic5K", "resultsWebsite": "", "stravaActivity": "", "personalBest": false},
-{"name": "Run to Home Base", "date": "2026-07-25", "distanceKm": 5.0, "distanceMi": 3.1, "time": "", "paceKm": "", "paceMi": "", "raceWebsite": "https://www.redsoxfoundation.org/home-base/", "resultsWebsite": "", "stravaActivity": "", "personalBest": false},
-{"name": "Cambridge Fall Classic 5K", "date": "2026-10-04", "distanceKm": 5.0, "distanceMi": 3.1, "time": "", "paceKm": "", "paceMi": "", "raceWebsite": "https://runsignup.com/Race/MA/Cambridge/FallClassic5K", "resultsWebsite": "", "stravaActivity": "", "personalBest": false},
-{"name": "New York Marathon", "date": "2026-11-01", "distanceKm": 42.2, "distanceMi": 26.2, "time": "", "paceKm": "", "paceMi": "", "raceWebsite": "https://www.nyrr.org/tcsnycmarathon", "resultsWebsite": "", "stravaActivity": "", "personalBest": false},
-{"name": "BAA Boston Half", "date": "2026-11-08", "distanceKm": 21.1, "distanceMi": 13.1, "time": "", "paceKm": "", "paceMi": "", "raceWebsite": "https://www.baa.org/races/boston-half", "resultsWebsite": "", "stravaActivity": "", "personalBest": false},
-{"name": "Cambridge Winter Classic 5K", "date": "2026-12-06", "distanceKm": 5.0, "distanceMi": 3.1, "time": "", "paceKm": "", "paceMi": "", "raceWebsite": "https://runsignup.com/Race/WinterClassic5K/Page-11", "resultsWebsite": "", "stravaActivity": "", "personalBest": false}
-    
+  {
+    "name": "Cupid's Chase 5K",
+    "date": "2026-02-14",
+    "distanceKm": 5,
+    "distanceMi": 3.1,
+    "time": "0:26:57",
+    "paceKm": "0:05:23",
+    "paceMi": "0:08:42",
+    "raceWebsite": "https://runsignup.com/Race/MA/Wakefield/CupidsChasema",
+    "resultsWebsite": "https://runsignup.com/Race/Results/120538/IndividualResult/RRXxt?resultSetId=626307#U69234122",
+    "stravaActivity": "https://www.strava.com/activities/17396050789/overview",
+    "personalBest": false
+  },
+  {
+    "name": "On The Run Half Marathon",
+    "date": "2026-03-21",
+    "distanceKm": 21.1,
+    "distanceMi": 13.1,
+    "time": "",
+    "paceKm": "",
+    "paceMi": "",
+    "raceWebsite": "https://www.runna.com/races/race/on-the-run-half-marathon",
+    "resultsWebsite": "",
+    "stravaActivity": "",
+    "personalBest": false
+  },
+  {
+    "name": "Cambridge Spring Classic 5K",
+    "date": "2026-03-29",
+    "distanceKm": 5,
+    "distanceMi": 3.1,
+    "time": "",
+    "paceKm": "",
+    "paceMi": "",
+    "raceWebsite": "https://runsignup.com/Race/MA/Cambridge/SpringClassic5K",
+    "resultsWebsite": "",
+    "stravaActivity": "",
+    "personalBest": false
+  },
+  {
+    "name": "BAA 5K",
+    "date": "2026-04-18",
+    "distanceKm": 5,
+    "distanceMi": 3.1,
+    "time": "",
+    "paceKm": "",
+    "paceMi": "",
+    "raceWebsite": "https://www.baa.org/races/boston-5k",
+    "resultsWebsite": "",
+    "stravaActivity": "",
+    "personalBest": false
+  },
+  {
+    "name": "Bayshore Marathon",
+    "date": "2026-05-23",
+    "distanceKm": 21.1,
+    "distanceMi": 13.1,
+    "time": "",
+    "paceKm": "",
+    "paceMi": "",
+    "raceWebsite": "https://www.bayshoremarathon.org/",
+    "resultsWebsite": "",
+    "stravaActivity": "",
+    "personalBest": false
+  },
+  {
+    "name": "Covered Bridge Half Marathon",
+    "date": "2026-06-07",
+    "distanceKm": 21.1,
+    "distanceMi": 13.1,
+    "time": "",
+    "paceKm": "",
+    "paceMi": "",
+    "raceWebsite": "https://cbhm.com/",
+    "resultsWebsite": "",
+    "stravaActivity": "",
+    "personalBest": false
+  },
+  {
+    "name": "BAA 10K",
+    "date": "2026-06-21",
+    "distanceKm": 10,
+    "distanceMi": 6.2,
+    "time": "",
+    "paceKm": "",
+    "paceMi": "",
+    "raceWebsite": "https://www.baa.org/races/boston-10k",
+    "resultsWebsite": "",
+    "stravaActivity": "",
+    "personalBest": false
+  },
+  {
+    "name": "Cambridge Summer Classic 5K",
+    "date": "2026-06-28",
+    "distanceKm": 5,
+    "distanceMi": 3.1,
+    "time": "",
+    "paceKm": "",
+    "paceMi": "",
+    "raceWebsite": "https://runsignup.com/Race/Events/MA/Cambridge/SummerClassic5K",
+    "resultsWebsite": "",
+    "stravaActivity": "",
+    "personalBest": false
+  },
+  {
+    "name": "Run to Home Base",
+    "date": "2026-07-25",
+    "distanceKm": 5,
+    "distanceMi": 3.1,
+    "time": "",
+    "paceKm": "",
+    "paceMi": "",
+    "raceWebsite": "https://www.redsoxfoundation.org/home-base/",
+    "resultsWebsite": "",
+    "stravaActivity": "",
+    "personalBest": false
+  },
+  {
+    "name": "Cambridge Fall Classic 5K",
+    "date": "2026-10-04",
+    "distanceKm": 5,
+    "distanceMi": 3.1,
+    "time": "",
+    "paceKm": "",
+    "paceMi": "",
+    "raceWebsite": "https://runsignup.com/Race/MA/Cambridge/FallClassic5K",
+    "resultsWebsite": "",
+    "stravaActivity": "",
+    "personalBest": false
+  },
+  {
+    "name": "New York Marathon",
+    "date": "2026-11-01",
+    "distanceKm": 42.2,
+    "distanceMi": 26.2,
+    "time": "",
+    "paceKm": "",
+    "paceMi": "",
+    "raceWebsite": "https://www.nyrr.org/tcsnycmarathon",
+    "resultsWebsite": "",
+    "stravaActivity": "",
+    "personalBest": false
+  },
+  {
+    "name": "BAA Boston Half",
+    "date": "2026-11-08",
+    "distanceKm": 21.1,
+    "distanceMi": 13.1,
+    "time": "",
+    "paceKm": "",
+    "paceMi": "",
+    "raceWebsite": "https://www.baa.org/races/boston-half",
+    "resultsWebsite": "",
+    "stravaActivity": "",
+    "personalBest": false
+  },
+  {
+    "name": "Cambridge Winter Classic 5K",
+    "date": "2026-12-06",
+    "distanceKm": 5,
+    "distanceMi": 3.1,
+    "time": "",
+    "paceKm": "",
+    "paceMi": "",
+    "raceWebsite": "https://runsignup.com/Race/WinterClassic5K/Page-11",
+    "resultsWebsite": "",
+    "stravaActivity": "",
+    "personalBest": false
+  }
 ]
