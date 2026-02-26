@@ -8,52 +8,38 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js"></script>
 </head>
 <body>
     <div class="container">
-
-        <!-- ══ HEADER ══════════════════════════════════════════ -->
         <header class="site-header">
             <div class="header-left">
                 <div class="title-stack">
                     <div class="eyebrow">Running Dashboard</div>
                     <h1>Jake Walker</h1>
-                    <div class="subtitle">Race Results &amp; Personal Bests</div>
+                    <div class="subtitle">Race Results & Personal Bests</div>
                 </div>
             </div>
-            <div class="header-controls">
-                <!-- Feature 6: dark mode toggle -->
-                <button class="dark-toggle" id="dark-toggle" title="Toggle dark mode" aria-label="Toggle dark mode">🌙</button>
-                <div class="toggle-group">
-                    <button class="toggle-btn" data-unit="km">Metric (km)</button>
-                    <button class="toggle-btn active" data-unit="mi">Imperial (mi)</button>
-                </div>
+            <div class="toggle-group">
+                <button class="toggle-btn" data-unit="km">Metric (km)</button>
+                <button class="toggle-btn active" data-unit="mi">Imperial (mi)</button>
             </div>
         </header>
 
-        <!-- ══ PERSONAL BESTS ══════════════════════════════════ -->
+        <!-- Personal Bests Section -->
         <section class="pb-section">
             <div class="section-header">Personal Bests</div>
             <div id="pb-grid" class="pb-grid"></div>
         </section>
 
-        <!-- ══ PACE TREND CHART — Feature 1 ═══════════════════ -->
-        <section class="trend-section">
-            <div class="section-header">Pace Trend</div>
-            <div class="chart-panel">
-                <div class="chart-inner">
-                    <canvas id="pace-chart"></canvas>
-                </div>
-            </div>
-        </section>
+        
 
-        <!-- ══ RACE HISTORY ════════════════════════════════════ -->
+        <!-- Race History Section -->
         <section class="history-section">
             <div class="controls-bar">
                 <div class="section-header history-title">Race History</div>
                 <div id="filter-container" class="filter-group"></div>
             </div>
+
             <div class="data-panel">
                 <div class="table-wrapper">
                     <table>
@@ -73,18 +59,12 @@
             </div>
         </section>
 
-        <!-- ══ RACE STATISTICS — Feature 2 bar chart ══════════ -->
+<!-- Race Statistics Section -->
         <section class="stats-section">
             <div class="section-header">Race Statistics</div>
-            <div class="chart-panel" style="margin-bottom:1rem;">
-                <div class="chart-inner">
-                    <canvas id="bar-chart"></canvas>
-                </div>
-            </div>
             <div id="stats-by-year" class="table-wrapper"></div>
         </section>
-
-        <!-- ══ UPCOMING + GOALS ════════════════════════════════ -->
+        
         <div class="dashboard-grid">
             <section class="dashboard-card">
                 <div class="section-header">Upcoming Events</div>
@@ -92,828 +72,313 @@
             </section>
             <section class="dashboard-card">
                 <div class="section-header">Goals</div>
-                <div id="goals-list"></div>
+                <ul id="goals-list" class="simple-list"></ul>
             </section>
         </div>
-
-        <!-- ══ LIFETIME FOOTER — Feature 10 ═══════════════════ -->
-        <div class="lifetime-footer" id="lifetime-footer">
-            <div class="lifetime-stats" id="lifetime-stats"></div>
-            <div class="lifetime-tagline">Powered by coffee and stubbornness ☕</div>
-        </div>
-
-    </div><!-- /container -->
+    </div>
 
     <script>
-    /* ═══════════════════════════════════════════════════════════
-       STATE
-    ═══════════════════════════════════════════════════════════ */
-    let allRaceData = [];
-    let currentUnit = 'mi';
-    let currentFilter = 'all';
-    let isDarkMode = false;   // Feature 6: in-memory only
+        let allRaceData = [];
+        let currentUnit = 'mi';
+        let currentFilter = 'all';
 
-    // Chart instances — held so we can destroy/re-render on unit switch
-    let paceChart = null;
-    let barChart  = null;
+        const goalsData = [
+            { text: "Sub 25 minute 5K", status: "TBD" },
+            { text: "Sub 2:00 Half Marathon", status: "TBD" },
+            { text: "PR London Marathon (< 4:40)", status: "TBD" }
+        ];
 
-    /* ── Goals definition ────────────────────────────────────── */
-    const goalsData = [
-        {
-            text: 'Sub 25:00 5K',
-            goalSecs: 25 * 60,
-            startSecs: 35 * 60,    // reasonable starting point
-            distance: '5K',
-            note: 'Current PB: 26:04'
-        },
-        {
-            text: 'Sub 2:00 Half Marathon',
-            goalSecs: 2 * 3600,
-            startSecs: 3 * 3600,
-            distance: 'Half Marathon',
-            note: 'Current PB: 2:20:47'
-        },
-        {
-            text: 'PR London Marathon &lt; 4:40',
-            goalSecs: 4 * 3600 + 40 * 60,
-            startSecs: 6 * 3600,
-            distance: 'Marathon',
-            note: 'Current PB: 4:40:33'
+        async function loadRaceData() {
+            try {
+                const response = await fetch('races.json');
+                if (!response.ok) throw new Error('Failed to load data');
+                allRaceData = await response.json();
+                initDashboard();
+            } catch (error) {
+                console.error(error);
+                document.getElementById('race-table-body').innerHTML = `<tr><td colspan="6" class="empty-state">Error loading race data.</td></tr>`;
+            }
         }
-    ];
 
-    /* ═══════════════════════════════════════════════════════════
-       LOAD
-    ═══════════════════════════════════════════════════════════ */
-    async function loadRaceData() {
-        try {
-            const response = await fetch('races.json');
-            if (!response.ok) throw new Error('Failed to load data');
-            allRaceData = await response.json();
-            initDashboard();
-        } catch (error) {
-            console.error(error);
-            document.getElementById('race-table-body').innerHTML =
-                `<tr><td colspan="6" class="empty-state">Error loading race data.</td></tr>`;
-        }
-    }
-
-    /* ═══════════════════════════════════════════════════════════
-       HELPERS
-    ═══════════════════════════════════════════════════════════ */
-    const formatDate = (dateStr) => {
-        const d = new Date(dateStr + 'T00:00:00');
-        return d.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
-    };
-    const formatDateShort = (dateStr) => {
-        const d = new Date(dateStr + 'T00:00:00');
-        return d.toLocaleDateString('en-US', { year: 'numeric', month: 'short' });
-    };
-
-    const isMarathon = (r) => Math.abs(r.distanceKm - 42.2) < 0.1;
-    const isHalf     = (r) => Math.abs(r.distanceKm - 21.1) < 0.1;
-
-    const getDisplayDist = (r) => {
-        if (isMarathon(r)) return 'Marathon';
-        if (isHalf(r)) return 'Half Mar';
-        return currentUnit === 'km' ? `${r.distanceKm}k` : `${r.distanceMi}mi`;
-    };
-
-    const getDistanceLabel = (r) => {
-        if (isMarathon(r)) return 'Marathon';
-        if (isHalf(r)) return 'Half Marathon';
-        return currentUnit === 'km' ? `${r.distanceKm}K` : `${r.distanceMi} Mile`;
-    };
-
-    const getPace = (r) => currentUnit === 'km' ? r.paceKm : r.paceMi;
-
-    function getSortValue(distStr) {
-        if (distStr === 'Marathon')      return 42.2;
-        if (distStr === 'Half Marathon') return 21.1;
-        if (distStr === 'Half Mar')      return 21.1;
-        if (distStr === '10K')           return 10;
-        if (distStr === '5K')            return 5;
-        if (distStr === '1 Mile')        return 1.6;
-        if (distStr.endsWith('K'))  return parseFloat(distStr);
-        if (distStr.endsWith('k'))  return parseFloat(distStr);
-        if (distStr.endsWith('mi')) return parseFloat(distStr) * 1.609;
-        return parseFloat(distStr) || 0;
-    }
-
-    function getDistanceCategory(r) {
-        if (isMarathon(r)) return 'Marathon';
-        if (isHalf(r))     return 'Half Marathon';
-        if (Math.abs(r.distanceKm - 10) < 0.5) return '10K';
-        if (Math.abs(r.distanceKm - 5)  < 0.5) return '5K';
-        if (Math.abs(r.distanceKm - 1.6) < 0.2) return '1 Mile';
-        return currentUnit === 'km' ? `${r.distanceKm}K` : `${r.distanceMi} mi`;
-    }
-
-    /* Convert "H:MM:SS" or "M:SS" pace string to decimal minutes */
-    function paceToDecMinutes(paceStr) {
-        if (!paceStr) return null;
-        const parts = paceStr.split(':').map(Number);
-        if (parts.length === 3) return parts[0] * 60 + parts[1] + parts[2] / 60;
-        if (parts.length === 2) return parts[0] + parts[1] / 60;
-        return null;
-    }
-
-    /* Convert "H:MM:SS" time string to total seconds */
-    function timeToSeconds(timeStr) {
-        if (!timeStr) return null;
-        const parts = timeStr.split(':').map(Number);
-        if (parts.length === 3) return parts[0] * 3600 + parts[1] * 60 + parts[2];
-        if (parts.length === 2) return parts[0] * 60 + parts[1];
-        return null;
-    }
-
-    /* Format seconds as M:SS */
-    function secondsToMSS(secs) {
-        const m = Math.floor(secs / 60);
-        const s = Math.floor(secs % 60);
-        return `${m}:${String(s).padStart(2, '0')}`;
-    }
-
-    /* Dark mode chart defaults */
-    function getChartDefaults() {
-        return {
-            gridColor: isDarkMode ? 'rgba(255,255,255,0.07)' : 'rgba(15,23,42,0.06)',
-            tickColor: isDarkMode ? '#64748b' : '#94a3b8',
-            legendColor: isDarkMode ? '#94a3b8' : '#334155',
-            tooltipBg: isDarkMode ? '#1a2235' : '#ffffff',
-            tooltipBorder: isDarkMode ? '#253447' : '#d9e3ef',
-            tooltipText: isDarkMode ? '#e8f0fe' : '#111827',
+        const formatDate = (dateStr) => {
+            const date = new Date(dateStr + 'T00:00:00');
+            return date.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
         };
-    }
 
-    /* Distance palette — consistent colors across charts */
-    const DIST_COLORS = {
-        '5K':            { line: '#0f766e', bg: 'rgba(15,118,110,0.18)' },
-        '10K':           { line: '#0891b2', bg: 'rgba(8,145,178,0.18)' },
-        '7 mi':          { line: '#7c3aed', bg: 'rgba(124,58,237,0.18)' },
-        'Half Marathon': { line: '#f59e0b', bg: 'rgba(245,158,11,0.18)' },
-        'Marathon':      { line: '#ea580c', bg: 'rgba(234,88,12,0.18)' },
-        '1 Mile':        { line: '#10b981', bg: 'rgba(16,185,129,0.18)' },
-        'Other':         { line: '#6366f1', bg: 'rgba(99,102,241,0.18)' },
-    };
-    function getDistColor(cat) {
-        return DIST_COLORS[cat] || DIST_COLORS['Other'];
-    }
+        const formatDateShort = (dateStr) => {
+            const date = new Date(dateStr + 'T00:00:00');
+            return date.toLocaleDateString('en-US', { year: 'numeric', month: 'short' });
+        };
 
-    /* ═══════════════════════════════════════════════════════════
-       FEATURE 1 — PACE TREND CHART
-    ═══════════════════════════════════════════════════════════ */
-    function renderPaceChart() {
-        const today = new Date().setHours(0,0,0,0);
-        const completed = allRaceData.filter(r =>
-            new Date(r.date + 'T00:00:00') < today && r.time
-        ).sort((a, b) => new Date(a.date) - new Date(b.date));
+        const isMarathon = (r) => Math.abs(r.distanceKm - 42.2) < 0.1;
+        const isHalf = (r) => Math.abs(r.distanceKm - 21.1) < 0.1;
 
-        // Group by distance category
-        const grouped = {};
-        completed.forEach(r => {
-            const cat = getDistanceCategory(r);
-            const pace = paceToDecMinutes(currentUnit === 'km' ? r.paceKm : r.paceMi);
-            if (pace === null) return;
-            if (!grouped[cat]) grouped[cat] = [];
-            grouped[cat].push({ x: r.date, y: pace, label: r.name });
-        });
+        const getDisplayDist = (r) => {
+            if (isMarathon(r)) return 'Marathon';
+            if (isHalf(r)) return 'Half Mar';
+            return currentUnit === 'km' ? `${r.distanceKm}k` : `${r.distanceMi}mi`;
+        };
 
-        // Only show categories with ≥2 data points
-        const cats = Object.keys(grouped).filter(k => grouped[k].length >= 2);
-        cats.sort((a, b) => getSortValue(a) - getSortValue(b));
+        const getDistanceLabel = (r) => {
+            if (isMarathon(r)) return 'Marathon';
+            if (isHalf(r)) return 'Half Marathon';
+            return currentUnit === 'km' ? `${r.distanceKm}K` : `${r.distanceMi} Mile`;
+        };
 
-        const cd = getChartDefaults();
+        const getPace = (r) => currentUnit === 'km' ? r.paceKm : r.paceMi;
 
-        const datasets = cats.map(cat => {
-            const col = getDistColor(cat);
-            return {
-                label: cat,
-                data: grouped[cat].map(p => ({ x: p.x, y: p.y })),
-                borderColor: col.line,
-                backgroundColor: col.bg,
-                pointBackgroundColor: col.line,
-                pointBorderColor: isDarkMode ? '#1a2235' : '#ffffff',
-                pointRadius: 5,
-                pointHoverRadius: 7,
-                pointBorderWidth: 2,
-                tension: 0.3,
-                fill: false,
-            };
-        });
-
-        if (paceChart) { paceChart.destroy(); paceChart = null; }
-
-        const ctx = document.getElementById('pace-chart').getContext('2d');
-        paceChart = new Chart(ctx, {
-            type: 'line',
-            data: { datasets },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                scales: {
-                    x: {
-                        type: 'category',
-                        ticks: {
-                            color: cd.tickColor,
-                            maxTicksLimit: 10,
-                            maxRotation: 30,
-                            callback: function(val, idx) {
-                                const d = this.getLabelForValue(val);
-                                if (!d) return '';
-                                const dt = new Date(d + 'T00:00:00');
-                                return dt.toLocaleDateString('en-US', { month: 'short', year: '2-digit' });
-                            }
-                        },
-                        grid: { color: cd.gridColor },
-                    },
-                    y: {
-                        reverse: true,  // lower pace (faster) at top — Feature 1
-                        ticks: {
-                            color: cd.tickColor,
-                            callback: (v) => {
-                                const m = Math.floor(v);
-                                const s = Math.round((v - m) * 60);
-                                return `${m}:${String(s).padStart(2,'0')}`;
-                            }
-                        },
-                        grid: { color: cd.gridColor },
-                        title: {
-                            display: true,
-                            text: `Pace (min/${currentUnit})`,
-                            color: cd.tickColor,
-                            font: { family: 'Space Grotesk', size: 11, weight: '600' }
-                        }
-                    }
-                },
-                plugins: {
-                    legend: {
-                        labels: {
-                            color: cd.legendColor,
-                            font: { family: 'Space Grotesk', size: 11 },
-                            usePointStyle: true,
-                            pointStyleWidth: 8,
-                            padding: 16,
-                        }
-                    },
-                    tooltip: {
-                        backgroundColor: cd.tooltipBg,
-                        borderColor: cd.tooltipBorder,
-                        borderWidth: 1,
-                        titleColor: cd.tooltipText,
-                        bodyColor: cd.tooltipText,
-                        titleFont: { family: 'Space Grotesk', size: 12, weight: '700' },
-                        bodyFont: { family: 'JetBrains Mono', size: 11 },
-                        padding: 10,
-                        callbacks: {
-                            title: (items) => items[0].dataset.label,
-                            label: (item) => {
-                                const v = item.raw.y;
-                                const m = Math.floor(v);
-                                const s = Math.round((v - m) * 60);
-                                return ` ${m}:${String(s).padStart(2,'0')} /${currentUnit}  (${item.raw.x})`;
-                            }
-                        }
-                    }
-                }
-            }
-        });
-    }
-
-    /* ═══════════════════════════════════════════════════════════
-       FEATURE 2 — ANNUAL RACE COUNT BAR CHART
-    ═══════════════════════════════════════════════════════════ */
-    function renderBarChart() {
-        const today = new Date().setHours(0,0,0,0);
-        const completed = allRaceData.filter(r => new Date(r.date + 'T00:00:00') < today);
-        if (completed.length === 0) return;
-
-        const years = [...new Set(completed.map(r => new Date(r.date + 'T00:00:00').getFullYear()))].sort();
-        const allCats = [...new Set(completed.map(r => getDistanceCategory(r)))];
-        allCats.sort((a, b) => getSortValue(a) - getSortValue(b));
-
-        const cd = getChartDefaults();
-
-        const datasets = allCats.map(cat => {
-            const col = getDistColor(cat);
-            return {
-                label: cat,
-                data: years.map(yr => completed.filter(r =>
-                    new Date(r.date + 'T00:00:00').getFullYear() === yr &&
-                    getDistanceCategory(r) === cat
-                ).length),
-                backgroundColor: col.bg.replace('0.18', '0.75'),
-                borderColor: col.line,
-                borderWidth: 1.5,
-                borderRadius: 4,
-                borderSkipped: false,
-            };
-        });
-
-        if (barChart) { barChart.destroy(); barChart = null; }
-        const ctx = document.getElementById('bar-chart').getContext('2d');
-        barChart = new Chart(ctx, {
-            type: 'bar',
-            data: { labels: years.map(String), datasets },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                scales: {
-                    x: {
-                        stacked: true,
-                        ticks: { color: cd.tickColor },
-                        grid: { display: false },
-                    },
-                    y: {
-                        stacked: true,
-                        ticks: { color: cd.tickColor, stepSize: 1 },
-                        grid: { color: cd.gridColor },
-                        title: {
-                            display: true,
-                            text: 'Races',
-                            color: cd.tickColor,
-                            font: { family: 'Space Grotesk', size: 11, weight: '600' }
-                        }
-                    }
-                },
-                plugins: {
-                    legend: {
-                        labels: {
-                            color: cd.legendColor,
-                            font: { family: 'Space Grotesk', size: 11 },
-                            usePointStyle: true,
-                            pointStyleWidth: 8,
-                            padding: 14,
-                        }
-                    },
-                    tooltip: {
-                        backgroundColor: cd.tooltipBg,
-                        borderColor: cd.tooltipBorder,
-                        borderWidth: 1,
-                        titleColor: cd.tooltipText,
-                        bodyColor: cd.tooltipText,
-                        titleFont: { family: 'Space Grotesk', size: 12, weight: '700' },
-                        bodyFont: { family: 'Space Grotesk', size: 11 },
-                        padding: 10,
-                    }
-                }
-            }
-        });
-    }
-
-    /* ═══════════════════════════════════════════════════════════
-       FEATURE 5 — PB SPARKLINE
-       Returns an SVG string for times at a given distance
-    ═══════════════════════════════════════════════════════════ */
-    function buildSparkline(times) {
-        // times: array of "H:MM:SS" strings, in chronological order
-        const secs = times.map(timeToSeconds).filter(s => s !== null);
-        if (secs.length < 2) return '';
-
-        const W = 200, H = 40, PAD = 5;
-        const minS = Math.min(...secs);
-        const maxS = Math.max(...secs);
-        const range = maxS - minS || 1;
-
-        const px = (i)  => PAD + (i / (secs.length - 1)) * (W - PAD * 2);
-        const py = (s)  => H - PAD - ((s - minS) / range) * (H - PAD * 2);
-
-        const pts = secs.map((s, i) => `${px(i)},${py(s)}`).join(' ');
-
-        // Determine accent — use teal for normal, orange for PB
-        const lastIsMin = secs[secs.length - 1] === minS;
-        const dotColor = lastIsMin ? '#10b981' : '#f59e0b';
-        const lineColor = isDarkMode ? '#14b8a6' : '#0f766e';
-
-        let circles = '';
-        secs.forEach((s, i) => {
-            const isLast = i === secs.length - 1;
-            const isBest = s === minS;
-            circles += `<circle cx="${px(i)}" cy="${py(s)}" r="${isLast ? 3.5 : 2.5}"
-                fill="${isBest ? dotColor : (isDarkMode ? '#4a5568' : '#94a3b8')}"
-                stroke="${isDarkMode ? '#1a2235' : '#fff'}" stroke-width="1.5"/>`;
-        });
-
-        return `<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-            <polyline points="${pts}" fill="none" stroke="${lineColor}" stroke-width="1.8"
-                stroke-linecap="round" stroke-linejoin="round" opacity="0.7"/>
-            ${circles}
-        </svg>`;
-    }
-
-    /* ═══════════════════════════════════════════════════════════
-       PERSONAL BESTS  (Features 5, 7, 8 integrated)
-    ═══════════════════════════════════════════════════════════ */
-    function renderPersonalBests() {
-        const container = document.getElementById('pb-grid');
-        const today = new Date().setHours(0,0,0,0);
-
-        const pbs = allRaceData
-            .filter(r => r.personalBest && new Date(r.date + 'T00:00:00') < today)
-            .sort((a, b) => a.distanceKm - b.distanceKm);
-
-        if (pbs.length === 0) {
-            container.innerHTML = `<div class="empty-state" style="grid-column:1/-1">No personal bests recorded yet.</div>`;
-            return;
+        function getSortValue(distStr) {
+            if (distStr === 'Marathon') return 42.2;
+            if (distStr === 'Half Marathon') return 21.1;
+            if (distStr === 'Half Mar') return 21.1;
+            if (distStr === '10K') return 10;
+            if (distStr === '5K') return 5;
+            if (distStr === '1 Mile') return 1.6;
+            if (distStr.endsWith('K')) return parseFloat(distStr);
+            if (distStr.endsWith('k')) return parseFloat(distStr);
+            if (distStr.endsWith('mi')) return parseFloat(distStr) * 1.609;
+            return parseFloat(distStr) || 0;
         }
 
-        container.innerHTML = pbs.map(r => {
-            /* Feature 7: find second-best time at this distance */
-            const sameDistRaces = allRaceData
-                .filter(x =>
-                    Math.abs(x.distanceKm - r.distanceKm) < 0.15 &&
-                    new Date(x.date + 'T00:00:00') < today &&
-                    x.time
-                )
-                .sort((a, b) => timeToSeconds(a.time) - timeToSeconds(b.time));
+        function renderPersonalBests() {
+            const container = document.getElementById('pb-grid');
+            const today = new Date().setHours(0,0,0,0);
 
-            let deltaHtml = '';
-            if (sameDistRaces.length >= 2) {
-                const bestSecs  = timeToSeconds(sameDistRaces[0].time);
-                const secondSecs = timeToSeconds(sameDistRaces[1].time);
-                if (bestSecs !== null && secondSecs !== null && secondSecs > bestSecs) {
-                    const diffSecs = secondSecs - bestSecs;
-                    const diffStr  = secondsToMSS(diffSecs);
-                    deltaHtml = `<div class="pb-delta">
-                        <span class="pb-delta-badge">▼ ${diffStr} faster</span>
-                    </div>`;
-                }
+            // Get all PBs from completed races
+            const pbs = allRaceData
+                .filter(r => r.personalBest && new Date(r.date + 'T00:00:00') < today)
+                .sort((a, b) => a.distanceKm - b.distanceKm);
+
+            if (pbs.length === 0) {
+                container.innerHTML = `<div class="empty-state" style="grid-column: 1/-1;">No personal bests recorded yet.</div>`;
+                return;
             }
 
-            /* Feature 5: sparkline — all times at this distance in chrono order */
-            const chronoTimes = allRaceData
-                .filter(x =>
-                    Math.abs(x.distanceKm - r.distanceKm) < 0.15 &&
-                    new Date(x.date + 'T00:00:00') < today &&
-                    x.time
-                )
-                .sort((a, b) => new Date(a.date) - new Date(b.date))
-                .map(x => x.time);
+            container.innerHTML = pbs.map(r => {
+                const nameHtml = r.raceWebsite
+                    ? `<a href="${r.raceWebsite}" target="_blank">${r.name}</a>`
+                    : r.name;
 
-            const sparkSvg = buildSparkline(chronoTimes);
-            const sparkHtml = sparkSvg
-                ? `<div class="pb-sparkline" title="Time progression at this distance">${sparkSvg}</div>`
-                : '';
-
-            /* Feature 8: full race name (no ellipsis) */
-            const nameHtml = r.raceWebsite
-                ? `<a href="${r.raceWebsite}" target="_blank" rel="noopener noreferrer" title="${r.name}">${r.name}</a>`
-                : r.name;
-
-            return `
-                <div class="pb-card">
-                    <div class="pb-distance">${getDistanceLabel(r)}</div>
-                    <div class="pb-time">${r.time}</div>
-                    <div class="pb-pace">${getPace(r)} /${currentUnit}</div>
-                    ${sparkHtml}
-                    ${deltaHtml}
-                    <div class="pb-meta">
-                        <div class="pb-race-name" title="${r.name}">${nameHtml}</div>
-                        <div class="pb-date">${formatDateShort(r.date)}</div>
+                return `
+                    <div class="pb-card">
+                        <div class="pb-distance">${getDistanceLabel(r)}</div>
+                        <div class="pb-time">${r.time}</div>
+                        <div class="pb-pace">${getPace(r)} /${currentUnit}</div>
+                        <div class="pb-meta">
+                            <div class="pb-race-name">${nameHtml}</div>
+                            <div class="pb-date">${formatDateShort(r.date)}</div>
+                        </div>
                     </div>
-                </div>
-            `;
-        }).join('');
-    }
-
-    /* ═══════════════════════════════════════════════════════════
-       FEATURE 3 — GOALS WITH PROGRESS BARS
-    ═══════════════════════════════════════════════════════════ */
-    function renderGoals() {
-        const container = document.getElementById('goals-list');
-        const today = new Date().setHours(0,0,0,0);
-
-        container.innerHTML = goalsData.map(g => {
-            // Find current PB at this distance from live data
-            const relevantRaces = allRaceData.filter(r => {
-                if (new Date(r.date + 'T00:00:00') >= today) return false;
-                if (!r.time) return false;
-                if (g.distance === '5K')            return Math.abs(r.distanceKm - 5) < 0.5;
-                if (g.distance === 'Half Marathon') return isHalf(r);
-                if (g.distance === 'Marathon')      return isMarathon(r);
-                return false;
-            });
-
-            let pbSecs = g.startSecs;
-            if (relevantRaces.length > 0) {
-                const times = relevantRaces.map(r => timeToSeconds(r.time)).filter(s => s !== null);
-                if (times.length > 0) pbSecs = Math.min(...times);
-            }
-
-            // Progress: how much of the gap from startSecs to goalSecs is covered
-            // progress=0 means at start, progress=100 means at/past goal
-            const gapTotal  = g.startSecs - g.goalSecs;
-            const gapClosed = g.startSecs - pbSecs;
-            let pct = Math.max(0, Math.min(100, (gapClosed / gapTotal) * 100));
-
-            const exceeded = pbSecs <= g.goalSecs;
-            const pbFormatted = secondsToMSS(pbSecs);
-            const goalFormatted = secondsToMSS(g.goalSecs);
-
-            let statusLabel;
-            if (exceeded) {
-                statusLabel = '✓ Achieved!';
-            } else {
-                const remaining = pbSecs - g.goalSecs;
-                statusLabel = `${secondsToMSS(remaining)} to go`;
-            }
-
-            return `
-                <div class="goal-item">
-                    <div class="goal-header">
-                        <div class="goal-title">${g.text}</div>
-                        <div class="goal-status">${statusLabel}</div>
-                    </div>
-                    <div class="goal-progress-track">
-                        <div class="goal-progress-fill ${exceeded ? 'exceeded' : ''}"
-                             style="width: ${pct.toFixed(1)}%"></div>
-                    </div>
-                    <div class="goal-subtext">Current PB: ${pbFormatted} → Goal: ${goalFormatted}</div>
-                </div>
-            `;
-        }).join('');
-    }
-
-    /* ═══════════════════════════════════════════════════════════
-       FEATURE 9 — UPCOMING EVENTS WITH SMART COUNTDOWN
-    ═══════════════════════════════════════════════════════════ */
-    function renderUpcoming() {
-        const container = document.getElementById('upcoming-list');
-        const todayTs = new Date().setHours(0,0,0,0);
-        const today   = new Date(todayTs);
-
-        const upcoming = allRaceData
-            .filter(r => new Date(r.date + 'T00:00:00') >= today)
-            .sort((a, b) => new Date(a.date) - new Date(b.date));
-
-        if (upcoming.length === 0) {
-            container.innerHTML = `<li class="empty-state" style="padding:1rem 0;text-align:left">No upcoming races scheduled.</li>`;
-            return;
+                `;
+            }).join('');
         }
 
-        container.innerHTML = upcoming.map(r => {
-            const raceDate = new Date(r.date + 'T00:00:00');
-            const diffMs   = raceDate - today;
-            const diffDays = Math.ceil(diffMs / (1000 * 60 * 60 * 24));
+        function renderGoals() {
+            const container = document.getElementById('goals-list');
+            container.innerHTML = goalsData.map(g => `
+                <li class="list-item">
+                    <span class="list-title">${g.text}</span>
+                    <span class="status-badge ${g.status.toLowerCase().replace(' ', '-')}">${g.status}</span>
+                </li>
+            `).join('');
+        }
 
-            let countdownLabel, badgeClass;
-            if (diffDays === 1) {
-                countdownLabel = 'Tomorrow';
-                badgeClass = 'countdown-soon';
-            } else if (diffDays <= 14) {
-                countdownLabel = `${diffDays} Days`;
-                badgeClass = 'countdown-soon';
-            } else if (diffDays <= 8 * 7) {
-                const weeks = Math.round(diffDays / 7);
-                countdownLabel = `${weeks} Wks`;
-                badgeClass = 'countdown';
-            } else {
-                const months = Math.round(diffDays / 30.4);
-                countdownLabel = `${months} Mo`;
-                badgeClass = 'countdown';
+        function renderUpcoming() {
+            const container = document.getElementById('upcoming-list');
+            const today = new Date().setHours(0,0,0,0);
+
+            const upcoming = allRaceData
+                .filter(r => new Date(r.date + 'T00:00:00') >= today)
+                .sort((a, b) => new Date(a.date) - new Date(b.date));
+
+            if (upcoming.length === 0) {
+                container.innerHTML = `<li class="empty-state" style="padding: 1rem 0; text-align: left;">No upcoming races scheduled.</li>`;
+                return;
             }
 
-            // Highlight if happening this calendar month
-            const thisMonth = today.getMonth();
-            const thisYear  = today.getFullYear();
-            const isThisMonth = raceDate.getMonth() === thisMonth && raceDate.getFullYear() === thisYear;
-
-            const nameHtml = r.raceWebsite
-                ? `<a href="${r.raceWebsite}" class="race-link-primary" target="_blank" rel="noopener noreferrer">${r.name}</a>`
-                : r.name;
-
-            return `
-                <li class="list-item ${isThisMonth ? 'upcoming-imminent' : ''}">
+            container.innerHTML = upcoming.map(r => {
+                const raceDate = new Date(r.date + 'T00:00:00');
+                const diffTime = Math.abs(raceDate - today);
+                const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+                return `
+                <li class="list-item">
                     <div class="list-main">
-                        <span class="list-title">${nameHtml}</span>
+                        <span class="list-title">
+                            ${r.raceWebsite ? `<a href="${r.raceWebsite}" class="race-link-primary" target="_blank">${r.name}</a>` : r.name}
+                        </span>
                         <span class="list-sub">${formatDate(r.date)} &bull; ${getDisplayDist(r)}</span>
                     </div>
-                    <span class="status-badge ${badgeClass}">${countdownLabel}</span>
+                    <span class="status-badge countdown">${diffDays} Days</span>
                 </li>
-            `;
-        }).join('');
-    }
-
-    /* ═══════════════════════════════════════════════════════════
-       RACE TABLE
-    ═══════════════════════════════════════════════════════════ */
-    function renderTable(data) {
-        const tbody = document.getElementById('race-table-body');
-        tbody.innerHTML = '';
-        const today = new Date().setHours(0,0,0,0);
-        const completed = data
-            .filter(r => new Date(r.date + 'T00:00:00') < today)
-            .sort((a, b) => new Date(b.date) - new Date(a.date));
-
-        const filtered = currentFilter === 'all'
-            ? completed
-            : completed.filter(r => getDisplayDist(r) === currentFilter);
-
-        if (filtered.length === 0) {
-            tbody.innerHTML = `<tr><td colspan="6" class="empty-state">No races found for this filter.</td></tr>`;
-            return;
+            `}).join('');
         }
 
-        filtered.forEach(r => {
-            const tr = document.createElement('tr');
-            if (r.personalBest) tr.classList.add('is-pb');
+        function renderTable(data) {
+            const tbody = document.getElementById('race-table-body');
+            tbody.innerHTML = '';
 
-            const nameHtml = r.raceWebsite
-                ? `<a href="${r.raceWebsite}" class="race-link-primary" target="_blank" rel="noopener noreferrer">${r.name}</a>`
-                : r.name;
+            const today = new Date().setHours(0,0,0,0);
+            const completed = data
+                .filter(r => new Date(r.date + 'T00:00:00') < today)
+                .sort((a, b) => new Date(b.date) - new Date(a.date));
 
-            let linksHtml = '';
-            if (r.stravaActivity) linksHtml += `<a href="${r.stravaActivity}" class="icon-link" target="_blank" rel="noopener noreferrer">Strava</a>`;
-            if (r.resultsWebsite) linksHtml += `<a href="${r.resultsWebsite}" class="icon-link" target="_blank" rel="noopener noreferrer">Results</a>`;
+            const filtered = currentFilter === 'all'
+                ? completed
+                : completed.filter(r => getDisplayDist(r) === currentFilter);
 
-            tr.innerHTML = `
-                <td class="col-date mono" data-label="Date">${formatDate(r.date)}</td>
-                <td class="col-name">${nameHtml}</td>
-                <td class="col-dist mono" data-label="Distance">${getDisplayDist(r)}</td>
-                <td class="col-time mono" data-label="Time">${r.time || '-'}</td>
-                <td class="col-pace mono" data-label="Pace">${getPace(r) || '-'} /${currentUnit}</td>
-                <td class="col-link">${linksHtml}</td>
-            `;
-            tbody.appendChild(tr);
-        });
-    }
+            if (filtered.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="6" class="empty-state">No races found for this filter.</td></tr>`;
+                return;
+            }
 
-    /* ═══════════════════════════════════════════════════════════
-       FILTERS
-    ═══════════════════════════════════════════════════════════ */
-    function createFilters() {
-        const container = document.getElementById('filter-container');
-        const today = new Date().setHours(0,0,0,0);
-        const completed = allRaceData.filter(r => new Date(r.date + 'T00:00:00') < today);
-        const dists = [...new Set(completed.map(r => getDisplayDist(r)))];
-        dists.sort((a, b) => getSortValue(a) - getSortValue(b));
+            filtered.forEach(r => {
+                const tr = document.createElement('tr');
+                if (r.personalBest) tr.classList.add('is-pb');
 
-        let html = `<button class="filter-chip ${currentFilter === 'all' ? 'active' : ''}" onclick="setFilter('all')">All</button>`;
-        dists.forEach(d => {
-            html += `<button class="filter-chip ${currentFilter === d ? 'active' : ''}" onclick="setFilter('${d}')">${d}</button>`;
-        });
-        container.innerHTML = html;
-    }
+                const nameHtml = r.raceWebsite
+                    ? `<a href="${r.raceWebsite}" class="race-link-primary" target="_blank">${r.name}</a>`
+                    : r.name;
 
-    /* ═══════════════════════════════════════════════════════════
-       STATISTICS TABLE
-    ═══════════════════════════════════════════════════════════ */
-    function renderStatistics() {
-        const byYearContainer = document.getElementById('stats-by-year');
-        const today = new Date().setHours(0,0,0,0);
-        const completed = allRaceData.filter(r => new Date(r.date + 'T00:00:00') < today);
+                let linksHtml = '';
+                if (r.stravaActivity) linksHtml += `<a href="${r.stravaActivity}" class="icon-link" target="_blank">Strava</a>`;
+                if (r.resultsWebsite) linksHtml += `<a href="${r.resultsWebsite}" class="icon-link" target="_blank">Results</a>`;
 
-        if (completed.length === 0) {
-            byYearContainer.innerHTML = '<div class="empty-state">No completed races yet.</div>';
-            return;
-        }
-
-        const allCategories = completed.map(r => getDistanceCategory(r));
-        const uniqueCategories = [...new Set(allCategories)];
-        uniqueCategories.sort((a, b) => getSortValue(a) - getSortValue(b));
-
-        const years = [...new Set(completed.map(r => new Date(r.date + 'T00:00:00').getFullYear()))].sort((a, b) => b - a);
-
-        const totalsByDistance = {};
-        uniqueCategories.forEach(cat => totalsByDistance[cat] = 0);
-        completed.forEach(r => { totalsByDistance[getDistanceCategory(r)]++; });
-
-        const countsByYearAndDistance = {};
-        years.forEach(year => {
-            countsByYearAndDistance[year] = {};
-            uniqueCategories.forEach(cat => countsByYearAndDistance[year][cat] = 0);
-        });
-        completed.forEach(r => {
-            const year = new Date(r.date + 'T00:00:00').getFullYear();
-            countsByYearAndDistance[year][getDistanceCategory(r)]++;
-        });
-
-        let tableHtml = '<table class="stats-table"><thead><tr><th>Distance</th>';
-        years.forEach(year => { tableHtml += `<th>${year}</th>`; });
-        tableHtml += '<th>Total</th></tr></thead><tbody>';
-
-        uniqueCategories.forEach(cat => {
-            tableHtml += `<tr><td>${cat}</td>`;
-            years.forEach(year => {
-                const count = countsByYearAndDistance[year][cat];
-                tableHtml += `<td class="mono"><span class="stat-number${count > 0 ? ' highlight' : ''}">${count || '-'}</span></td>`;
+                tr.innerHTML = `
+                    <td class="col-date mono" data-label="Date">${formatDate(r.date)}</td>
+                    <td class="col-name">${nameHtml}</td>
+                    <td class="col-dist mono" data-label="Distance">${getDisplayDist(r)}</td>
+                    <td class="col-time mono" data-label="Time">${r.time || '-'}</td>
+                    <td class="col-pace mono" data-label="Pace">${getPace(r) || '-'} /${currentUnit}</td>
+                    <td class="col-link">${linksHtml}</td>
+                `;
+                tbody.appendChild(tr);
             });
-            tableHtml += `<td class="mono"><span class="stat-number highlight">${totalsByDistance[cat]}</span></td></tr>`;
-        });
+        }
 
-        tableHtml += '<tr class="total-row"><td>Total</td>';
-        years.forEach(year => {
-            const yearTotal = Object.values(countsByYearAndDistance[year]).reduce((a, b) => a + b, 0);
-            tableHtml += `<td class="mono"><span class="stat-number highlight">${yearTotal}</span></td>`;
-        });
-        tableHtml += `<td class="mono"><span class="stat-number highlight">${completed.length}</span></td></tr>`;
-        tableHtml += '</tbody></table>';
-        byYearContainer.innerHTML = tableHtml;
-    }
+        function createFilters() {
+            const container = document.getElementById('filter-container');
+            const today = new Date().setHours(0,0,0,0);
+            const completed = allRaceData.filter(r => new Date(r.date + 'T00:00:00') < today);
 
-    /* ═══════════════════════════════════════════════════════════
-       FEATURE 10 — LIFETIME STATS FOOTER
-    ═══════════════════════════════════════════════════════════ */
-    function renderLifetimeStats() {
-        const today = new Date().setHours(0,0,0,0);
-        const completed = allRaceData.filter(r => new Date(r.date + 'T00:00:00') < today);
+            const dists = [...new Set(completed.map(r => getDisplayDist(r)))];
+            dists.sort((a, b) => getSortValue(a) - getSortValue(b));
 
-        const totalRaces = completed.length;
-        const totalMiles = completed.reduce((sum, r) => sum + (r.distanceMi || 0), 0);
-        const totalKm    = completed.reduce((sum, r) => sum + (r.distanceKm || 0), 0);
+            let html = `<button class="filter-chip ${currentFilter === 'all' ? 'active' : ''}" onclick="setFilter('all')">All</button>`;
 
-        // Years racing
-        const years = completed.map(r => new Date(r.date + 'T00:00:00').getFullYear());
-        const firstYear = years.length ? Math.min(...years) : new Date().getFullYear();
-        const currentYear = new Date().getFullYear();
-        const yearsRacing = currentYear - firstYear + 1;
+            dists.forEach(d => {
+                html += `<button class="filter-chip ${currentFilter === d ? 'active' : ''}" onclick="setFilter('${d}')">${d}</button>`;
+            });
 
-        // PBs set
-        const pbCount = completed.filter(r => r.personalBest).length;
+            container.innerHTML = html;
+        }
 
-        const distDisplay = currentUnit === 'km'
-            ? `${totalKm.toFixed(0)} km`
-            : `${totalMiles.toFixed(0)} mi`;
+        function getDistanceCategory(r) {
+            if (isMarathon(r)) return 'Marathon';
+            if (isHalf(r)) return 'Half Marathon';
+            if (Math.abs(r.distanceKm - 10) < 0.5) return '10K';
+            if (Math.abs(r.distanceKm - 5) < 0.5) return '5K';
+            if (Math.abs(r.distanceKm - 1.6) < 0.2) return '1 Mile';
+            return currentUnit === 'km' ? `${r.distanceKm}K` : `${r.distanceMi} mi`;
+        }
 
-        document.getElementById('lifetime-stats').innerHTML = `
-            <div class="lifetime-stat">
-                <div class="lifetime-stat-value">${totalRaces}</div>
-                <div class="lifetime-stat-label">Total Races</div>
-            </div>
-            <div class="lifetime-stat">
-                <div class="lifetime-stat-value">${distDisplay}</div>
-                <div class="lifetime-stat-label">Total Distance</div>
-            </div>
-            <div class="lifetime-stat">
-                <div class="lifetime-stat-value">${yearsRacing}</div>
-                <div class="lifetime-stat-label">Years Racing</div>
-            </div>
-            <div class="lifetime-stat">
-                <div class="lifetime-stat-value">${pbCount}</div>
-                <div class="lifetime-stat-label">PBs Set</div>
-            </div>
-        `;
-    }
+        function renderStatistics() {
+            const byYearContainer = document.getElementById('stats-by-year');
+            const today = new Date().setHours(0,0,0,0);
 
-    /* ═══════════════════════════════════════════════════════════
-       FEATURE 6 — DARK MODE TOGGLE (in-memory state)
-    ═══════════════════════════════════════════════════════════ */
-    document.getElementById('dark-toggle').addEventListener('click', () => {
-        isDarkMode = !isDarkMode;
-        document.body.classList.toggle('dark-mode', isDarkMode);
-        document.getElementById('dark-toggle').textContent = isDarkMode ? '☀️' : '🌙';
-        // Re-render charts with updated palette
-        renderPaceChart();
-        renderBarChart();
-        // Re-render sparklines (they use isDarkMode)
-        renderPersonalBests();
-    });
+            // Only count completed races
+            const completed = allRaceData.filter(r => new Date(r.date + 'T00:00:00') < today);
 
-    /* ═══════════════════════════════════════════════════════════
-       UNIT TOGGLE
-    ═══════════════════════════════════════════════════════════ */
-    document.querySelectorAll('.toggle-btn').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-            document.querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('active'));
-            e.target.classList.add('active');
-            currentUnit = e.target.dataset.unit;
-            renderPersonalBests();
+            if (completed.length === 0) {
+                byYearContainer.innerHTML = '<div class="empty-state">No completed races yet.</div>';
+                return;
+            }
+
+            // Get unique distance categories and years
+            const allCategories = completed.map(r => getDistanceCategory(r));
+            const uniqueCategories = [...new Set(allCategories)];
+
+            // Sort categories by distance value
+            uniqueCategories.sort((a, b) => getSortValue(a) - getSortValue(b));
+
+            const years = [...new Set(completed.map(r => new Date(r.date).getFullYear()))].sort((a, b) => b - a);
+
+            // Calculate totals by distance
+            const totalsByDistance = {};
+            uniqueCategories.forEach(cat => totalsByDistance[cat] = 0);
+            completed.forEach(r => {
+                const cat = getDistanceCategory(r);
+                totalsByDistance[cat]++;
+            });
+
+            // Calculate counts by year and distance
+            const countsByYearAndDistance = {};
+            years.forEach(year => {
+                countsByYearAndDistance[year] = {};
+                uniqueCategories.forEach(cat => countsByYearAndDistance[year][cat] = 0);
+            });
+            completed.forEach(r => {
+                const year = new Date(r.date).getFullYear();
+                const cat = getDistanceCategory(r);
+                countsByYearAndDistance[year][cat]++;
+            });
+
+            // Render by-year table
+            let tableHtml = '<table class="stats-table"><thead><tr><th>Distance</th>';
+            years.forEach(year => {
+                tableHtml += `<th>${year}</th>`;
+            });
+            tableHtml += '<th>Total</th></tr></thead><tbody>';
+
+            uniqueCategories.forEach(cat => {
+                tableHtml += `<tr><td>${cat}</td>`;
+                years.forEach(year => {
+                    const count = countsByYearAndDistance[year][cat];
+                    tableHtml += `<td class="mono"><span class="stat-number${count > 0 ? ' highlight' : ''}">${count || '-'}</span></td>`;
+                });
+                tableHtml += `<td class="mono"><span class="stat-number highlight">${totalsByDistance[cat]}</span></td></tr>`;
+            });
+
+            // Add total row
+            tableHtml += '<tr class="total-row"><td>Total</td>';
+            years.forEach(year => {
+                const yearTotal = Object.values(countsByYearAndDistance[year]).reduce((a, b) => a + b, 0);
+                tableHtml += `<td class="mono"><span class="stat-number highlight">${yearTotal}</span></td>`;
+            });
+            tableHtml += `<td class="mono"><span class="stat-number highlight">${completed.length}</span></td></tr>`;
+
+            tableHtml += '</tbody></table>';
+            byYearContainer.innerHTML = tableHtml;
+        }
+
+        window.setFilter = (filter) => {
+            currentFilter = filter;
             createFilters();
             renderTable(allRaceData);
-            renderUpcoming();
+        };
+
+        document.querySelectorAll('.toggle-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                document.querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('active'));
+                e.target.classList.add('active');
+                currentUnit = e.target.dataset.unit;
+                renderPersonalBests();
+                createFilters();
+                renderTable(allRaceData);
+                renderUpcoming();
+                renderStatistics();
+            });
+        });
+
+        function initDashboard() {
+            renderPersonalBests();
             renderStatistics();
             renderGoals();
-            renderPaceChart();
-            renderBarChart();
-            renderLifetimeStats();
-        });
-    });
+            renderUpcoming();
+            createFilters();
+            renderTable(allRaceData);
+        }
 
-    /* ═══════════════════════════════════════════════════════════
-       GLOBAL FILTER
-    ═══════════════════════════════════════════════════════════ */
-    window.setFilter = (filter) => {
-        currentFilter = filter;
-        createFilters();
-        renderTable(allRaceData);
-    };
-
-    /* ═══════════════════════════════════════════════════════════
-       INIT
-    ═══════════════════════════════════════════════════════════ */
-    function initDashboard() {
-        renderPersonalBests();
-        renderPaceChart();
-        renderStatistics();
-        renderBarChart();
-        renderGoals();
-        renderUpcoming();
-        createFilters();
-        renderTable(allRaceData);
-        renderLifetimeStats();
-    }
-
-    loadRaceData();
+        loadRaceData();
     </script>
 </body>
 </html>
