@@ -192,7 +192,7 @@
     "raceWebsite": "",
     "resultsWebsite": "https://www.secondwindtiming.com/result-page/?id=344564&utm_source=resultEmail&utm_medium=email&utm_campaign=emailResults",
     "stravaActivity": "https://www.strava.com/activities/15004204262/overview",
-    "personalBest": true
+    "personalBest": false
   },
   {
     "name": "Run to Home Base 5K (with Teddy)",
@@ -427,6 +427,19 @@
     "resultsWebsite": "https://runsignup.com/Race/Results/120538/IndividualResult/RRXxt?resultSetId=626307#U69234122",
     "stravaActivity": "https://www.strava.com/activities/17396050789/overview",
     "personalBest": false
+  },
+  {
+    "name": "Hilton Head Shamrock 5K",
+    "date": "2026-03-14",
+    "distanceKm": 5,
+    "distanceMi": 3.1,
+    "time": "0:25:17",
+    "paceKm": "0:05:03",
+    "paceMi": "0:08:09",
+    "raceWebsite": "https://bearfootsports.com/shamrock-run",
+    "resultsWebsite": "https://bearfootsports.com/wp-content/uploads/2026/03/age-group-final-results.pdf",
+    "stravaActivity": "https://www.strava.com/activities/17718486490/overview",
+    "personalBest": true
   },
   {
     "name": "On The Run Half Marathon",
