@@ -127,7 +127,7 @@
     "raceWebsite": "https://runsignup.com/Race/MA/Amesbury/EnjoyYourLifeHappyHalfMarathon",
     "resultsWebsite": "https://runsignup.com/Race/Results/156515/IndividualResult/2025#U69234122",
     "stravaActivity": "https://www.strava.com/activities/14437102010/overview",
-    "personalBest": true
+    "personalBest": false
   },
   {
     "name": "Great Bear Run 5K",
@@ -446,13 +446,13 @@
     "date": "2026-03-21",
     "distanceKm": 21.1,
     "distanceMi": 13.1,
-    "time": "",
-    "paceKm": "",
-    "paceMi": "",
+    "time": "2:09:07",
+    "paceKm": "0:06:07",
+    "paceMi": "0:09:51",
     "raceWebsite": "https://www.runna.com/races/race/on-the-run-half-marathon",
-    "resultsWebsite": "",
-    "stravaActivity": "",
-    "personalBest": false
+    "resultsWebsite": "https://1drv.ms/w/c/29e2dc0dc187f449/IQA2xOiGGOCySbE98O2IZ5bgAQeiVbuib-SCqHx-92EJk3s?e=gUtZjh",
+    "stravaActivity": "https://www.strava.com/activities/17804656834/overview",
+    "personalBest": true
   },
   {
     "name": "Cambridge Spring Classic 5K",
