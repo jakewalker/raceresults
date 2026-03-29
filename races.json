@@ -455,16 +455,16 @@
     "personalBest": true
   },
   {
-    "name": "Cambridge Spring Classic 5K",
+    "name": "Cambridge Spring Classic 5K (with Teddy)",
     "date": "2026-03-29",
     "distanceKm": 5,
     "distanceMi": 3.1,
-    "time": "",
-    "paceKm": "",
-    "paceMi": "",
+    "time": "30:49",
+    "paceKm": "0:06:10",
+    "paceMi": "0:09:56",
     "raceWebsite": "https://runsignup.com/Race/MA/Cambridge/SpringClassic5K",
-    "resultsWebsite": "",
-    "stravaActivity": "",
+    "resultsWebsite": "https://track.rtrt.me/e/TLMR-SPRING-CLASSIC-2026#/dash/RLE6B3S8",
+    "stravaActivity": "https://www.strava.com/activities/17901871696/overview",
     "personalBest": false
   },
   {
