@@ -309,7 +309,7 @@
     "raceWebsite": "https://www.philadelphiamarathon.com",
     "resultsWebsite": "https://www.mychiptime.com/searchevent.php?id=16897&utm_source=Philadelphia+Marathon+Weekend&utm_campaign=24c6b6a2f9-finisher-email-half-marathon-112324_COPY_01&utm_medium=email&utm_term=0_fa2559b911-24c6b6a2f9-362946019&mc_cid=24c6b6a2f9&mc_eid=9a60efcb93",
     "stravaActivity": "https://www.strava.com/activities/16545904248/overview",
-    "personalBest": true
+    "personalBest": false
   },
   {
     "name": "Dedham Ripples of Hope Turkey Trot (with Teddy)",
@@ -466,6 +466,19 @@
     "resultsWebsite": "https://track.rtrt.me/e/TLMR-SPRING-CLASSIC-2026#/dash/RLE6B3S8",
     "stravaActivity": "https://www.strava.com/activities/17901871696/overview",
     "personalBest": false
+  },
+   {
+    "name": "Cheap Marathon (Windham, NH)",
+    "date": "2026-04-04",
+    "distanceKm": 42.2,
+    "distanceMi": 26.2,
+    "time": "4:38:38",
+    "paceKm": "0:06:36",
+    "paceMi": "0:10:38",
+    "raceWebsite": "https://millenniumrunning.com/cheapmarathon/",
+    "resultsWebsite": "https://results.raceroster.com/v3/events/3zzwq46cr65qwnag/race/252981?filter_search=walker",
+    "stravaActivity": "https://www.strava.com/activities/17978034955/overview",
+    "personalBest": true
   },
   {
     "name": "BAA 5K",
