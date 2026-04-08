@@ -709,6 +709,10 @@ td.empty-state::before {
 }
 
 @media (max-width: 760px) {
+    .stats-section {
+        display: none;
+    }
+
     section {
         margin-bottom: 1.6rem;
     }
