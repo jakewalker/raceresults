@@ -439,7 +439,7 @@
     "raceWebsite": "https://bearfootsports.com/shamrock-run",
     "resultsWebsite": "https://bearfootsports.com/wp-content/uploads/2026/03/age-group-final-results.pdf",
     "stravaActivity": "https://www.strava.com/activities/17718486490/overview",
-    "personalBest": true
+    "personalBest": false
   },
   {
     "name": "On The Run Half Marathon",
@@ -482,16 +482,16 @@
   },
   {
     "name": "BAA 5K",
-    "date": "2026-04-18",
+    "date": "2026-04-17",
     "distanceKm": 5,
     "distanceMi": 3.1,
-    "time": "",
-    "paceKm": "",
-    "paceMi": "",
+    "time": "0:24:25",
+    "paceKm": "0:04:53",
+    "paceMi": "0:07:53",
     "raceWebsite": "https://www.baa.org/races/boston-5k",
-    "resultsWebsite": "",
-    "stravaActivity": "",
-    "personalBest": false
+    "resultsWebsite": "https://rtrt.me/ulink/BAARA/BOSTON-5K-2026/tracker/RCJ3RUWL/focus",
+    "stravaActivity": "https://www.strava.com/activities/18157686149/overview",
+    "personalBest": true
   },
   {
     "name": "Bayshore Marathon",
