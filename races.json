@@ -407,12 +407,12 @@
     "date": "2026-04-26",
     "distanceKm": 42.2,
     "distanceMi": 26.2,
-    "time": "",
-    "paceKm": "",
-    "paceMi": "",
+    "time": "5:44:36",
+    "paceKm": "0:08:10",
+    "paceMi": "0:13:09",
     "raceWebsite": "https://www.londonmarathonevents.co.uk/london-marathon",
-    "resultsWebsite": "",
-    "stravaActivity": "",
+    "resultsWebsite": "https://results.tcslondonmarathon.com/2026/?content=detail&fpid=search&pid=search&idp=9TG2O3HQ50CD0C&lang=EN_CAP&event=MAS&search%5Bname%5D=walker&search%5Bfirstname%5D=jacob&search_event=MAS",
+    "stravaActivity": "https://www.strava.com/activities/18268826347",
     "personalBest": false
   },
   {
