@@ -88,11 +88,35 @@
             { text: "PR Marathon (< 4:40)", status: "Done!" }
         ];
 
+        function normalizeRace(r) {
+            const KM_PER_MILE = 1.60934;
+            if (r.distanceKm && !r.distanceMi) {
+                r.distanceMi = Math.round(r.distanceKm / KM_PER_MILE * 10) / 10;
+            } else if (r.distanceMi && !r.distanceKm) {
+                r.distanceKm = Math.round(r.distanceMi * KM_PER_MILE * 10) / 10;
+            }
+            if (r.time) {
+                const parts = r.time.split(':').map(Number);
+                const secs = parts.length === 3
+                    ? parts[0] * 3600 + parts[1] * 60 + parts[2]
+                    : parts[0] * 60 + parts[1];
+                const fmt = (s) => {
+                    const h = Math.floor(s / 3600);
+                    const m = Math.floor((s % 3600) / 60);
+                    const ss = Math.round(s % 60);
+                    return `${h}:${String(m).padStart(2, '0')}:${String(ss).padStart(2, '0')}`;
+                };
+                r.paceKm = fmt(secs / r.distanceKm);
+                r.paceMi = fmt(secs / r.distanceMi);
+            }
+            return r;
+        }
+
         async function loadRaceData() {
             try {
                 const response = await fetch('races.json');
                 if (!response.ok) throw new Error('Failed to load data');
-                allRaceData = await response.json();
+                allRaceData = (await response.json()).map(normalizeRace);
                 initDashboard();
             } catch (error) {
                 console.error(error);

@@ -33,10 +33,7 @@ Each race object:
   "name": "Race Name",
   "date": "YYYY-MM-DD",
   "distanceKm": 21.1,
-  "distanceMi": 13.1,
   "time": "H:MM:SS",
-  "paceKm": "H:MM:SS",
-  "paceMi": "H:MM:SS",
   "raceWebsite": "https://...",
   "resultsWebsite": "https://...",
   "stravaActivity": "https://...",
@@ -44,7 +41,9 @@ Each race object:
 }
 ```
 
-- Upcoming races have empty `time`, `paceKm`, and `paceMi` fields.
+- Provide either `distanceKm` or `distanceMi` — the other is computed automatically.
+- `paceKm` and `paceMi` are computed from `time` + distance at load time; do not include them.
+- Upcoming races omit `time` (or leave it as `""`).
 - `personalBest` is `true` only for current PB at each distance.
 - URLs can be empty strings if not available.
 
