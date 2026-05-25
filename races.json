@@ -397,7 +397,7 @@
     "raceWebsite": "https://www.baa.org/races/boston-5k",
     "resultsWebsite": "https://results.raceroster.com/v3/events/2qa9p5rj45zrc5g3/race/282080/participant/9edc97ekmmu6btzj?filter_search=walker",
     "stravaActivity": "https://www.strava.com/activities/18635232330/overview",
-    "personalBest": false
+    "personalBest": true
   },
   {
     "name": "Fenway Park Half Marathon",
