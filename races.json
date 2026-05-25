@@ -6,8 +6,7 @@
     "time": "2:49:47",
     "raceWebsite": "https://mainemarathon.com",
     "resultsWebsite": "",
-    "stravaActivity": "",
-    "personalBest": false
+    "stravaActivity": ""
   },
   {
     "name": "Maine Half Marathon",
@@ -16,8 +15,7 @@
     "time": "2:47:45",
     "raceWebsite": "https://mainemarathon.com",
     "resultsWebsite": "",
-    "stravaActivity": "",
-    "personalBest": false
+    "stravaActivity": ""
   },
   {
     "name": "Disney Wine & Dine 10K",
@@ -26,8 +24,7 @@
     "time": "1:24:35",
     "raceWebsite": "https://www.rundisney.com/events/disneyworld/wine-and-dine-half-marathon-weekend/",
     "resultsWebsite": "https://www.trackshackresults.com/disneysports/results/wd/wd24/10k_results.php?Link=144&Type=3&LName=walker&FName=jacob&City=&State=&Country=",
-    "stravaActivity": "https://www.strava.com/activities/12803629366/overview",
-    "personalBest": false
+    "stravaActivity": "https://www.strava.com/activities/12803629366/overview"
   },
   {
     "name": "Disney Wine & Dine Half",
@@ -36,8 +33,7 @@
     "time": "3:24:29",
     "raceWebsite": "https://www.rundisney.com/events/disneyworld/wine-and-dine-half-marathon-weekend/",
     "resultsWebsite": "https://www.trackshackresults.com/disneysports/results/wd/wd24/hm_results.php?Link=145&Type=3&LName=walker&FName=jacob&City=&State=&Country=",
-    "stravaActivity": "https://www.strava.com/activities/12814578129/overview",
-    "personalBest": false
+    "stravaActivity": "https://www.strava.com/activities/12814578129/overview"
   },
   {
     "name": "Dedham Ripples of Hope Turkey Trot",
@@ -46,8 +42,7 @@
     "time": "0:32:21",
     "raceWebsite": "https://www.ripplesofhope.org/turkey-trot",
     "resultsWebsite": "http://spitlerracesystems.com/raceresults/RipplesofHope.php",
-    "stravaActivity": "https://www.strava.com/activities/13002175352/overview",
-    "personalBest": false
+    "stravaActivity": "https://www.strava.com/activities/13002175352/overview"
   },
   {
     "name": "Disney World Marathon",
@@ -56,8 +51,7 @@
     "time": "5:36:05",
     "raceWebsite": "https://www.rundisney.com/events/disneyworld/disneyworld-marathon-weekend/",
     "resultsWebsite": "https://www.trackshackresults.com/disneysports/results/wdw/wdw25/mar_results.php?Link=148&Type=3&LName=walker&FName=jacob&City=&State=&Country=",
-    "stravaActivity": "https://www.strava.com/activities/13336173872/overview",
-    "personalBest": false
+    "stravaActivity": "https://www.strava.com/activities/13336173872/overview"
   },
   {
     "name": "Disneyland Half Marathon",
@@ -66,8 +60,7 @@
     "time": "2:29:05",
     "raceWebsite": "https://www.rundisney.com/events/disneyland/disneyland-half-marathon-weekend/",
     "resultsWebsite": "https://www.trackshackresults.com/disneysports/results/dl/dl25/hm_results.php?Link=150&Type=3&LName=walker&FName=jacob&City=&State=&Country=",
-    "stravaActivity": "https://www.strava.com/activities/13520879905/overview",
-    "personalBest": false
+    "stravaActivity": "https://www.strava.com/activities/13520879905/overview"
   },
   {
     "name": "Cambridge Spring Classic",
@@ -76,8 +69,7 @@
     "time": "0:26:56",
     "raceWebsite": "https://runsignup.com/Race/MA/Cambridge/SpringClassic5K",
     "resultsWebsite": "https://rtrt.me/ulink/TLMRA/TLMR-SPRING-CLASSIC-2025/tracker/RTR8NFUL/focus",
-    "stravaActivity": "https://www.strava.com/activities/14030317400/overview",
-    "personalBest": false
+    "stravaActivity": "https://www.strava.com/activities/14030317400/overview"
   },
   {
     "name": "Newport Rhode Race Half",
@@ -86,8 +78,7 @@
     "time": "2:23:06",
     "raceWebsite": "https://rhoderaces.com/events/newport/",
     "resultsWebsite": "https://runsignup.com/Race/Results/34170/IndividualResult/BfYk?resultSetId=541744#U69234122",
-    "stravaActivity": "https://www.strava.com/activities/14223352816/overview",
-    "personalBest": false
+    "stravaActivity": "https://www.strava.com/activities/14223352816/overview"
   },
   {
     "name": "Enjoy Your Life Happy Half",
@@ -96,8 +87,7 @@
     "time": "2:20:47",
     "raceWebsite": "https://runsignup.com/Race/MA/Amesbury/EnjoyYourLifeHappyHalfMarathon",
     "resultsWebsite": "https://runsignup.com/Race/Results/156515/IndividualResult/2025#U69234122",
-    "stravaActivity": "https://www.strava.com/activities/14437102010/overview",
-    "personalBest": false
+    "stravaActivity": "https://www.strava.com/activities/14437102010/overview"
   },
   {
     "name": "Great Bear Run 5K",
@@ -106,8 +96,7 @@
     "time": "0:28:20",
     "raceWebsite": "https://greatbearrun.godaddysites.com",
     "resultsWebsite": "https://runsignup.com/Race/Results/139740/IndividualResult/cdXq#U69234122",
-    "stravaActivity": "https://www.strava.com/activities/14519985205/overview",
-    "personalBest": false
+    "stravaActivity": "https://www.strava.com/activities/14519985205/overview"
   },
   {
     "name": "Great Bear Run Mile",
@@ -116,8 +105,7 @@
     "time": "0:08:03",
     "raceWebsite": "https://greatbearrun.godaddysites.com",
     "resultsWebsite": "https://runsignup.com/Race/Results/139740/IndividualResult/cdXg#U69234122",
-    "stravaActivity": "https://www.strava.com/activities/14520991299/overview",
-    "personalBest": false
+    "stravaActivity": "https://www.strava.com/activities/14520991299/overview"
   },
   {
     "name": "Portland Old Port Half Marathon",
@@ -126,8 +114,7 @@
     "time": "2:27:53",
     "raceWebsite": "https://oldporthalfmarathon.com/",
     "resultsWebsite": "https://raceday.enmotive.com/#/events/2025-shipyard-old-port-half-marathon-and-5k/registrants/fbc47bef-2d19-46ed-838c-abd606dba6d8",
-    "stravaActivity": "https://www.strava.com/activities/14723963734",
-    "personalBest": false
+    "stravaActivity": "https://www.strava.com/activities/14723963734"
   },
   {
     "name": "Cambridge Summer Classic 5K (with Teddy)",
@@ -136,8 +123,7 @@
     "time": "0:37:28",
     "raceWebsite": "",
     "resultsWebsite": "https://track.rtrt.me/e/TLMR-SUMMER-CLASSIC-2025#/dash/RWDRU9EY",
-    "stravaActivity": "https://www.strava.com/activities/14953399712/overview",
-    "personalBest": false
+    "stravaActivity": "https://www.strava.com/activities/14953399712/overview"
   },
   {
     "name": "Needham Independence Day 5K",
@@ -146,8 +132,7 @@
     "time": "0:26:04",
     "raceWebsite": "",
     "resultsWebsite": "https://www.secondwindtiming.com/result-page/?id=344564&utm_source=resultEmail&utm_medium=email&utm_campaign=emailResults",
-    "stravaActivity": "https://www.strava.com/activities/15004204262/overview",
-    "personalBest": false
+    "stravaActivity": "https://www.strava.com/activities/15004204262/overview"
   },
   {
     "name": "Run to Home Base 5K (with Teddy)",
@@ -156,8 +141,7 @@
     "time": "0:36:50",
     "raceWebsite": "https://runtohomebase.org",
     "resultsWebsite": "https://track.rtrt.me/e/TLMR-RUN-TO-HOME-BASE-2025#/dash/RZ4WAKD8",
-    "stravaActivity": "https://www.strava.com/activities/15242978002",
-    "personalBest": false
+    "stravaActivity": "https://www.strava.com/activities/15242978002"
   },
   {
     "name": "BAA Carson Beach Shoreline 5K",
@@ -166,8 +150,7 @@
     "time": "0:26:28",
     "raceWebsite": "https://www.baa.org/carson-beach-shoreline-5k",
     "resultsWebsite": "https://rtrt.me/render/badges?e=TLMR-CARSONBEACHSHORELINE5K-2025&pid=RST8XMVG&resp=1&bgcolor=fff&filename=tlmr-carsonbeachshoreline5k-2025rst8xmvg",
-    "stravaActivity": "https://www.strava.com/activities/15381864477",
-    "personalBest": false
+    "stravaActivity": "https://www.strava.com/activities/15381864477"
   },
   {
     "name": "Falmouth Road Race",
@@ -176,8 +159,7 @@
     "time": "1:11:21",
     "raceWebsite": "https://falmouthroadrace.com",
     "resultsWebsite": "https://rtrt.me/ulink/_RT/FRR-FALMOUTH-2025/tracker/RPHZ3TBY/focus",
-    "stravaActivity": "https://www.strava.com/activities/15490781968",
-    "personalBest": false
+    "stravaActivity": "https://www.strava.com/activities/15490781968"
   },
   {
     "name": "Boston Irish Cultural Center 5K",
@@ -186,8 +168,7 @@
     "time": "0:26:45",
     "raceWebsite": "https://falmouthroadrace.com",
     "resultsWebsite": "https://www.iresultslive.com/results/?eid=6542",
-    "stravaActivity": "https://www.strava.com/activities/15809605731",
-    "personalBest": false
+    "stravaActivity": "https://www.strava.com/activities/15809605731"
   },
   {
     "name": "Cambridge Fall Classic 5K (with Teddy)",
@@ -196,8 +177,7 @@
     "time": "0:30:47",
     "raceWebsite": "https://runsignup.com/Race/MA/Cambridge/FallClassic5K",
     "resultsWebsite": "https://track.rtrt.me/e/TLMR-FALL-CLASSIC-2025#/dash/RN8HJG36",
-    "stravaActivity": "https://www.strava.com/activities/16042352244/overview",
-    "personalBest": false
+    "stravaActivity": "https://www.strava.com/activities/16042352244/overview"
   },
   {
     "name": "Chicago Marathon",
@@ -206,8 +186,7 @@
     "time": "5:00:01",
     "raceWebsite": "https://www.chicagomarathon.com",
     "resultsWebsite": "https://results.chicagomarathon.com/2025?content=detail&fpid=search&pid=search&idp=9TGG96382B7DC4&lang=EN_CAP&event=MAR&event_main_group=runner&search%5Bname%5D=walker&search%5Bfirstname%5D=Jacob&search_event=MAR",
-    "stravaActivity": "https://www.strava.com/activities/16120871981/overview",
-    "personalBest": false
+    "stravaActivity": "https://www.strava.com/activities/16120871981/overview"
   },
   {
     "name": "Disney World Wine & Dine Half Marathon (workout)",
@@ -216,8 +195,7 @@
     "time": "2:23:39",
     "raceWebsite": "https://www.rundisney.com/",
     "resultsWebsite": "https://www.trackshackresults.com/disneysports/results/wd/wd25/hm_results.php?Link=158&Type=3&LName=walker&FName=jacob&City=&State=&Country=",
-    "stravaActivity": "https://www.strava.com/activities/16260892614/overview",
-    "personalBest": false
+    "stravaActivity": "https://www.strava.com/activities/16260892614/overview"
   },
   {
     "name": "Falmouth In The Fall",
@@ -226,8 +204,7 @@
     "time": "1:02:40",
     "raceWebsite": "https://falmouthinthefall.com",
     "resultsWebsite": "https://rtrt.me/ulink/_RT/FRR-FALMOUTH-IN-THE-FALL-2025/tracker/RNBGVFC4/focus",
-    "stravaActivity": "https://www.strava.com/activities/16334411578/overview",
-    "personalBest": true
+    "stravaActivity": "https://www.strava.com/activities/16334411578/overview"
   },
   {
     "name": "Philadelphia Marathon",
@@ -236,8 +213,7 @@
     "time": "4:40:33",
     "raceWebsite": "https://www.philadelphiamarathon.com",
     "resultsWebsite": "https://www.mychiptime.com/searchevent.php?id=16897&utm_source=Philadelphia+Marathon+Weekend&utm_campaign=24c6b6a2f9-finisher-email-half-marathon-112324_COPY_01&utm_medium=email&utm_term=0_fa2559b911-24c6b6a2f9-362946019&mc_cid=24c6b6a2f9&mc_eid=9a60efcb93",
-    "stravaActivity": "https://www.strava.com/activities/16545904248/overview",
-    "personalBest": false
+    "stravaActivity": "https://www.strava.com/activities/16545904248/overview"
   },
   {
     "name": "Dedham Ripples of Hope Turkey Trot (with Teddy)",
@@ -246,8 +222,7 @@
     "time": "0:32:18",
     "raceWebsite": "https://www.ripplesofhope.org/turkey-trot",
     "resultsWebsite": "https://results.raceroster.com/v3/events/u6dc2nrjc65mcshb/race/220293/participant/w7s4prk2xvtywruq?filter_search=walker",
-    "stravaActivity": "https://www.strava.com/activities/16582059657/overview",
-    "personalBest": false
+    "stravaActivity": "https://www.strava.com/activities/16582059657/overview"
   },
   {
     "name": "Lexington Legacy 5K",
@@ -256,8 +231,7 @@
     "time": "0:26:29",
     "raceWebsite": "https://www.lexingtonlegacy5k.com",
     "resultsWebsite": "https://www.secondwindtiming.com/result-page/?id=366997",
-    "stravaActivity": "https://www.strava.com/activities/16600835044/overview",
-    "personalBest": false
+    "stravaActivity": "https://www.strava.com/activities/16600835044/overview"
   },
   {
     "name": "Seaside Santa Dash (Short Course, 5.9 mi)",
@@ -267,7 +241,7 @@
     "raceWebsite": "https://runsignup.com/Race/ME/Kennebunk/SeasideSantaDash",
     "resultsWebsite": "https://www.secondwindtiming.com/result-page/?id=366999#2_50D290",
     "stravaActivity": "https://www.strava.com/activities/16794650482/overview",
-    "personalBest": false
+    "excludeFromPB": true
   },
   {
     "name": "Disney World Marathon Weekend 5K (Dopey 1/4)",
@@ -276,8 +250,7 @@
     "time": "0:26:58",
     "raceWebsite": "https://www.rundisney.com/events/disneyworld/disneyworld-marathon-weekend/",
     "resultsWebsite": "https://www.trackshackresults.com/disneysports/results/wdw/wdw26/Dopey%20Challenge.pdf",
-    "stravaActivity": "https://www.strava.com/activities/16977360992/overview",
-    "personalBest": false
+    "stravaActivity": "https://www.strava.com/activities/16977360992/overview"
   },
   {
     "name": "Disney World Marathon Weekend 10K (Dopey 2/4)",
@@ -286,8 +259,7 @@
     "time": "0:57:36",
     "raceWebsite": "https://www.rundisney.com/events/disneyworld/disneyworld-marathon-weekend/",
     "resultsWebsite": "https://www.trackshackresults.com/disneysports/results/wdw/wdw26/Dopey%20Challenge.pdf",
-    "stravaActivity": "https://www.strava.com/activities/16988296603/overview",
-    "personalBest": true
+    "stravaActivity": "https://www.strava.com/activities/16988296603/overview"
   },
   {
     "name": "Disney World Marathon Weekend Half Marathon (Dopey 3/4)",
@@ -296,8 +268,7 @@
     "time": "2:34:23",
     "raceWebsite": "https://www.rundisney.com/events/disneyworld/disneyworld-marathon-weekend/",
     "resultsWebsite": "https://www.trackshackresults.com/disneysports/results/wdw/wdw26/Dopey%20Challenge.pdf",
-    "stravaActivity": "https://www.strava.com/activities/17000086047/overview",
-    "personalBest": false
+    "stravaActivity": "https://www.strava.com/activities/17000086047/overview"
   },
   {
     "name": "Disney World Marathon Weekend Marathon (Dopey 4/4)",
@@ -306,8 +277,7 @@
     "time": "4:56:05",
     "raceWebsite": "https://www.rundisney.com/events/disneyworld/disneyworld-marathon-weekend/",
     "resultsWebsite": "https://www.trackshackresults.com/disneysports/results/wdw/wdw26/Dopey%20Challenge.pdf",
-    "stravaActivity": "https://www.strava.com/activities/17013398577/overview",
-    "personalBest": false
+    "stravaActivity": "https://www.strava.com/activities/17013398577/overview"
   },
   {
     "name": "London Marathon",
@@ -316,8 +286,7 @@
     "time": "5:44:36",
     "raceWebsite": "https://www.londonmarathonevents.co.uk/london-marathon",
     "resultsWebsite": "https://results.tcslondonmarathon.com/2026/?content=detail&fpid=search&pid=search&idp=9TG2O3HQ50CD0C&lang=EN_CAP&event=MAS&search%5Bname%5D=walker&search%5Bfirstname%5D=jacob&search_event=MAS",
-    "stravaActivity": "https://www.strava.com/activities/18268826347",
-    "personalBest": false
+    "stravaActivity": "https://www.strava.com/activities/18268826347"
   },
   {
     "name": "Cupid's Chase 5K",
@@ -326,8 +295,7 @@
     "time": "0:26:57",
     "raceWebsite": "https://runsignup.com/Race/MA/Wakefield/CupidsChasema",
     "resultsWebsite": "https://runsignup.com/Race/Results/120538/IndividualResult/RRXxt?resultSetId=626307#U69234122",
-    "stravaActivity": "https://www.strava.com/activities/17396050789/overview",
-    "personalBest": false
+    "stravaActivity": "https://www.strava.com/activities/17396050789/overview"
   },
   {
     "name": "Hilton Head Shamrock 5K",
@@ -336,8 +304,7 @@
     "time": "0:25:17",
     "raceWebsite": "https://bearfootsports.com/shamrock-run",
     "resultsWebsite": "https://bearfootsports.com/wp-content/uploads/2026/03/age-group-final-results.pdf",
-    "stravaActivity": "https://www.strava.com/activities/17718486490/overview",
-    "personalBest": false
+    "stravaActivity": "https://www.strava.com/activities/17718486490/overview"
   },
   {
     "name": "On The Run Half Marathon",
@@ -346,8 +313,7 @@
     "time": "2:09:07",
     "raceWebsite": "https://www.runna.com/races/race/on-the-run-half-marathon",
     "resultsWebsite": "https://1drv.ms/w/c/29e2dc0dc187f449/IQA2xOiGGOCySbE98O2IZ5bgAQeiVbuib-SCqHx-92EJk3s?e=gUtZjh",
-    "stravaActivity": "https://www.strava.com/activities/17804656834/overview",
-    "personalBest": true
+    "stravaActivity": "https://www.strava.com/activities/17804656834/overview"
   },
   {
     "name": "Cambridge Spring Classic 5K (with Teddy)",
@@ -356,8 +322,7 @@
     "time": "30:49",
     "raceWebsite": "https://runsignup.com/Race/MA/Cambridge/SpringClassic5K",
     "resultsWebsite": "https://track.rtrt.me/e/TLMR-SPRING-CLASSIC-2026#/dash/RLE6B3S8",
-    "stravaActivity": "https://www.strava.com/activities/17901871696/overview",
-    "personalBest": false
+    "stravaActivity": "https://www.strava.com/activities/17901871696/overview"
   },
   {
     "name": "Cheap Marathon",
@@ -366,8 +331,7 @@
     "time": "4:38:38",
     "raceWebsite": "https://millenniumrunning.com/cheapmarathon/",
     "resultsWebsite": "https://results.raceroster.com/v3/events/3zzwq46cr65qwnag/race/252981?filter_search=walker",
-    "stravaActivity": "https://www.strava.com/activities/17978034955/overview",
-    "personalBest": true
+    "stravaActivity": "https://www.strava.com/activities/17978034955/overview"
   },
   {
     "name": "BAA 5K",
@@ -376,8 +340,7 @@
     "time": "0:24:25",
     "raceWebsite": "https://www.baa.org/races/boston-5k",
     "resultsWebsite": "https://rtrt.me/ulink/BAARA/BOSTON-5K-2026/tracker/RCJ3RUWL/focus",
-    "stravaActivity": "https://www.strava.com/activities/18157686149/overview",
-    "personalBest": true
+    "stravaActivity": "https://www.strava.com/activities/18157686149/overview"
   },
   {
     "name": "Greenlodge 5K Dedham",
@@ -386,8 +349,7 @@
     "time": "0:25:41",
     "raceWebsite": "https://runsignup.com/Race/MA/Dedham/Greenlodge5K",
     "resultsWebsite": "https://runsignup.com/Race/Results/200971/IndividualResult/RXQJX?resultSetId=646977#U69234122",
-    "stravaActivity": "https://www.strava.com/activities/18359898053/overview",
-    "personalBest": false
+    "stravaActivity": "https://www.strava.com/activities/18359898053/overview"
   },
   {
     "name": "Run To Remember 5 Miler",
@@ -396,8 +358,7 @@
     "time": "0:44:06",
     "raceWebsite": "https://www.baa.org/races/boston-5k",
     "resultsWebsite": "https://results.raceroster.com/v3/events/2qa9p5rj45zrc5g3/race/282080/participant/9edc97ekmmu6btzj?filter_search=walker",
-    "stravaActivity": "https://www.strava.com/activities/18635232330/overview",
-    "personalBest": true
+    "stravaActivity": "https://www.strava.com/activities/18635232330/overview"
   },
   {
     "name": "Fenway Park Half Marathon",
@@ -406,8 +367,7 @@
     "time": "",
     "raceWebsite": "https://raceroster.com/events/2026/115708/fenway-park-marathon",
     "resultsWebsite": "",
-    "stravaActivity": "",
-    "personalBest": false
+    "stravaActivity": ""
   },
   {
     "name": "Covered Bridge Half Marathon",
@@ -416,8 +376,7 @@
     "time": "",
     "raceWebsite": "https://cbhm.com/",
     "resultsWebsite": "",
-    "stravaActivity": "",
-    "personalBest": false
+    "stravaActivity": ""
   },
   {
     "name": "BAA 10K",
@@ -426,8 +385,7 @@
     "time": "",
     "raceWebsite": "https://www.baa.org/races/boston-10k",
     "resultsWebsite": "",
-    "stravaActivity": "",
-    "personalBest": false
+    "stravaActivity": ""
   },
   {
     "name": "Cambridge Summer Classic 5K",
@@ -436,8 +394,7 @@
     "time": "",
     "raceWebsite": "https://runsignup.com/Race/Events/MA/Cambridge/SummerClassic5K",
     "resultsWebsite": "",
-    "stravaActivity": "",
-    "personalBest": false
+    "stravaActivity": ""
   },
   {
     "name": "Run to Home Base",
@@ -446,8 +403,7 @@
     "time": "",
     "raceWebsite": "https://www.redsoxfoundation.org/home-base/",
     "resultsWebsite": "",
-    "stravaActivity": "",
-    "personalBest": false
+    "stravaActivity": ""
   },
   {
     "name": "Cambridge Fall Classic 5K",
@@ -456,8 +412,7 @@
     "time": "",
     "raceWebsite": "https://runsignup.com/Race/MA/Cambridge/FallClassic5K",
     "resultsWebsite": "",
-    "stravaActivity": "",
-    "personalBest": false
+    "stravaActivity": ""
   },
   {
     "name": "New York Marathon",
@@ -466,8 +421,7 @@
     "time": "",
     "raceWebsite": "https://www.nyrr.org/tcsnycmarathon",
     "resultsWebsite": "",
-    "stravaActivity": "",
-    "personalBest": false
+    "stravaActivity": ""
   },
   {
     "name": "BAA Boston Half",
@@ -476,8 +430,7 @@
     "time": "",
     "raceWebsite": "https://www.baa.org/races/boston-half",
     "resultsWebsite": "",
-    "stravaActivity": "",
-    "personalBest": false
+    "stravaActivity": ""
   },
   {
     "name": "Cambridge Winter Classic 5K",
@@ -486,7 +439,6 @@
     "time": "",
     "raceWebsite": "https://runsignup.com/Race/WinterClassic5K/Page-11",
     "resultsWebsite": "",
-    "stravaActivity": "",
-    "personalBest": false
+    "stravaActivity": ""
   }
 ]

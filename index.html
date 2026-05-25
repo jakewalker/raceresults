@@ -97,7 +97,7 @@
             }
             if (r.time) {
                 const parts = r.time.split(':').map(Number);
-                const secs = parts.length === 3
+                r.timeSec = parts.length === 3
                     ? parts[0] * 3600 + parts[1] * 60 + parts[2]
                     : parts[0] * 60 + parts[1];
                 const fmt = (s) => {
@@ -106,10 +106,24 @@
                     const ss = Math.round(s % 60);
                     return `${h}:${String(m).padStart(2, '0')}:${String(ss).padStart(2, '0')}`;
                 };
-                r.paceKm = fmt(secs / r.distanceKm);
-                r.paceMi = fmt(secs / r.distanceMi);
+                r.paceKm = fmt(r.timeSec / r.distanceKm);
+                r.paceMi = fmt(r.timeSec / r.distanceMi);
             }
             return r;
+        }
+
+        function computePersonalBests(races) {
+            const pbByDistance = {};
+            races.forEach(r => {
+                if (!r.time || r.excludeFromPB) return;
+                const current = pbByDistance[r.distanceKm];
+                if (!current
+                    || r.timeSec < current.timeSec
+                    || (r.timeSec === current.timeSec && r.date < current.date)) {
+                    pbByDistance[r.distanceKm] = r;
+                }
+            });
+            races.forEach(r => { r.personalBest = pbByDistance[r.distanceKm] === r; });
         }
 
         async function loadRaceData() {
@@ -117,6 +131,7 @@
                 const response = await fetch('races.json');
                 if (!response.ok) throw new Error('Failed to load data');
                 allRaceData = (await response.json()).map(normalizeRace);
+                computePersonalBests(allRaceData);
                 initDashboard();
             } catch (error) {
                 console.error(error);

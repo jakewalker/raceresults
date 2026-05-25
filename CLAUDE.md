@@ -36,15 +36,14 @@ Each race object:
   "time": "H:MM:SS",
   "raceWebsite": "https://...",
   "resultsWebsite": "https://...",
-  "stravaActivity": "https://...",
-  "personalBest": false
+  "stravaActivity": "https://..."
 }
 ```
 
 - Provide either `distanceKm` or `distanceMi` — the other is computed automatically.
-- `paceKm` and `paceMi` are computed from `time` + distance at load time; do not include them.
+- `paceKm`, `paceMi`, and `personalBest` are computed at load time; do not include them. PB is the fastest `time` at each `distanceKm`; ties go to the earliest `date`.
+- Set `"excludeFromPB": true` to disqualify a race from PB consideration (e.g. short course, irregular conditions). Omit otherwise.
 - Upcoming races omit `time` (or leave it as `""`).
-- `personalBest` is `true` only for current PB at each distance.
 - URLs can be empty strings if not available.
 
 ## Code Conventions
