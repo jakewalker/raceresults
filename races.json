@@ -388,6 +388,16 @@
     "stravaActivity": "https://www.strava.com/activities/19010360188/overview"
   },
   {
+    "name": "J.P. Morgan Corporate Challenge",
+    "date": "2026-06-21",
+    "distanceKm": 5.6,
+    "time": "0:29:35",
+    "raceWebsite": "https://www.jpmorganchasecc.com/en/home",
+    "resultsWebsite": "https://leaderboard.jpmorgancc.com/leaderboard/2026/individual?entrantId=937429&eventIds=",
+    "stravaActivity": "https://www.strava.com/activities/19055590326/overview",
+    "excludeFromPB": true
+  },
+  {
     "name": "Cambridge Summer Classic 5K (with Teddy)",
     "date": "2026-06-28",
     "distanceKm": 5,
@@ -395,6 +405,15 @@
     "raceWebsite": "https://runsignup.com/Race/Events/MA/Cambridge/SummerClassic5K",
     "resultsWebsite": "https://rtrt.me/ulink/TLMRA/TLMR-SUMMER-CLASSIC-2026/tracker/RGNV4ZSA/focus",
     "stravaActivity": "https://www.strava.com/activities/19099117132/overview"
+  },
+  {
+    "name": "Charles River July 4 5K",
+    "date": "2026-07-04",
+    "distanceKm": 5,
+    "time": "0:29:31",
+    "raceWebsite": "https://www.redsoxfoundation.org/home-base/",
+    "resultsWebsite": "https://www.secondwindtiming.com/result-page/?id=409241#0_3EF1B7_details0_154",
+    "stravaActivity": "https://www.strava.com/activities/19175889902/overview"
   },
   {
     "name": "Run to Home Base",
