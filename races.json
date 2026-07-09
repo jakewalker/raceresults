@@ -364,19 +364,19 @@
     "name": "Fenway Park Half Marathon",
     "date": "2026-05-30",
     "distanceKm": 21.1,
-    "time": "",
+    "time": "2:18:22",
     "raceWebsite": "https://raceroster.com/events/2026/115708/fenway-park-marathon",
-    "resultsWebsite": "",
-    "stravaActivity": ""
+    "resultsWebsite": "https://track.rtrt.me/e/TLMR-FENWAY-PARK-MARATHON-2026#/dash/RVCWRE4T",
+    "stravaActivity": "https://www.strava.com/activities/18721575513"
   },
   {
     "name": "Covered Bridge Half Marathon",
     "date": "2026-06-07",
     "distanceKm": 21.1,
-    "time": "",
+    "time": "2:20:43",
     "raceWebsite": "https://cbhm.com/",
-    "resultsWebsite": "",
-    "stravaActivity": ""
+    "resultsWebsite": "https://www.iresultslive.com/results/?op=individual&racename=HalfMarathon&eid=6797&bib=2409",
+    "stravaActivity": "https://www.strava.com/activities/18825831652/overview"
   },
   {
     "name": "BAA 10K",
@@ -384,17 +384,17 @@
     "distanceKm": 10,
     "time": "",
     "raceWebsite": "https://www.baa.org/races/boston-10k",
-    "resultsWebsite": "",
-    "stravaActivity": ""
+    "resultsWebsite": "https://rtrt.me/ulink/BAARA/BOSTON-10K-2026/tracker/RZ7JDGPL/focus",
+    "stravaActivity": "https://www.strava.com/activities/19010360188/overview"
   },
   {
     "name": "Cambridge Summer Classic 5K",
     "date": "2026-06-28",
     "distanceKm": 5,
-    "time": "",
+    "time": "0:28:54",
     "raceWebsite": "https://runsignup.com/Race/Events/MA/Cambridge/SummerClassic5K",
-    "resultsWebsite": "",
-    "stravaActivity": ""
+    "resultsWebsite": "https://rtrt.me/ulink/TLMRA/TLMR-SUMMER-CLASSIC-2026/tracker/RGNV4ZSA/focus",
+    "stravaActivity": "https://www.strava.com/activities/19099117132/overview"
   },
   {
     "name": "Run to Home Base",
