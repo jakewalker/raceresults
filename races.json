@@ -417,13 +417,40 @@
     "stravaActivity": "https://www.strava.com/activities/19175889902/overview"
   },
   {
+    "name": "Tracksmith Twilight 5000",
+    "date": "2026-07-16",
+    "distanceKm": 5,
+    "time": "0:28:21",
+    "raceWebsite": "https://www.tracksmith.com/pages/twilight-5000",
+    "resultsWebsite": "https://my.raceresult.com/411544/details0?pid=250",
+    "stravaActivity": "https://www.strava.com/activities/19342660187/overview"
+  },
+  {
     "name": "Run to Home Base",
     "date": "2026-07-25",
     "distanceKm": 5,
-    "time": "",
+    "time": "0:25:41",
     "raceWebsite": "https://www.redsoxfoundation.org/home-base/",
+    "resultsWebsite": "https://rtrt.me/ulink/TLMRA/TLMR-RUN-TO-HOME-BASE-2026/tracker/RXUSNVP9/focus",
+    "stravaActivity": "https://www.strava.com/activities/19458681776/overview"
+  },
+{
+    "name": "BAA Shoreline 5K",
+    "date": "2026-08-06",
+    "distanceKm": 5,
+    "time": "0:28:42",
+    "raceWebsite": "https://www.baa.org/races/shoreline-5k/",
+    "resultsWebsite": "https://rtrt.me/ulink/TLMRA/TLMR-SHORELINE5K-2026/tracker/RFG4SCZT/focus",
+    "stravaActivity": "https://www.strava.com/activities/19633346720/overview"
+  },
+  {
+    "name": "Falmouth Road Race",
+    "date": "2026-07-25",
+    "distanceMi": 7,
+    "time": "1:13:12",
+    "raceWebsite": "https://falmouthroadrace.com",
     "resultsWebsite": "",
-    "stravaActivity": ""
+    "stravaActivity": "https://www.strava.com/activities/19767357907/overview"
   },
   {
     "name": "Cambridge Fall Classic 5K",
