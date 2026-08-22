@@ -312,11 +312,14 @@
 
             const currentYear = new Date().getFullYear();
             const currentYearFinishes = completed.filter(race => parseDate(race.date).getFullYear() === currentYear).length;
-            const pbCount = completed.filter(race => race.personalBest).length;
+            const totalRaceDistance = Math.round(completed.reduce((sum, race) => (
+                sum + (currentUnit === 'km' ? race.distanceKm : race.distanceMi)
+            ), 0));
+            const totalRaceDistanceLabel = currentUnit === 'km' ? 'Kilometers raced' : 'Miles raced';
             document.getElementById('record-summary').innerHTML = `
                 <div class="summary-stat"><strong>${completed.length}</strong><span>Finishes</span></div>
                 <div class="summary-stat"><strong>${currentYearFinishes}</strong><span>${currentYear} races</span></div>
-                <div class="summary-stat"><strong>${pbCount}</strong><span>PB distances</span></div>
+                <div class="summary-stat"><strong>${totalRaceDistance.toLocaleString()}</strong><span>${totalRaceDistanceLabel}</span></div>
             `;
 
             const laterRaces = upcoming.slice(1);
