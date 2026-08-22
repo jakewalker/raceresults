@@ -471,6 +471,24 @@
     "stravaActivity": ""
   },
   {
+    "name": "Disney Wine & Dine 5K",
+    "date": "2026-10-23",
+    "distanceKm": 5,
+    "time": "",
+    "raceWebsite": "https://www.rundisney.com/events/disneyworld/wine-and-dine-half-marathon-weekend/",
+    "resultsWebsite": "",
+    "stravaActivity": ""
+  },
+  {
+    "name": "Disney Wine & Dine 10K",
+    "date": "2026-10-24",
+    "distanceKm": 10,
+    "time": "",
+    "raceWebsite": "https://www.rundisney.com/events/disneyworld/wine-and-dine-half-marathon-weekend/",
+    "resultsWebsite": "",
+    "stravaActivity": ""
+  },
+  {
     "name": "New York Marathon",
     "date": "2026-11-01",
     "distanceKm": 42.2,
@@ -494,6 +512,24 @@
     "distanceKm": 5,
     "time": "",
     "raceWebsite": "https://runsignup.com/Race/WinterClassic5K/Page-11",
+    "resultsWebsite": "",
+    "stravaActivity": ""
+  },
+  {
+    "name": "Disney World Marathon Weekend 10K",
+    "date": "2027-01-08",
+    "distanceKm": 10,
+    "time": "",
+    "raceWebsite": "https://www.rundisney.com/events/disneyworld/disneyworld-marathon-weekend/",
+    "resultsWebsite": "",
+    "stravaActivity": ""
+  },
+  {
+    "name": "Disney World Marathon Weekend Marathon",
+    "date": "2027-01-10",
+    "distanceKm": 42.2,
+    "time": "",
+    "raceWebsite": "https://www.rundisney.com/events/disneyworld/disneyworld-marathon-weekend/",
     "resultsWebsite": "",
     "stravaActivity": ""
   }
