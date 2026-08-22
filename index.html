@@ -3,127 +3,182 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jake Walker | Race Results</title>
+    <meta name="description" content="Jake Walker's race results, personal bests, statistics, goals, and upcoming events.">
+    <title>Jake Walker | Race Log</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="container">
+    <div class="page-shell">
         <header class="site-header">
-            <div class="header-left">
-                <div class="title-stack">
-                    <div class="eyebrow">Running Dashboard</div>
-                    <h1>Jake Walker</h1>
-                    <div class="subtitle">Race Results & Personal Bests</div>
-                </div>
+            <div class="title-stack">
+                <div class="eyebrow">Personal race log</div>
+                <h1>Jake Walker</h1>
+                <p class="subtitle">Results, personal bests, and what&rsquo;s next.</p>
             </div>
-            <div class="toggle-group">
-                <button class="toggle-btn" data-unit="km">Metric (km)</button>
-                <button class="toggle-btn active" data-unit="mi">Imperial (mi)</button>
+
+            <div class="unit-control" role="group" aria-label="Distance and pace units">
+                <button class="unit-button" type="button" data-unit="km" aria-pressed="false">Kilometers</button>
+                <button class="unit-button active" type="button" data-unit="mi" aria-pressed="true">Miles</button>
             </div>
         </header>
 
-        <!-- Personal Bests Section -->
-        <section class="pb-section">
-            <div class="section-header">Personal Bests</div>
-            <div id="pb-grid" class="pb-grid"></div>
-        </section>
-
-        
-
-        <!-- Race History Section -->
-        <section class="history-section">
-            <div class="controls-bar">
-                <div class="section-header history-title">Race History</div>
-                <div id="filter-container" class="filter-group"></div>
-            </div>
-
-            <div class="data-panel">
-                <div class="table-wrapper">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th class="col-date">Date</th>
-                                <th class="col-name">Event</th>
-                                <th class="col-dist">Dist</th>
-                                <th class="col-time">Time</th>
-                                <th class="col-pace">Pace</th>
-                                <th class="col-link">Links</th>
-                            </tr>
-                        </thead>
-                        <tbody id="race-table-body"></tbody>
-                    </table>
+        <main>
+            <section class="overview-section" aria-labelledby="overview-heading">
+                <h2 id="overview-heading" class="sr-only">Race overview</h2>
+                <div class="overview-grid">
+                    <article id="next-race-card" class="feature-card next-race-card"></article>
+                    <article id="latest-result-card" class="feature-card latest-result-card"></article>
+                    <aside class="summary-card" aria-label="Race log summary">
+                        <div id="record-summary" class="record-summary"></div>
+                    </aside>
                 </div>
-            </div>
-        </section>
 
-<!-- Race Statistics Section -->
-        <section class="stats-section">
-            <div class="section-header">Race Statistics</div>
-            <div id="stats-by-year" class="table-wrapper"></div>
-        </section>
-        
-        <div class="dashboard-grid">
-            <section class="dashboard-card">
-                <div class="section-header">Upcoming Events</div>
-                <ul id="upcoming-list" class="simple-list"></ul>
+                <div class="calendar-panel">
+                    <div class="section-heading-row compact-heading-row">
+                        <h2 class="section-heading">After that</h2>
+                        <span id="calendar-count" class="section-note"></span>
+                    </div>
+                    <ul id="upcoming-list" class="compact-list"></ul>
+                </div>
             </section>
-            <section class="dashboard-card">
-                <div class="section-header">Goals</div>
-                <ul id="goals-list" class="simple-list"></ul>
+
+            <section class="pb-section" aria-labelledby="pb-heading">
+                <div class="section-heading-row">
+                    <h2 id="pb-heading" class="section-heading">Personal bests</h2>
+                    <span class="section-note">Fastest recorded result at each eligible distance</span>
+                </div>
+                <div id="pb-grid" class="pb-grid"></div>
             </section>
-        </div>
+
+            <section class="history-section" aria-labelledby="history-heading">
+                <div class="history-header">
+                    <div>
+                        <h2 id="history-heading" class="section-heading">Race history</h2>
+                        <p id="history-count" class="section-note" aria-live="polite"></p>
+                    </div>
+                    <div id="filter-container" class="filter-group" aria-label="Filter race history by distance"></div>
+                </div>
+
+                <div class="data-panel">
+                    <div class="table-wrapper">
+                        <table class="results-table">
+                            <thead>
+                                <tr>
+                                    <th class="col-date" scope="col">Date</th>
+                                    <th class="col-name" scope="col">Event</th>
+                                    <th class="col-dist" scope="col">Distance</th>
+                                    <th class="col-time" scope="col">Time</th>
+                                    <th class="col-pace" scope="col">Pace</th>
+                                    <th class="col-link" scope="col"><span class="sr-only">Race links</span></th>
+                                </tr>
+                            </thead>
+                            <tbody id="race-table-body"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div id="history-actions" class="history-actions">
+                    <button id="history-toggle" class="secondary-button" type="button" aria-expanded="false"></button>
+                </div>
+            </section>
+
+            <section class="stats-section" aria-labelledby="stats-heading">
+                <div class="section-heading-row">
+                    <h2 id="stats-heading" class="section-heading">Race statistics</h2>
+                    <span class="section-note">Finishes by year and distance</span>
+                </div>
+                <div id="stats-by-year"></div>
+            </section>
+
+            <section class="goals-section" aria-labelledby="goals-heading">
+                <div class="section-heading-row compact-heading-row">
+                    <h2 id="goals-heading" class="section-heading">Goals</h2>
+                    <span class="section-note">Targets and milestones</span>
+                </div>
+                <ul id="goals-list" class="compact-list goals-list"></ul>
+            </section>
+        </main>
     </div>
 
     <script>
+        const KM_PER_MILE = 1.60934;
+        const HISTORY_PREVIEW_COUNT = 12;
+
         let allRaceData = [];
-        let currentUnit = 'mi';
+        let currentUnit = getStoredUnit();
         let currentFilter = 'all';
+        let historyExpanded = false;
 
         const goalsData = [
-            { text: "Sub 25 minute 5K", status: "Done!" },
-            { text: "Sub 2:00 Half Marathon", status: "TBD" },
-            { text: "PR Marathon (< 4:40)", status: "Done!" }
+            { text: 'Sub 25 minute 5K', label: 'Complete', state: 'complete' },
+            { text: 'Sub 2:00 Half Marathon', label: 'TBD', state: 'tbd' },
+            { text: 'PR Marathon (< 4:40)', label: 'Complete', state: 'complete' }
         ];
 
-        function normalizeRace(r) {
-            const KM_PER_MILE = 1.60934;
-            if (r.distanceKm && !r.distanceMi) {
-                r.distanceMi = Math.round(r.distanceKm / KM_PER_MILE * 10) / 10;
-            } else if (r.distanceMi && !r.distanceKm) {
-                r.distanceKm = Math.round(r.distanceMi * KM_PER_MILE * 10) / 10;
+        function getStoredUnit() {
+            try {
+                return window.localStorage.getItem('raceResultsUnit') === 'km' ? 'km' : 'mi';
+            } catch (error) {
+                return 'mi';
             }
-            if (r.time) {
-                const parts = r.time.split(':').map(Number);
-                r.timeSec = parts.length === 3
+        }
+
+        function storeUnit(unit) {
+            try {
+                window.localStorage.setItem('raceResultsUnit', unit);
+            } catch (error) {
+                // The preference is optional; the page still works if storage is unavailable.
+            }
+        }
+
+        function normalizeRace(race) {
+            const normalized = { ...race };
+
+            if (normalized.distanceKm && !normalized.distanceMi) {
+                normalized.distanceMi = Math.round(normalized.distanceKm / KM_PER_MILE * 10) / 10;
+            } else if (normalized.distanceMi && !normalized.distanceKm) {
+                normalized.distanceKm = Math.round(normalized.distanceMi * KM_PER_MILE * 10) / 10;
+            }
+
+            if (normalized.time) {
+                const parts = normalized.time.split(':').map(Number);
+                normalized.timeSec = parts.length === 3
                     ? parts[0] * 3600 + parts[1] * 60 + parts[2]
                     : parts[0] * 60 + parts[1];
-                const fmt = (s) => {
-                    const h = Math.floor(s / 3600);
-                    const m = Math.floor((s % 3600) / 60);
-                    const ss = Math.round(s % 60);
-                    return `${h}:${String(m).padStart(2, '0')}:${String(ss).padStart(2, '0')}`;
-                };
-                r.paceKm = fmt(r.timeSec / r.distanceKm);
-                r.paceMi = fmt(r.timeSec / r.distanceMi);
+                normalized.paceKm = formatDuration(normalized.timeSec / normalized.distanceKm);
+                normalized.paceMi = formatDuration(normalized.timeSec / normalized.distanceMi);
             }
-            return r;
+
+            return normalized;
+        }
+
+        function formatDuration(seconds) {
+            const roundedSeconds = Math.round(seconds);
+            const hours = Math.floor(roundedSeconds / 3600);
+            const minutes = Math.floor((roundedSeconds % 3600) / 60);
+            const remainingSeconds = roundedSeconds % 60;
+            return `${hours}:${String(minutes).padStart(2, '0')}:${String(remainingSeconds).padStart(2, '0')}`;
         }
 
         function computePersonalBests(races) {
             const pbByDistance = {};
-            races.forEach(r => {
-                if (!r.time || r.excludeFromPB) return;
-                const current = pbByDistance[r.distanceKm];
+
+            races.forEach(race => {
+                if (!race.time || race.excludeFromPB) return;
+                const current = pbByDistance[race.distanceKm];
                 if (!current
-                    || r.timeSec < current.timeSec
-                    || (r.timeSec === current.timeSec && r.date < current.date)) {
-                    pbByDistance[r.distanceKm] = r;
+                    || race.timeSec < current.timeSec
+                    || (race.timeSec === current.timeSec && race.date < current.date)) {
+                    pbByDistance[race.distanceKm] = race;
                 }
             });
-            races.forEach(r => { r.personalBest = pbByDistance[r.distanceKm] === r; });
+
+            races.forEach(race => {
+                race.personalBest = pbByDistance[race.distanceKm] === race;
+            });
         }
 
         async function loadRaceData() {
@@ -132,288 +187,390 @@
                 if (!response.ok) throw new Error('Failed to load data');
                 allRaceData = (await response.json()).map(normalizeRace);
                 computePersonalBests(allRaceData);
-                initDashboard();
+                initRaceLog();
             } catch (error) {
                 console.error(error);
-                document.getElementById('race-table-body').innerHTML = `<tr><td colspan="6" class="empty-state">Error loading race data.</td></tr>`;
+                document.getElementById('race-table-body').innerHTML = '<tr><td colspan="6" class="empty-state">Race data could not be loaded.</td></tr>';
             }
         }
 
-        const formatDate = (dateStr) => {
-            const date = new Date(dateStr + 'T00:00:00');
-            return date.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
-        };
+        const parseDate = (dateString) => new Date(`${dateString}T00:00:00`);
 
-        const formatDateShort = (dateStr) => {
-            const date = new Date(dateStr + 'T00:00:00');
-            return date.toLocaleDateString('en-US', { year: 'numeric', month: 'short' });
-        };
+        const formatDate = (dateString) => parseDate(dateString).toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'short',
+            day: 'numeric'
+        });
 
-        const isMarathon = (r) => Math.abs(r.distanceKm - 42.2) < 0.1;
-        const isHalf = (r) => Math.abs(r.distanceKm - 21.1) < 0.1;
+        const formatDateShort = (dateString) => parseDate(dateString).toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'short'
+        });
 
-        const getDisplayDist = (r) => {
-            if (isMarathon(r)) return 'Marathon';
-            if (isHalf(r)) return 'Half Mar';
-            return currentUnit === 'km' ? `${r.distanceKm}k` : `${r.distanceMi}mi`;
-        };
+        const formatNumber = (number) => Number.isInteger(number) ? String(number) : String(number).replace(/\.0$/, '');
+        const formatRaceTime = (time) => time && time.startsWith('0:') ? time.slice(2) : time;
+        const formatPaceTime = (pace) => pace && pace.startsWith('0:') ? pace.slice(2) : pace;
+        const isMarathon = (race) => Math.abs(race.distanceKm - 42.2) < 0.1;
+        const isHalf = (race) => Math.abs(race.distanceKm - 21.1) < 0.1;
+        const getDistanceKey = (race) => String(race.distanceKm);
 
-        const getDistanceLabel = (r) => {
-            if (isMarathon(r)) return 'Marathon';
-            if (isHalf(r)) return 'Half Marathon';
-            return currentUnit === 'km' ? `${r.distanceKm}K` : `${r.distanceMi} Mile`;
-        };
-
-        const getPace = (r) => currentUnit === 'km' ? r.paceKm : r.paceMi;
-
-        function getSortValue(distStr) {
-            if (distStr === 'Marathon') return 42.2;
-            if (distStr === 'Half Marathon') return 21.1;
-            if (distStr === 'Half Mar') return 21.1;
-            if (distStr === '10K') return 10;
-            if (distStr === '5K') return 5;
-            if (distStr === '1 Mile') return 1.6;
-            if (distStr.endsWith('K')) return parseFloat(distStr);
-            if (distStr.endsWith('k')) return parseFloat(distStr);
-            if (distStr.endsWith('mi')) return parseFloat(distStr) * 1.609;
-            return parseFloat(distStr) || 0;
+        function getDisplayDistance(race) {
+            if (isMarathon(race)) return 'Marathon';
+            if (isHalf(race)) return 'Half marathon';
+            return currentUnit === 'km'
+                ? `${formatNumber(race.distanceKm)}K`
+                : `${formatNumber(race.distanceMi)} mi`;
         }
 
-        function renderPersonalBests() {
-            const container = document.getElementById('pb-grid');
-            const today = new Date().setHours(0,0,0,0);
+        function getPace(race) {
+            return currentUnit === 'km' ? race.paceKm : race.paceMi;
+        }
 
-            // Get all PBs from completed races
-            const pbs = allRaceData
-                .filter(r => r.personalBest && r.time)
-                .sort((a, b) => a.distanceKm - b.distanceKm);
+        function getPaceLabel(race) {
+            const pace = getPace(race);
+            return pace ? `${formatPaceTime(pace)} /${currentUnit}` : '';
+        }
 
-            if (pbs.length === 0) {
-                container.innerHTML = `<div class="empty-state" style="grid-column: 1/-1;">No personal bests recorded yet.</div>`;
+        function getDistanceCategory(race) {
+            if (isMarathon(race)) return 'Marathon';
+            if (isHalf(race)) return 'Half marathon';
+            if (Math.abs(race.distanceKm - 10) < 0.1) return '10K';
+            if (Math.abs(race.distanceKm - 5) < 0.1) return '5K';
+            if (Math.abs(race.distanceKm - 1.6) < 0.2) return '1 mile';
+            if (Math.abs(race.distanceKm - 11.3) < 0.2) return '7 mile';
+            if (Math.abs(race.distanceKm - 8) < 0.2) return '5 mile';
+            if (Math.abs(race.distanceKm - 5.6) < 0.2) return '3.5 mile';
+            return getDisplayDistance(race);
+        }
+
+        function getRaceLink(race, className = 'race-link') {
+            if (!race.raceWebsite) return race.name;
+            return `<a href="${race.raceWebsite}" class="${className}" target="_blank" rel="noopener noreferrer">${race.name}</a>`;
+        }
+
+        function getUpcomingRaces() {
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+            return allRaceData
+                .filter(race => parseDate(race.date) >= today && !race.time)
+                .sort((a, b) => parseDate(a.date) - parseDate(b.date));
+        }
+
+        function getCompletedRaces() {
+            return allRaceData
+                .filter(race => race.time)
+                .sort((a, b) => parseDate(b.date) - parseDate(a.date));
+        }
+
+        function getDaysUntil(dateString) {
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+            return Math.max(0, Math.ceil((parseDate(dateString) - today) / 86400000));
+        }
+
+        function renderOverview() {
+            const upcoming = getUpcomingRaces();
+            const completed = getCompletedRaces();
+            const nextRace = upcoming[0];
+            const latestResult = completed[0];
+
+            const nextRaceCard = document.getElementById('next-race-card');
+            if (nextRace) {
+                const days = getDaysUntil(nextRace.date);
+                nextRaceCard.innerHTML = `
+                    <div class="feature-label">Next race</div>
+                    <div class="feature-card-topline">
+                        <h3>${getRaceLink(nextRace)}</h3>
+                        <span class="countdown-badge">${days} ${days === 1 ? 'day' : 'days'}</span>
+                    </div>
+                    <p class="feature-meta">${formatDate(nextRace.date)} <span aria-hidden="true">&middot;</span> ${getDisplayDistance(nextRace)}</p>
+                `;
+            } else {
+                nextRaceCard.innerHTML = `
+                    <div class="feature-label">Next race</div>
+                    <h3>Nothing scheduled</h3>
+                    <p class="feature-meta">The calendar is clear for now.</p>
+                `;
+            }
+
+            const latestResultCard = document.getElementById('latest-result-card');
+            if (latestResult) {
+                latestResultCard.innerHTML = `
+                    <div class="feature-label">Latest finish</div>
+                    <div class="latest-result-layout">
+                        <div>
+                            <h3>${getRaceLink(latestResult)}</h3>
+                            <p class="feature-meta">${formatDate(latestResult.date)} <span aria-hidden="true">&middot;</span> ${getDisplayDistance(latestResult)}</p>
+                        </div>
+                        <div class="latest-time-wrap">
+                            <strong class="latest-time">${formatRaceTime(latestResult.time)}</strong>
+                            <span class="latest-pace">${getPaceLabel(latestResult)}</span>
+                        </div>
+                    </div>
+                `;
+            }
+
+            const currentYear = new Date().getFullYear();
+            const currentYearFinishes = completed.filter(race => parseDate(race.date).getFullYear() === currentYear).length;
+            const pbCount = completed.filter(race => race.personalBest).length;
+            document.getElementById('record-summary').innerHTML = `
+                <div class="summary-stat"><strong>${completed.length}</strong><span>Finishes</span></div>
+                <div class="summary-stat"><strong>${currentYearFinishes}</strong><span>${currentYear} races</span></div>
+                <div class="summary-stat"><strong>${pbCount}</strong><span>PB distances</span></div>
+            `;
+
+            const laterRaces = upcoming.slice(1);
+            document.getElementById('calendar-count').textContent = laterRaces.length
+                ? `${laterRaces.length} more scheduled`
+                : 'Calendar clear after the next race';
+
+            const upcomingList = document.getElementById('upcoming-list');
+            if (!laterRaces.length) {
+                upcomingList.innerHTML = '<li class="empty-state compact-empty-state">No additional races scheduled.</li>';
                 return;
             }
 
-            container.innerHTML = pbs.map(r => {
-                const nameHtml = r.raceWebsite
-                    ? `<a href="${r.raceWebsite}" target="_blank">${r.name}</a>`
-                    : r.name;
-
+            upcomingList.innerHTML = laterRaces.map(race => {
+                const days = getDaysUntil(race.date);
                 return `
-                    <div class="pb-card">
-                        <div class="pb-distance">${getDistanceLabel(r)}</div>
-                        <div class="pb-time">${r.time}</div>
-                        <div class="pb-pace">${getPace(r)} /${currentUnit}</div>
-                        <div class="pb-meta">
-                            <div class="pb-race-name">${nameHtml}</div>
-                            <div class="pb-date">${formatDateShort(r.date)}</div>
+                    <li class="compact-list-item">
+                        <div>
+                            <span class="list-title">${getRaceLink(race)}</span>
+                            <span class="list-subtitle">${formatDate(race.date)} <span aria-hidden="true">&middot;</span> ${getDisplayDistance(race)}</span>
                         </div>
-                    </div>
+                        <span class="countdown-badge quiet-badge">${days} days</span>
+                    </li>
                 `;
             }).join('');
         }
 
+        function renderPersonalBests() {
+            const container = document.getElementById('pb-grid');
+            const personalBests = allRaceData
+                .filter(race => race.personalBest && race.time)
+                .sort((a, b) => a.distanceKm - b.distanceKm);
+
+            if (!personalBests.length) {
+                container.innerHTML = '<div class="empty-state">No personal bests recorded yet.</div>';
+                return;
+            }
+
+            container.innerHTML = personalBests.map(race => `
+                <article class="pb-card">
+                    <div class="pb-heading-row">
+                        <span class="pb-distance">${getDistanceCategory(race)}</span>
+                        <span class="pb-pace">${getPaceLabel(race)}</span>
+                    </div>
+                    <div class="pb-time">${formatRaceTime(race.time)}</div>
+                    <div class="pb-meta">
+                        <span class="pb-race-name">${getRaceLink(race)}</span>
+                        <span class="pb-date">${formatDateShort(race.date)}</span>
+                    </div>
+                </article>
+            `).join('');
+        }
+
         function renderGoals() {
-            const container = document.getElementById('goals-list');
-            container.innerHTML = goalsData.map(g => `
-                <li class="list-item">
-                    <span class="list-title">${g.text}</span>
-                    <span class="status-badge ${g.status.toLowerCase().replace(' ', '-')}">${g.status}</span>
+            document.getElementById('goals-list').innerHTML = goalsData.map(goal => `
+                <li class="compact-list-item">
+                    <span class="list-title">${goal.text}</span>
+                    <span class="status-badge ${goal.state}">${goal.label}</span>
                 </li>
             `).join('');
         }
 
-        function renderUpcoming() {
-            const container = document.getElementById('upcoming-list');
-            const today = new Date().setHours(0,0,0,0);
-
-            const upcoming = allRaceData
-                .filter(r => new Date(r.date + 'T00:00:00') >= today && !r.time)
-                .sort((a, b) => new Date(a.date) - new Date(b.date));
-
-            if (upcoming.length === 0) {
-                container.innerHTML = `<li class="empty-state" style="padding: 1rem 0; text-align: left;">No upcoming races scheduled.</li>`;
-                return;
-            }
-
-            container.innerHTML = upcoming.map(r => {
-                const raceDate = new Date(r.date + 'T00:00:00');
-                const diffTime = Math.abs(raceDate - today);
-                const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-                return `
-                <li class="list-item">
-                    <div class="list-main">
-                        <span class="list-title">
-                            ${r.raceWebsite ? `<a href="${r.raceWebsite}" class="race-link-primary" target="_blank">${r.name}</a>` : r.name}
-                        </span>
-                        <span class="list-sub">${formatDate(r.date)} &bull; ${getDisplayDist(r)}</span>
-                    </div>
-                    <span class="status-badge countdown">${diffDays} Days</span>
-                </li>
-            `}).join('');
-        }
-
-        function renderTable(data) {
+        function renderTable() {
             const tbody = document.getElementById('race-table-body');
-            tbody.innerHTML = '';
-
-            const completed = data
-                .filter(r => r.time)
-                .sort((a, b) => new Date(b.date) - new Date(a.date));
-
+            const completed = getCompletedRaces();
             const filtered = currentFilter === 'all'
                 ? completed
-                : completed.filter(r => getDisplayDist(r) === currentFilter);
+                : completed.filter(race => getDistanceKey(race) === currentFilter);
+            const shouldLimit = currentFilter === 'all' && !historyExpanded;
+            const visibleRaces = shouldLimit ? filtered.slice(0, HISTORY_PREVIEW_COUNT) : filtered;
 
-            if (filtered.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="6" class="empty-state">No races found for this filter.</td></tr>`;
-                return;
+            if (!visibleRaces.length) {
+                tbody.innerHTML = '<tr><td colspan="6" class="empty-state">No races found for this distance.</td></tr>';
+            } else {
+                tbody.innerHTML = visibleRaces.map(race => {
+                    const links = [];
+                    if (race.stravaActivity) {
+                        links.push(`<a href="${race.stravaActivity}" class="result-link" target="_blank" rel="noopener noreferrer">Strava</a>`);
+                    }
+                    if (race.resultsWebsite) {
+                        links.push(`<a href="${race.resultsWebsite}" class="result-link" target="_blank" rel="noopener noreferrer">Results</a>`);
+                    }
+
+                    return `
+                        <tr class="${race.personalBest ? 'is-pb' : ''}">
+                            <td class="col-date">${formatDate(race.date)}</td>
+                            <td class="col-name">${getRaceLink(race)}</td>
+                            <td class="col-dist">${getDisplayDistance(race)}</td>
+                            <td class="col-time">${formatRaceTime(race.time)}</td>
+                            <td class="col-pace"><span class="mobile-pace-label">Pace </span>${getPaceLabel(race)}</td>
+                            <td class="col-link">${links.join('')}</td>
+                        </tr>
+                    `;
+                }).join('');
             }
 
-            filtered.forEach(r => {
-                const tr = document.createElement('tr');
-                if (r.personalBest) tr.classList.add('is-pb');
+            const showingAll = visibleRaces.length === filtered.length;
+            document.getElementById('history-count').textContent = showingAll
+                ? `${filtered.length} ${filtered.length === 1 ? 'finish' : 'finishes'}`
+                : `Showing ${visibleRaces.length} of ${filtered.length} finishes`;
 
-                const nameHtml = r.raceWebsite
-                    ? `<a href="${r.raceWebsite}" class="race-link-primary" target="_blank">${r.name}</a>`
-                    : r.name;
-
-                let linksHtml = '';
-                if (r.stravaActivity) linksHtml += `<a href="${r.stravaActivity}" class="icon-link" target="_blank">Strava</a>`;
-                if (r.resultsWebsite) linksHtml += `<a href="${r.resultsWebsite}" class="icon-link" target="_blank">Results</a>`;
-
-                tr.innerHTML = `
-                    <td class="col-date mono" data-label="Date">${formatDate(r.date)}</td>
-                    <td class="col-name">${nameHtml}</td>
-                    <td class="col-dist mono" data-label="Distance">${getDisplayDist(r)}</td>
-                    <td class="col-time mono" data-label="Time">${r.time || '-'}</td>
-                    <td class="col-pace mono" data-label="Pace">${getPace(r) || '-'} /${currentUnit}</td>
-                    <td class="col-link">${linksHtml}</td>
-                `;
-                tbody.appendChild(tr);
-            });
+            const actions = document.getElementById('history-actions');
+            const toggle = document.getElementById('history-toggle');
+            const showToggle = currentFilter === 'all' && filtered.length > HISTORY_PREVIEW_COUNT;
+            actions.hidden = !showToggle;
+            toggle.textContent = historyExpanded ? 'Show recent results' : `Show all ${filtered.length} results`;
+            toggle.setAttribute('aria-expanded', String(historyExpanded));
         }
 
         function createFilters() {
-            const container = document.getElementById('filter-container');
-            const completed = allRaceData.filter(r => r.time);
+            const completed = getCompletedRaces();
+            const distanceMap = new Map();
+            completed.forEach(race => distanceMap.set(getDistanceKey(race), race));
+            const distances = [...distanceMap.entries()].sort((a, b) => Number(a[0]) - Number(b[0]));
 
-            const dists = [...new Set(completed.map(r => getDisplayDist(r)))];
-            dists.sort((a, b) => getSortValue(a) - getSortValue(b));
+            const filterButtons = [
+                `<button class="filter-chip ${currentFilter === 'all' ? 'active' : ''}" type="button" data-filter="all" aria-pressed="${currentFilter === 'all'}">All</button>`,
+                ...distances.map(([key, race]) => `
+                    <button class="filter-chip ${currentFilter === key ? 'active' : ''}" type="button" data-filter="${key}" aria-pressed="${currentFilter === key}">${getDisplayDistance(race)}</button>
+                `)
+            ];
 
-            let html = `<button class="filter-chip ${currentFilter === 'all' ? 'active' : ''}" onclick="setFilter('all')">All</button>`;
-
-            dists.forEach(d => {
-                html += `<button class="filter-chip ${currentFilter === d ? 'active' : ''}" onclick="setFilter('${d}')">${d}</button>`;
-            });
-
-            container.innerHTML = html;
-        }
-
-        function getDistanceCategory(r) {
-            if (isMarathon(r)) return 'Marathon';
-            if (isHalf(r)) return 'Half Marathon';
-            if (Math.abs(r.distanceKm - 10) < 0.5) return '10K';
-            if (Math.abs(r.distanceKm - 5) < 0.5) return '5K';
-            if (Math.abs(r.distanceKm - 1.6) < 0.2) return '1 Mile';
-            return currentUnit === 'km' ? `${r.distanceKm}K` : `${r.distanceMi} mi`;
+            document.getElementById('filter-container').innerHTML = filterButtons.join('');
         }
 
         function renderStatistics() {
-            const byYearContainer = document.getElementById('stats-by-year');
-            const today = new Date().setHours(0,0,0,0);
+            const container = document.getElementById('stats-by-year');
+            const completed = getCompletedRaces();
 
-            // Only count completed races
-            const completed = allRaceData.filter(r => r.time);
-
-            if (completed.length === 0) {
-                byYearContainer.innerHTML = '<div class="empty-state">No completed races yet.</div>';
+            if (!completed.length) {
+                container.innerHTML = '<div class="empty-state">No completed races yet.</div>';
                 return;
             }
 
-            // Get unique distance categories and years
-            const allCategories = completed.map(r => getDistanceCategory(r));
-            const uniqueCategories = [...new Set(allCategories)];
-
-            // Sort categories by distance value
-            uniqueCategories.sort((a, b) => getSortValue(a) - getSortValue(b));
-
-            const years = [...new Set(completed.map(r => new Date(r.date).getFullYear()))].sort((a, b) => b - a);
-
-            // Calculate totals by distance
-            const totalsByDistance = {};
-            uniqueCategories.forEach(cat => totalsByDistance[cat] = 0);
-            completed.forEach(r => {
-                const cat = getDistanceCategory(r);
-                totalsByDistance[cat]++;
-            });
-
-            // Calculate counts by year and distance
-            const countsByYearAndDistance = {};
-            years.forEach(year => {
-                countsByYearAndDistance[year] = {};
-                uniqueCategories.forEach(cat => countsByYearAndDistance[year][cat] = 0);
-            });
-            completed.forEach(r => {
-                const year = new Date(r.date).getFullYear();
-                const cat = getDistanceCategory(r);
-                countsByYearAndDistance[year][cat]++;
-            });
-
-            // Render by-year table
-            let tableHtml = '<table class="stats-table"><thead><tr><th>Distance</th>';
-            years.forEach(year => {
-                tableHtml += `<th>${year}</th>`;
-            });
-            tableHtml += '<th>Total</th></tr></thead><tbody>';
-
-            uniqueCategories.forEach(cat => {
-                tableHtml += `<tr><td>${cat}</td>`;
-                years.forEach(year => {
-                    const count = countsByYearAndDistance[year][cat];
-                    tableHtml += `<td class="mono"><span class="stat-number${count > 0 ? ' highlight' : ''}">${count || '-'}</span></td>`;
+            const categories = [...new Set(completed.map(getDistanceCategory))]
+                .sort((a, b) => {
+                    const raceA = completed.find(race => getDistanceCategory(race) === a);
+                    const raceB = completed.find(race => getDistanceCategory(race) === b);
+                    return raceA.distanceKm - raceB.distanceKm;
                 });
-                tableHtml += `<td class="mono"><span class="stat-number highlight">${totalsByDistance[cat]}</span></td></tr>`;
-            });
+            const years = [...new Set(completed.map(race => parseDate(race.date).getFullYear()))].sort((a, b) => b - a);
 
-            // Add total row
-            tableHtml += '<tr class="total-row"><td>Total</td>';
+            const counts = {};
             years.forEach(year => {
-                const yearTotal = Object.values(countsByYearAndDistance[year]).reduce((a, b) => a + b, 0);
-                tableHtml += `<td class="mono"><span class="stat-number highlight">${yearTotal}</span></td>`;
+                counts[year] = {};
+                categories.forEach(category => {
+                    counts[year][category] = 0;
+                });
             });
-            tableHtml += `<td class="mono"><span class="stat-number highlight">${completed.length}</span></td></tr>`;
+            completed.forEach(race => {
+                counts[parseDate(race.date).getFullYear()][getDistanceCategory(race)]++;
+            });
 
-            tableHtml += '</tbody></table>';
-            byYearContainer.innerHTML = tableHtml;
+            const totals = Object.fromEntries(categories.map(category => [
+                category,
+                completed.filter(race => getDistanceCategory(race) === category).length
+            ]));
+
+            let desktopTable = '<div class="stats-desktop table-wrapper"><table class="stats-table"><thead><tr><th scope="col">Distance</th>';
+            years.forEach(year => {
+                desktopTable += `<th scope="col">${year}</th>`;
+            });
+            desktopTable += '<th scope="col">Total</th></tr></thead><tbody>';
+            categories.forEach(category => {
+                desktopTable += `<tr><th scope="row">${category}</th>`;
+                years.forEach(year => {
+                    const count = counts[year][category];
+                    desktopTable += `<td><span class="stat-number ${count ? 'has-value' : ''}">${count || '&ndash;'}</span></td>`;
+                });
+                desktopTable += `<td><span class="stat-number total-value">${totals[category]}</span></td></tr>`;
+            });
+            desktopTable += '<tr class="total-row"><th scope="row">Total</th>';
+            years.forEach(year => {
+                const total = Object.values(counts[year]).reduce((sum, count) => sum + count, 0);
+                desktopTable += `<td><span class="stat-number total-value">${total}</span></td>`;
+            });
+            desktopTable += `<td><span class="stat-number total-value">${completed.length}</span></td></tr></tbody></table></div>`;
+
+            const mobileYears = years.map((year, index) => {
+                const total = Object.values(counts[year]).reduce((sum, count) => sum + count, 0);
+                const rows = categories
+                    .filter(category => counts[year][category])
+                    .map(category => `<div class="stats-mobile-row"><span>${category}</span><strong>${counts[year][category]}</strong></div>`)
+                    .join('');
+                return `
+                    <details class="stats-year" ${index === 0 ? 'open' : ''}>
+                        <summary><span>${year}</span><strong>${total} ${total === 1 ? 'race' : 'races'}</strong></summary>
+                        <div class="stats-mobile-body">${rows}</div>
+                    </details>
+                `;
+            }).join('');
+
+            const allTimeRows = categories
+                .map(category => `<div class="stats-mobile-row"><span>${category}</span><strong>${totals[category]}</strong></div>`)
+                .join('');
+            const mobileStats = `
+                <div class="stats-mobile">
+                    ${mobileYears}
+                    <details class="stats-year all-time-stats">
+                        <summary><span>All time</span><strong>${completed.length} races</strong></summary>
+                        <div class="stats-mobile-body">${allTimeRows}</div>
+                    </details>
+                </div>
+            `;
+
+            container.innerHTML = desktopTable + mobileStats;
         }
 
-        window.setFilter = (filter) => {
-            currentFilter = filter;
-            createFilters();
-            renderTable(allRaceData);
-        };
+        function updateUnitControls() {
+            document.querySelectorAll('.unit-button').forEach(button => {
+                const isActive = button.dataset.unit === currentUnit;
+                button.classList.toggle('active', isActive);
+                button.setAttribute('aria-pressed', String(isActive));
+            });
+        }
 
-        document.querySelectorAll('.toggle-btn').forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                document.querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('active'));
-                e.target.classList.add('active');
-                currentUnit = e.target.dataset.unit;
-                renderPersonalBests();
-                createFilters();
-                renderTable(allRaceData);
-                renderUpcoming();
-                renderStatistics();
+        function renderUnitDependentContent() {
+            updateUnitControls();
+            renderOverview();
+            renderPersonalBests();
+            createFilters();
+            renderTable();
+            renderStatistics();
+        }
+
+        function initRaceLog() {
+            renderUnitDependentContent();
+            renderGoals();
+        }
+
+        document.querySelectorAll('.unit-button').forEach(button => {
+            button.addEventListener('click', () => {
+                currentUnit = button.dataset.unit;
+                storeUnit(currentUnit);
+                renderUnitDependentContent();
             });
         });
 
-        function initDashboard() {
-            renderPersonalBests();
-            renderStatistics();
-            renderGoals();
-            renderUpcoming();
+        document.getElementById('filter-container').addEventListener('click', event => {
+            const button = event.target.closest('[data-filter]');
+            if (!button) return;
+            currentFilter = button.dataset.filter;
+            historyExpanded = false;
             createFilters();
-            renderTable(allRaceData);
-        }
+            renderTable();
+        });
+
+        document.getElementById('history-toggle').addEventListener('click', () => {
+            historyExpanded = !historyExpanded;
+            renderTable();
+            if (!historyExpanded) {
+                document.getElementById('history-heading').scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        });
 
         loadRaceData();
     </script>
