@@ -453,6 +453,15 @@
     "stravaActivity": "https://www.strava.com/activities/19767357907/overview"
   },
   {
+    "name": "New Balance 5th Avenue Mile",
+    "date": "2026-09-13",
+    "distanceMi": 1,
+    "time": "",
+    "raceWebsite": "https://events.nyrr.org/new-balance-5th-avenue-mile",
+    "resultsWebsite": "",
+    "stravaActivity": ""
+  },
+  {
     "name": "Cambridge Fall Classic 5K",
     "date": "2026-10-04",
     "distanceKm": 5,
