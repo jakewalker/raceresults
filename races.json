@@ -462,31 +462,31 @@
     "stravaActivity": "https://www.strava.com/activities/20156975725"
   },
   {
-    "name": "Cambridge Fall Classic 5K",
+    "name": "Cambridge Fall Classic 5K (with Teddy)",
     "date": "2026-10-04",
     "distanceKm": 5,
-    "time": "",
+    "time": "0:29:38",
     "raceWebsite": "https://runsignup.com/Race/MA/Cambridge/FallClassic5K",
-    "resultsWebsite": "",
-    "stravaActivity": ""
+    "resultsWebsite": "https://rtrt.me/ulink/TLMRA/TLMR-FALL-CLASSIC-2026/tracker/R7S2UJDG/focus",
+    "stravaActivity": "https://www.strava.com/activities/20448480170/overview"
   },
   {
     "name": "Disney Wine & Dine 5K",
     "date": "2026-10-23",
     "distanceKm": 5,
-    "time": "",
+    "time": "0:27:17",
     "raceWebsite": "https://www.rundisney.com/events/disneyworld/wine-and-dine-half-marathon-weekend/",
-    "resultsWebsite": "",
-    "stravaActivity": ""
+    "resultsWebsite": "https://www.trackshackresults.com/disneysports/results/wd/wd26/5k_results.php?Link=168&Type=3&LName=walker&FName=jacob&City=&State=&Country=",
+    "stravaActivity": "https://www.strava.com/activities/20697931566/overview"
   },
   {
     "name": "Disney Wine & Dine 10K",
     "date": "2026-10-24",
     "distanceKm": 10,
-    "time": "",
+    "time": "1:02:38",
     "raceWebsite": "https://www.rundisney.com/events/disneyworld/wine-and-dine-half-marathon-weekend/",
-    "resultsWebsite": "",
-    "stravaActivity": ""
+    "resultsWebsite": "https://www.trackshackresults.com/disneysports/results/wd/wd26/10k_results.php?Link=169&Type=3&LName=walker&FName=jacob&City=&State=&Country=",
+    "stravaActivity": "https://www.strava.com/activities/20710257597/overview"
   },
   {
     "name": "New York Marathon",
