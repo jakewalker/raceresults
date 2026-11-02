@@ -489,13 +489,13 @@
     "stravaActivity": "https://www.strava.com/activities/20710257597/overview"
   },
   {
-    "name": "New York Marathon",
+    "name": "New York City Marathon",
     "date": "2026-11-01",
     "distanceKm": 42.2,
-    "time": "",
+    "time": "5:19:30",
     "raceWebsite": "https://www.nyrr.org/tcsnycmarathon",
-    "resultsWebsite": "",
-    "stravaActivity": ""
+    "resultsWebsite": "https://results.nyrr.org/event/M2026/result/23954?_gl=1*1kk8br9*_gcl_au*NTcwOTM5OTM4LjE3OTA5NjQ1NDY.",
+    "stravaActivity": "https://www.strava.com/activities/20822196333/overview"
   },
   {
     "name": "BAA Boston Half",
