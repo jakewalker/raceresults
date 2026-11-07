@@ -532,5 +532,14 @@
     "raceWebsite": "https://www.rundisney.com/events/disneyworld/disneyworld-marathon-weekend/",
     "resultsWebsite": "",
     "stravaActivity": ""
+  },
+  {
+    "name": "Boston Marathon",
+    "date": "2027-04-19",
+    "distanceKm": 42.2,
+    "time": "",
+    "raceWebsite": "https://www.baa.org/races/boston-marathon/",
+    "resultsWebsite": "",
+    "stravaActivity": ""
   }
 ]
